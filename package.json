@@ -1,0 +1,38 @@
+{
+  "name": "tublog",
+  "version": "0.0.1",
+  "description": "A blog platform built with koa2.5, vue2.5 and react16.4",
+  "main": "index.js",
+  "scripts": {
+    "install-client": "cd client && yarn install",
+    "dev-client": "cd client && npm run serve",
+    "build-client": "cd client && npm run build",
+    "test-client": "cd client && npm run test:unit",
+    "install-admin": "cd admin && yarn install",
+    "dev-admin": "cd admin && npm run start",
+    "build-admin": "cd admin && npm run build",
+    "test-admin": "cd admin && npm run test",
+    "install-server": "cd server && yarn install",
+    "dev-server": "cd server && npm run start",
+    "build-server": "cd server && npm run build",
+    "test-server": "cd server && npm run test",
+    "build": "yarn run build-client && yarn run build-admin && yarn run build-server",
+    "test": "yarn run test-client && yarn run test-admin && yarn run test-server",
+    "install": "yarn run install-client && yarn run install-admin && yarn run install-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/zenghongtu/TuBlog.git"
+  },
+  "keywords": [
+    "koa",
+    "vue",
+    "react"
+  ],
+  "author": "JasonZeng <zenghongtu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zenghongtu/TuBlog/issues"
+  },
+  "homepage": "https://github.com/zenghongtu/TuBlog#readme"
+}
