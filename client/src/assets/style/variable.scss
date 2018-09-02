@@ -1,0 +1,81 @@
+/**
+ * Created by zenghongtu on 02/09/2018
+ * Desc: _variable
+ */
+
+// 基本样式
+$white: #fff;
+$black: #000;
+
+// 文字
+$base: #999;
+$title: #555;
+$word: #444;
+$date: #6e7173;
+$link: #01579f;
+
+// 辅助元素
+$block: #eee;
+$border: #ddd;
+$active: $base;
+$background: $white;
+
+$font: 'Avenir', Helvetica, Arial, sans-serif;
+
+@mixin font($f:$font) {
+  font-family: $f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin flex($flow: row wrap, $justify: center, $align: center) {
+  display: flex;
+  flex-flow: $flow;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin icon($url) {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-image: url($url);
+  background-position: 0 0;
+}
+
+@mixin add-dot {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin bp-large {
+  @media only screen and (max-width: 60em) {
+    @content;
+  }
+}
+
+@mixin bp-medium {
+  @media only screen and (max-width: 40em) {
+    @content;
+  }
+}
+
+@mixin bp-small {
+  @media only screen and (max-width: 30em) {
+    @content;
+  }
+}
+
+%clearfix {
+  *zoom: 1;
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}

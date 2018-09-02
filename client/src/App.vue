@@ -25,11 +25,15 @@
 </script>
 
 <style lang="scss" scoped>
+    @import './assets/style/index';
+
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        @include font();
+        color: $base;
         text-align: center;
-        color: #2c3e50;
+        padding: 0 60px;
+        max-width: 1150px;
+        margin: 0 auto;
     }
+
 </style>

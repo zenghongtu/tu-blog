@@ -4,20 +4,88 @@
 */
 
 <template>
-    <Nav>1</Nav>
+    <div class="header">
+        <h1 class="name">这个码农不太冷</h1>
+        <h5 class="description">JasonZeng's blog</h5>
+        <nav class="nav">
+            <router-link class="nav-item" :class="$route.path===item.link?'active':null " v-for="item in routes_"
+                         :key="item.id" :to="item.link">{{item.name}}
+            </router-link>
+        </nav>
+    </div>
 </template>
 
 <script>
-    import Nav from './nav'
-
     export default {
         name: "header",
-        components: {
-            Nav
-        }
+        data() {
+            return {
+                routes_: [
+                    {id: 0, link: '/explore', name: '看看'},
+                    {id: 1, link: '/archive', name: '归档'},
+                    {id: 2, link: '/read', name: '读书'},
+                    {id: 3, link: '/laboratory', name: '实验室'},
+                    {id: 4, link: '/about', name: '关于'}
+                ]
+            }
+        },
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    @import "../../assets/style/index";
+
+    .header {
+        @include font((sans-serif));
+        color: $title;
+        padding-top: 3.625rem;
+        text-align: left;
+        border-bottom: 1px solid $border;
+        .name {
+            display: inline-block;
+            font-size: 2.375rem;
+            font-weight: 900;
+            margin: 0;
+            cursor: default;
+        }
+        .description {
+            @include font();
+            color: $base;
+            margin: .3rem 0;
+            font-weight: 300;
+            font-size: .875rem;
+        }
+        .nav {
+            text-align: right;
+            .nav-item {
+                color: $word;
+                font-weight: 400;
+                display: inline-block;
+                padding: 3px 20px 3px;
+                line-height: 30px;
+                font-size: 13px;
+                border: 1px solid transparent;
+                box-sizing: border-box;
+                text-decoration: none;
+                position: relative;
+                bottom: -1px;
+                margin: 0 .2rem;
+                transition: border-color .6s ease-in;
+                &.active {
+                    border: 1px solid $border;
+                    border-bottom: 2px solid $background;
+                    &:hover {
+                        border-bottom-color: $background;
+                    }
+                }
+                &:hover {
+                    border-bottom-color: $active;
+                }
+            }
+
+        }
+
+    }
 
 </style>
+
