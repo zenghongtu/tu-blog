@@ -4,7 +4,7 @@
 
 ## Project setup
 ```
-   yarn run install
+   yarn run init
 ```
 
 ### Compiles and hot-reloads for development
