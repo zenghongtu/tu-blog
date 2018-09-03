@@ -4,7 +4,10 @@
 */
 
 <template>
-    <div>footer</div>
+    <div>
+        Copyright © 2018 <a class="link" href="https://zenghongtu.com">这个码农不太冷</a> | <a class="link" target="_blank"
+                                                                                        href="https://github.com/zenghongtu">GitHub</a>
+    </div>
 </template>
 
 <script>
@@ -13,6 +16,12 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    @import '../../assets/style/index';
 
+    .link {
+        color: $word;
+        font-size: .875rem;
+        text-decoration: none;
+    }
 </style>
