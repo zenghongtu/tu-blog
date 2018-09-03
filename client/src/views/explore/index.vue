@@ -4,15 +4,42 @@
 */
 
 <template>
-    <div>explore</div>
+    <div class="wrap">
+        <main class="left">main</main>
+        <Sidebar class="right"></Sidebar>
+    </div>
 </template>
 
 <script>
+    import Sidebar from "./sidebar";
+
+
     export default {
-        name: "explore"
+        name: "explore",
+        components: {
+            Sidebar
+        },
+        data() {
+            return {
+                articles: undefined
+            }
+        },
+        created() {
+            this.$ajax.get('/articles').then(res => {
+
+            })
+        }
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .wrap {
+        display: flex;
+        .left {
+            flex: 3;
+        }
+        .right {
+            flex: 1;
+        }
+    }
 </style>
