@@ -8,7 +8,7 @@ const fs = require('fs');
 const generateArticles = (count = 30) => {
     const articles = [];
 
-    let i = count;
+    let i = faker.random.number({max: 60});
     while (i--) {
         const title = faker.lorem.sentence();
         const content = faker.lorem.paragraphs();

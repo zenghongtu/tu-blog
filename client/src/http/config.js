@@ -21,7 +21,7 @@ ajax.interceptors.request.use((config) => {
 
 ajax.interceptors.response.use((res) => {
     if (/^2/.test(res.status)) {
-        return res.data
+        return res
     } else {
         throw new Error(res.data.message)
     }
