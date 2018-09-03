@@ -8,8 +8,8 @@
         <h1 class="name">这个码农不太冷</h1>
         <h5 class="description">JasonZeng's blog</h5>
         <nav class="nav">
-            <router-link class="nav-item" :class="$route.path===item.link?'active':null " v-for="item in routes_"
-                         :key="item.id" :to="item.link">{{item.name}}
+            <router-link :class="'nav-item '+($route.name===item.link?'active':'')" v-for="item in routes_"
+                         :key="item.id" :to="'/'+item.link"><i :class="'iconfont icon-'+item.link"></i> {{item.name}}
             </router-link>
         </nav>
     </div>
@@ -21,14 +21,14 @@
         data() {
             return {
                 routes_: [
-                    {id: 0, link: '/explore', name: '看看'},
-                    {id: 1, link: '/archive', name: '归档'},
-                    {id: 2, link: '/read', name: '读书'},
-                    {id: 3, link: '/laboratory', name: '实验室'},
-                    {id: 4, link: '/about', name: '关于'}
+                    {id: 0, link: 'explore', name: '看看'},
+                    {id: 1, link: 'archive', name: '归档'},
+                    {id: 2, link: 'read', name: '读书'},
+                    {id: 3, link: 'laboratory', name: '实验室'},
+                    {id: 4, link: 'about', name: '关于'}
                 ]
             }
-        },
+        }
     }
 </script>
 
@@ -38,7 +38,7 @@
     .header {
         @include font((sans-serif));
         color: $title;
-        padding-top: 3.625rem;
+        padding-top: 3.625em;
         text-align: left;
         border-bottom: 1px solid $border;
         .name {
@@ -51,7 +51,7 @@
         .description {
             @include font();
             color: $base;
-            margin: .3rem 0;
+            margin: .3em 0;
             font-weight: 300;
             font-size: .875rem;
         }
@@ -61,15 +61,15 @@
                 color: $word;
                 font-weight: 400;
                 display: inline-block;
-                padding: 3px 20px 3px;
-                line-height: 30px;
-                font-size: 13px;
+                padding: .1875em 1.25em .1875em;
+                line-height: 1.875em;
+                font-size: .8125rem;
                 border: 1px solid transparent;
                 box-sizing: border-box;
                 text-decoration: none;
                 position: relative;
-                bottom: -1px;
-                margin: 0 .2rem;
+                bottom: -.0625em;
+                margin: 0 .2em;
                 transition: border-color .6s ease-in;
                 &.active {
                     border: 1px solid $border;
@@ -82,10 +82,7 @@
                     border-bottom-color: $active;
                 }
             }
-
         }
-
     }
-
 </style>
 

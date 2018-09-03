@@ -4,7 +4,7 @@
 
 ## Project setup
 ```
-   yarn run install
+   yarn run init
 ```
 
 ### Compiles and hot-reloads for development
@@ -25,5 +25,8 @@
    yarn run test
 ```
 
-
-
+### JSON-Server
+```
+    npm install -g json-server
+    json-server --watch ./client/src/faker/articles.json --port 3004
+```
