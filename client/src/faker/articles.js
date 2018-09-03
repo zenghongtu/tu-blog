@@ -10,13 +10,21 @@ const generateArticles = (count = 30) => {
 
     let i = count;
     while (i--) {
-        const sentence = faker.lorem.sentence();
-        const paragraphs = faker.lorem.paragraphs();
+        const title = faker.lorem.sentence();
+        const content = faker.lorem.paragraphs();
+        const viewsCount = faker.random.number({max: 100});
+        const likeCount = faker.random.number({max: 100});
+        const createdAt = faker.date.past();
+        const updatedAt = faker.date.recent();
 
         articles.push({
             id: i,
-            sentence,
-            paragraphs
+            title,
+            content,
+            viewsCount,
+            likeCount,
+            createdAt,
+            updatedAt
         })
     }
     return {
@@ -26,6 +34,6 @@ const generateArticles = (count = 30) => {
 };
 
 
-fs.writeFile(__dirname + '/articles.json', JSON.stringify(generateArticles(50)), function () {
+fs.writeFile(__dirname + '/articles.json', JSON.stringify(generateArticles(30)), function () {
     console.log("articles generated successfully!");
 });
