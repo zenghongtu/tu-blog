@@ -5,55 +5,64 @@
 
 <template>
     <div class="wrap">
-        <main class="left">
-            <article class="article-wrap" v-for="item in articles" :key="item.id">
-                <a :href="'/article/'+item.id" class="article-title">
-                    {{item.title}}
-                </a>
-                <div class="article-date">
-                    {{item.updatedAt}}
-                </div>
-                <p class="article-content">
-                    {{item.content}}
-                </p>
-                <p class="read-more-wrap">
-                    <a :href="'/article/'+item.id" class="read-more">
-                        阅读全文
+        <div class="left-wrap">
+            <main class="left">
+                <article class="article-wrap" v-for="item in articles" :key="item.id">
+                    <a :href="'/article/'+item.id" class="article-title">
+                        {{item.title}}
                     </a>
-                </p>
-            </article>
-        </main>
+                    <div class="article-date">
+                        {{item.updatedAt}}
+                    </div>
+                    <p class="article-content">
+                        {{item.content}}
+                    </p>
+                    <p class="read-more-wrap">
+                        <a :href="'/article/'+item.id" class="read-more">
+                            阅读全文
+                        </a>
+                    </p>
+                </article>
+            </main>
+            <Pagination :totalPage="totalPage" :curPage="curPage"></Pagination>
+        </div>
         <Sidebar class="right"></Sidebar>
     </div>
 </template>
 
 <script>
     import Sidebar from "./sidebar";
+    import Pagination from "@/components/common/pagination";
 
 
     export default {
         name: "explore",
         components: {
-            Sidebar
+            Sidebar,
+            Pagination
         },
         data() {
             return {
                 articles: undefined,
-                totalCount: 0,
-                pageNum: 1,
+                articleTotal: 0,
+                limit: 5,
+                curPage: 1,
             }
         },
-        watch: {
-            totalCount(val, oldVal) {
-                this.pageNum = val % 10 ? Math.floor(val / 10) + 1 : Math.floor(val / 10)
+        computed: {
+            totalPage() {
+                return Math.ceil(this.articleTotal / this.limit)
             }
         },
         created() {
-            this.$ajax.get('/articles?_page=1&_limit=10').then(rsp => {
-                this.totalCount = rsp.headers['x-total-count'];
+            this.$ajax.get(`/articles?_page=${this.curPage}&_limit=${this.limit}`).then(rsp => {
+                this.articleTotal = +rsp.headers['x-total-count'];
                 this.articles = rsp.data;
             })
         },
+        mounted() {
+            console.log(this.totalPage);
+        }
     };
 </script>
 
@@ -64,7 +73,7 @@
         display: flex;
         margin-top: 1.25em;
         margin-bottom: .95em;
-        .left {
+        .left-wrap {
             flex: 3;
             margin-right: 3.125em;
             .article-wrap {
