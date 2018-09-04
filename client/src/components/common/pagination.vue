@@ -5,17 +5,19 @@
 
 <template>
     <div class="page-navigator">
-        <span class="prev-btn">上一页</span>
+        <span :class="[prevPage?'':'hidden','prev-btn']">上一页</span>
         <span class="page-btn-wrap">
-            <span class="page-btn">1</span>
-            <span class="page-btn">2</span>
-            <span class="page-btn">3</span>
-            <span class="page-btn page-current">3</span>
-            <span class="page-btn">3</span>
-            <span class="page-sep">...</span>
-            <span class="page-btn">3</span>
+            <span class="page-btn" v-for="(page,idx) in showPage">{{page}}</span>
+            <!--<span class="page-btn">{{this.curPage}}</span>-->
+            <!--<span class="page-btn">{{this.curPage}}</span>-->
+            <!--<span class="page-btn page-current">3</span>-->
+            <!--<span class="page-btn">3</span>-->
+            <!--<span class="page-btn">3</span>-->
+
+            <!--<span class="page-sep">...</span>-->
+            <!--<span class="page-btn">3</span>-->
         </span>
-        <span class="next-btn">下一页</span>
+        <span :class="[nextPage?'':'hidden','next-btn']">下一页</span>
     </div>
 </template>
 
@@ -26,6 +28,19 @@
             totalPage: Number,
             curPage: Number,
         },
+        computed: {
+            prevPage() {
+                return (this.curPage > 1 && this.curPage - 1)
+            },
+            nextPage() {
+                return (this.curPage < this.totalPage && this.curPage + 1)
+            },
+            showPage() {
+                const totalPage = this.totalPage;
+                const curPage = this.curPage;
+                if (totalPage <= 5) return ([...new Array(totalPage)].map((v, i) => i + 1))
+            }
+        }
     }
 </script>
 
@@ -77,6 +92,9 @@
                 padding: .357em .357em;
                 margin-right: .357em;
             }
+        }
+        .hidden {
+            visibility: hidden;
         }
     }
 </style>
