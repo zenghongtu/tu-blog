@@ -7,15 +7,9 @@
     <div class="page-navigator">
         <span :class="[prevPage?'':'hidden','prev-btn']">上一页</span>
         <span class="page-btn-wrap">
-            <span class="page-btn" v-for="(page,idx) in showPage">{{page}}</span>
-            <!--<span class="page-btn">{{this.curPage}}</span>-->
-            <!--<span class="page-btn">{{this.curPage}}</span>-->
-            <!--<span class="page-btn page-current">3</span>-->
-            <!--<span class="page-btn">3</span>-->
-            <!--<span class="page-btn">3</span>-->
-
-            <!--<span class="page-sep">...</span>-->
-            <!--<span class="page-btn">3</span>-->
+            <span :class="[curPage===page?'page-current':'',page?'':'page-sep','page-btn']"
+                  v-for="(page,idx) in showPage"
+                  v-text="page? page:'...'" @click="changePage(page)"></span>
         </span>
         <span :class="[nextPage?'':'hidden','next-btn']">下一页</span>
     </div>
@@ -38,7 +32,26 @@
             showPage() {
                 const totalPage = this.totalPage;
                 const curPage = this.curPage;
-                if (totalPage <= 5) return ([...new Array(totalPage)].map((v, i) => i + 1))
+                if (totalPage <= 7) {
+                    return [...new Array(totalPage)].map((v, i) => i + 1)
+                } else {
+                    if (curPage < 5) {
+                        return [...[...new Array(curPage)].map((v, i) => i + 1), curPage + 1, curPage + 2, 0, totalPage]
+                    } else {
+                        if (totalPage - curPage >= 4) {
+                            return [1, 0, curPage - 2, curPage - 1, curPage, curPage + 1, curPage + 2, 0, totalPage]
+                        } else {
+                            return [1, 0, curPage - 2, curPage - 1, curPage, ...[...new Array(totalPage - curPage)]
+                                .map((v, i) => i + 1 + curPage)]
+                        }
+                    }
+                }
+            }
+        },
+        methods: {
+            changePage(page) {
+                if (!page) return false;
+                this.$emit('getPage', page)
             }
         }
     }
@@ -73,10 +86,11 @@
     .page-navigator {
         display: flex;
         justify-content: space-between;
+        font-size: .875rem;
         margin-top: $top;
         padding-top: $top;
         border-top: $_border;
-        font-size: .875rem;
+        user-select: none;
         .prev-btn, .next-btn {
             @include p;
         }
@@ -91,6 +105,12 @@
             .page-sep {
                 padding: .357em .357em;
                 margin-right: .357em;
+                border: none;
+                cursor: default;
+                &:hover {
+                    border: none;
+                    background-color: $background;
+                }
             }
         }
         .hidden {

@@ -24,7 +24,7 @@
                     </p>
                 </article>
             </main>
-            <Pagination :totalPage="totalPage" :curPage="curPage"></Pagination>
+            <Pagination @getPage="getPage" :totalPage="totalPage" :curPage="curPage"></Pagination>
         </div>
         <Sidebar class="right"></Sidebar>
     </div>
@@ -45,7 +45,7 @@
             return {
                 articles: undefined,
                 articleTotal: 0,
-                limit: 5,
+                limit: 2,
                 curPage: 1,
             }
         },
@@ -54,11 +54,20 @@
                 return Math.ceil(this.articleTotal / this.limit)
             }
         },
+        methods: {
+            fetch(page = 1, limit = this.limit) {
+                this.$ajax.get(`/articles?_page=${page}&_limit=${limit}`).then(rsp => {
+                    this.articleTotal = +rsp.headers['x-total-count'];
+                    this.curPage = page;
+                    this.articles = rsp.data;
+                })
+            },
+            getPage(page) {
+                this.fetch(page)
+            }
+        },
         created() {
-            this.$ajax.get(`/articles?_page=${this.curPage}&_limit=${this.limit}`).then(rsp => {
-                this.articleTotal = +rsp.headers['x-total-count'];
-                this.articles = rsp.data;
-            })
+            this.fetch()
         },
         mounted() {
             console.log(this.totalPage);
