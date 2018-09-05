@@ -24,7 +24,7 @@
                     </p>
                 </article>
             </main>
-            <Pagination @getPage="getPage" :totalPage="totalPage" :curPage="curPage"></Pagination>
+            <Pagination @getNewArticles="getNewArticles" :totalPage="totalPage" :curPage="curPage"></Pagination>
         </div>
         <Sidebar class="right"></Sidebar>
     </div>
@@ -55,22 +55,19 @@
             }
         },
         methods: {
-            fetch(page = 1, limit = this.limit) {
+            fetchArticles(page = 1, limit = this.limit) {
                 this.$ajax.get(`/articles?_page=${page}&_limit=${limit}`).then(rsp => {
                     this.articleTotal = +rsp.headers['x-total-count'];
                     this.curPage = page;
                     this.articles = rsp.data;
                 })
             },
-            getPage(page) {
-                this.fetch(page)
+            getNewArticles(page) {
+                this.fetchArticles(page)
             }
         },
         created() {
-            this.fetch()
-        },
-        mounted() {
-            console.log(this.totalPage);
+            this.fetchArticles()
         }
     };
 </script>

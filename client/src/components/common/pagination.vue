@@ -5,13 +5,13 @@
 
 <template>
     <div class="page-navigator">
-        <span :class="[prevPage?'':'hidden','prev-btn']">上一页</span>
+        <span :class="[prevPage?'':'hidden','prev-btn']" @click="changePage(prevPage)">上一页</span>
         <span class="page-btn-wrap">
             <span :class="[curPage===page?'page-current':'',page?'':'page-sep','page-btn']"
                   v-for="(page,idx) in showPage"
                   v-text="page? page:'...'" @click="changePage(page)"></span>
         </span>
-        <span :class="[nextPage?'':'hidden','next-btn']">下一页</span>
+        <span :class="[nextPage?'':'hidden','next-btn']" @click="changePage(nextPage)">下一页</span>
     </div>
 </template>
 
@@ -51,7 +51,7 @@
         methods: {
             changePage(page) {
                 if (!page) return false;
-                this.$emit('getPage', page)
+                this.$emit('getNewArticles', page)
             }
         }
     }
