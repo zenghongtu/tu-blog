@@ -15,29 +15,19 @@
         <div class="widget">
             <div class="widget-title">分类</div>
             <div class="category-list">
-                <div class="category-list-item">python</div>
-                <div class="category-list-item">javascript</div>
+                <div class="category-list-item" v-for="(category,idx) in categories" :key="idx">{{category}}</div>
             </div>
         </div>
         <div class="widget">
             <div class="widget-title">标签</div>
             <div class="tag-list">
-                <span class="tag">心情</span>
-                <span class="tag">电影</span>
-                <span class="tag">python</span>
-                <span class="tag">体育</span>
-                <span class="tag">爱好</span>
-                <span class="tag">体育</span>
-                <span class="tag">体育</span>
-                <span class="tag">体育</span>
+                <span class="tag" v-for="(tag,idx) in tags" :key="idx">{{tag}}</span>
             </div>
         </div>
         <div class="widget">
             <div class="widget-title">热门文章</div>
             <div class="article-list">
-                <div class="article-list-item">helloworld</div>
-                <div class="article-list-item">python</div>
-                <div class="article-list-item">Javascript</div>
+                <div class="article-list-item" v-for="(title,idx) in titles" :key="idx">{{title}}</div>
             </div>
         </div>
     </div>
@@ -45,7 +35,22 @@
 
 <script>
     export default {
-        name: "sidebar"
+        name: "sidebar",
+        data() {
+            return {
+                categories: null,
+                tags: null,
+                titles: null,
+            }
+        },
+        methods: {},
+        async created() {
+            const rsp = await this.$ajax.get('/sidebar');
+            const data = rsp.data;
+            this.categories = data.categories;
+            this.tags = data.tags;
+            this.titles = data.titles
+        }
     }
 </script>
 
@@ -104,6 +109,7 @@
                     line-height: 1.5em;
                     padding: .357em;
                     cursor: pointer;
+                    word-break: break-all;
                     @include item-hover;
                 }
             }
