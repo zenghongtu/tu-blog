@@ -28,5 +28,5 @@
 ### JSON-Server
 ```
     npm install -g json-server
-    json-server --watch ./client/src/faker/articles.json --port 3004
+    json-server --watch ./client/src/faker/*.json --port 3000
 ```
