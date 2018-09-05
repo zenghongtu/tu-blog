@@ -45,7 +45,7 @@
             return {
                 articles: undefined,
                 articleTotal: 0,
-                limit: 2,
+                limit: 10,
                 curPage: 1,
             }
         },

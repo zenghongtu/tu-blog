@@ -4,7 +4,7 @@
 */
 
 <template>
-    <div>
+    <div class="footer-wrap">
         Copyright © 2018 <a class="link" href="https://zenghongtu.com">这个码农不太冷</a> | <a class="link" target="_blank"
                                                                                         href="https://github.com/zenghongtu">GitHub</a>
     </div>
@@ -19,9 +19,16 @@
 <style scoped lang="scss">
     @import '../../assets/style/index';
 
-    .link {
-        color: $word;
-        font-size: .875rem;
-        text-decoration: none;
+    .footer-wrap {
+        padding: .8em 0 3.6em;
+        margin-top: 1em;
+        line-height: 2.5em;
+        color: $base;
+        text-align: center;
+        .link {
+            color: $word;
+            font-size: .875rem;
+            text-decoration: none;
+        }
     }
 </style>
