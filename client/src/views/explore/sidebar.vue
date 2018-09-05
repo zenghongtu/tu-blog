@@ -4,7 +4,43 @@
 */
 
 <template>
-    <div class="sidebar-wrap">sidebar</div>
+    <div class="sidebar-wrap">
+        <div class="widget">
+            <form class="search-form" action="//www.google.com/search" method="get"
+                  accept-charset="UTF-8" target="_parent">
+                <input class="search-content" type="text" name="q" maxlength="20" placeholder="Google Search">
+                <input type="hidden" name="sitesearch" value="zenghongtu.com">
+            </form>
+        </div>
+        <div class="widget">
+            <div class="widget-title">分类</div>
+            <div class="category-list">
+                <div class="category-list-item">python</div>
+                <div class="category-list-item">javascript</div>
+            </div>
+        </div>
+        <div class="widget">
+            <div class="widget-title">标签</div>
+            <div class="tag-list">
+                <span class="tag">心情</span>
+                <span class="tag">电影</span>
+                <span class="tag">python</span>
+                <span class="tag">体育</span>
+                <span class="tag">爱好</span>
+                <span class="tag">体育</span>
+                <span class="tag">体育</span>
+                <span class="tag">体育</span>
+            </div>
+        </div>
+        <div class="widget">
+            <div class="widget-title">热门文章</div>
+            <div class="article-list">
+                <div class="article-list-item">helloworld</div>
+                <div class="article-list-item">python</div>
+                <div class="article-list-item">Javascript</div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -14,7 +50,70 @@
 </script>
 
 <style scoped lang="scss">
+    @import "../../assets/style/index";
+
+    $_border: 1px solid $border;
+
+    @mixin item-hover {
+        &:hover {
+            color: $word;
+        }
+    }
+
+    @mixin item {
+        margin: .357em 0;
+        line-height: 1.5em;
+        cursor: pointer;
+        @include item-hover;
+    }
+
     .sidebar-wrap {
-        background-color: blue;
+        font-size: 1rem;
+        border-left: $_border;
+        padding-left: 2.1875em;
+        margin-top: 2.5em;
+        padding-bottom: 1.25em;
+        word-wrap: break-word;
+        .widget {
+            font-size: .875rem;
+            margin-bottom: 2.142em;
+            text-align: left;
+            .search-content {
+                padding: .5em .785em .5em 2em;
+                line-height: 1.142em;
+                border: $_border;
+                width: 70%;
+            }
+            .widget-title {
+                font-size: 1rem;
+                color: $base;
+                line-height: 2.7em;
+                border-bottom: $_border;
+                font-weight: 400;
+            }
+            .category-list {
+                font-size: .875rem;
+                margin: 1em 0;
+                .category-list-item {
+                    @include item;
+                }
+            }
+            .tag-list {
+                margin-top: .714em;
+                .tag {
+                    line-height: 1.5em;
+                    padding: .357em;
+                    cursor: pointer;
+                    @include item-hover;
+                }
+            }
+            .article-list {
+                margin-top: .714em;
+                .article-list-item {
+                    @include item;
+                }
+            }
+
+        }
     }
 </style>
