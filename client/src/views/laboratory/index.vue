@@ -13,6 +13,11 @@
                     <div class="item-desc">{{info.desc}}</div>
                     <div class="item-star">star: {{info.star}}</div>
                     <div class="item-fork">fork: {{info.fork}}</div>
+                    <ol type="i" class="item-articles-wrap">
+                        <li class="item-articles-content" v-for="(item,idx) in info.articles" :key="item.id">
+                            {{idx}}: <span class="link">{{item.article}}</span>
+                        </li>
+                    </ol>
                 </li>
                 <li class="item-content" style="visibility: hidden" v-if="Object.keys(project).length%2!==0"></li>
             </ul>
@@ -56,7 +61,6 @@
         .lab-content {
             .item-title {
                 font-size: 1rem;
-                /*font-weight: 900;*/
                 color: $black;
                 font-family: Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
                 margin-top: 1.5em;
@@ -72,18 +76,23 @@
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: space-evenly;
+                word-break: keep-all;
                 .item-content {
                     width: 31.125em;
                     height: 10.375em;
                     box-sizing: border-box;
                     margin-bottom: 1em;
                     padding: 2em;
-                    word-break: keep-all;
                     border: $_border;
                     border-radius: .25em;
                     text-align: left;
+                    overflow: hidden;
+                    position: relative;
                     &:hover {
-
+                        .item-articles-wrap {
+                            transition: bottom .5s ease-out;
+                            bottom: -35%;
+                        }
                     }
                     .item-name {
                         margin: 0;
@@ -113,6 +122,27 @@
                         margin: .5em 2em 0 .5em;
                         font-size: .9em;
                         color: $black;
+                    }
+                    .item-articles-wrap {
+                        width: 100%;
+                        height: 100%;
+                        line-height: 1.5em;
+                        background: $background;
+                        padding: 1em 2em 0;
+                        box-sizing: border-box;
+                        border-top: $_border;
+                        position: absolute;
+                        bottom: -100%;
+                        left: 0;
+                        .item-articles-content {
+                            @extend %overflow;
+                            .link {
+                                cursor: pointer;
+                                &:hover {
+                                    color: $word;
+                                }
+                            }
+                        }
                     }
                 }
             }
