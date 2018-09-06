@@ -7,7 +7,7 @@
     <div class="about-wrap">
         <div class="about-content">
             <div class="about-item">
-                <div class="about-title"> About me</div>
+                <div class="about-title">About me</div>
                 <h3>全干码农一枚</h3>
                 <h5 class="job">目前就职于一家人工智能企业</h5>
                 <hr>
@@ -34,9 +34,6 @@
                 slogan: '',
                 type: '',
                 isTyping: true,
-                uv: null,
-                pv: null,
-                ip: null
             }
         },
         methods: {
@@ -56,9 +53,6 @@
                 const rsp = await this.$ajax.get(`/aboutinfo`);
                 const data = rsp.data;
                 const slogan = data.slogan;
-                this.uv = data.uv;
-                this.pv = data.pv;
-                this.ip = data.ip;
                 this.generateSlogan(slogan)
             },
         },
