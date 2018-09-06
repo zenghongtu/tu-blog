@@ -86,6 +86,14 @@ const generateMockData = (count = 30) => {
                 articles: _projectArticles
             })
     }
+
+    const _slogan = faker.lorem.sentence();
+    const _uv = faker.random.number({min: 200, max: 1000});  //  访问人数
+    const _pv = faker.random.number({min: 200, max: 1000});  //  访问总量
+    const _ip = faker.random.number({min: 200, max: 1000});  //  浏览次数
+    const aboutInfo = {slogan: _slogan, uv: _uv, pv: _pv, ip: _ip};
+
+
     return {
         articles,
         sidebar: {
@@ -94,7 +102,8 @@ const generateMockData = (count = 30) => {
             titles,
         },
         books,
-        projects
+        projects,
+        aboutInfo
     }
 };
 
