@@ -88,11 +88,18 @@ const generateMockData = (count = 30) => {
     }
 
     const _slogan = faker.lorem.sentence();
-    const _uv = faker.random.number({min: 200, max: 1000});  //  访问人数
-    const _pv = faker.random.number({min: 200, max: 1000});  //  访问总量
-    const _ip = faker.random.number({min: 200, max: 1000});  //  浏览次数
-    const aboutInfo = {slogan: _slogan, uv: _uv, pv: _pv, ip: _ip};
+    const aboutInfo = {slogan: _slogan};
 
+    const _visitorNum = faker.random.number({min: 200, max: 1000});  //  访问总人数
+    const _pageNum = faker.random.number({min: 200, max: 1000});  //  总浏览量
+    const _viewNum = faker.random.number({min: 200, max: 1000});  //  某一 ip 访问总次数
+    const _runtime = faker.random.number({min: 200, max: 1000}); // 本站运行时间 (秒)
+    const siteInfo = {
+        visitorNum: _visitorNum,
+        pageNum: _pageNum,
+        viewNum: _viewNum,
+        runtime: _runtime,
+    };
 
     return {
         articles,
@@ -103,7 +110,8 @@ const generateMockData = (count = 30) => {
         },
         books,
         projects,
-        aboutInfo
+        aboutInfo,
+        siteInfo
     }
 };
 
