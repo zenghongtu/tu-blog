@@ -82,3 +82,12 @@ $font: 'Avenir', Helvetica, Arial, sans-serif;
     clear: both;
   }
 }
+
+@mixin link {
+  .link {
+    cursor: pointer;
+    &:hover {
+      color: $word;
+    }
+  }
+}

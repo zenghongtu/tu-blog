@@ -136,12 +136,7 @@
                         left: 0;
                         .item-articles-content {
                             @extend %overflow;
-                            .link {
-                                cursor: pointer;
-                                &:hover {
-                                    color: $word;
-                                }
-                            }
+                            @include link;
                         }
                     }
                 }

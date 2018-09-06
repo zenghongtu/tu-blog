@@ -10,7 +10,7 @@
             <ul class="archive-item-wrap">
                 <li class="archive-item" v-for="article in timeArticles[year]" :key="article.id">
                     <span class="date">{{article.date}}</span>
-                    <span class="title">{{article.title}}</span>
+                    <span class="title link">{{article.title}}</span>
                 </li>
             </ul>
         </div>
@@ -83,12 +83,9 @@
                         margin-right: .7em;
                     }
                     .title {
-                        cursor: pointer;
                         color: $base;
-                        &:hover {
-                            color: $word;
-                        }
                     }
+                    @include link;
                 }
             }
         }

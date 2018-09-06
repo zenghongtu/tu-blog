@@ -79,12 +79,7 @@
                 text-align: center;
             }
             .col-1, .col-3 {
-                .link {
-                    cursor: pointer;
-                    &:hover {
-                        color: $word;
-                    }
-                }
+                @include link;
             }
         }
     }
