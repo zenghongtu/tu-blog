@@ -94,11 +94,13 @@ const generateMockData = (count = 30) => {
     const _pageNum = faker.random.number({min: 200, max: 1000});  //  总浏览量
     const _viewNum = faker.random.number({min: 200, max: 1000});  //  某一 ip 访问总次数
     const _runtime = faker.random.number({min: 200, max: 1000}); // 本站运行时间 (秒)
+    const _imageUrl = faker.image.avatar(); // 本站运行时间 (秒)
     const siteInfo = {
         visitorNum: _visitorNum,
         pageNum: _pageNum,
         viewNum: _viewNum,
         runtime: _runtime,
+        imgUrl: 'https://cn.bing.com/az/hprichbg/rb/BrazilianPine_ZH-CN10573180887_1920x1080.jpg'
     };
 
     return {
