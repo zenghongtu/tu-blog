@@ -14,6 +14,7 @@ const generateMockData = (count = 30) => {
     const titles = [];
     const books = [];
     const projects = {create: [], contribute: []};
+    const article = [];
 
     while (i--) {
         const _title = faker.lorem.sentence();
@@ -31,16 +32,18 @@ const generateMockData = (count = 30) => {
             viewsCount: _viewsCount,
             likeCount: _likeCount,
             commentCount: _commentCount,
-            createdAt: _createdAt,
-            updatedAt: _updatedAt
+            updatedAt: _updatedAt,
         });
+
+        const _paragraphs = faker.lorem.paragraphs(faker.random.number({min: 10, max: 25}));
+
 
         const _tag = faker.hacker.noun();
         const _category = faker.hacker.adjective();
         const _title_ = faker.lorem.sentence();
 
-        categories.push(_tag);
-        tags.push(_category);
+        categories.push(_category);
+        tags.push(_tag);
         titles.push(_title_);
 
         const _booktitle = faker.lorem.sentence();
@@ -84,7 +87,19 @@ const generateMockData = (count = 30) => {
                 fork: _forkNum,
                 desc: _projectDesc,
                 articles: _projectArticles
-            })
+            });
+        article.push({
+            id: i,
+            title: _title,
+            viewsCount: _viewsCount,
+            likeCount: _likeCount,
+            category: _category,
+            tag: [_tag],
+            commentCount: _commentCount,
+            content: _paragraphs,
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+        })
     }
 
     const _slogan = faker.lorem.sentence();
@@ -94,13 +109,11 @@ const generateMockData = (count = 30) => {
     const _pageNum = faker.random.number({min: 200, max: 1000});  //  总浏览量
     const _viewNum = faker.random.number({min: 200, max: 1000});  //  某一 ip 访问总次数
     const _runtime = faker.random.number({min: 200, max: 1000}); // 本站运行时间 (秒)
-    const _imageUrl = faker.image.avatar(); // 本站运行时间 (秒)
     const siteInfo = {
         visitorNum: _visitorNum,
         pageNum: _pageNum,
         viewNum: _viewNum,
         runtime: _runtime,
-        imgUrl: 'https://cn.bing.com/az/hprichbg/rb/BrazilianPine_ZH-CN10573180887_1920x1080.jpg'
     };
 
     return {
@@ -113,7 +126,8 @@ const generateMockData = (count = 30) => {
         books,
         projects,
         aboutInfo,
-        siteInfo
+        siteInfo,
+        article
     }
 };
 
