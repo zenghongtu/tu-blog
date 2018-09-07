@@ -4,13 +4,13 @@
 */
 
 <template>
-    <div class="site-wrap">
-        <div class="site-content">
-            <h2>欢迎您,本站第{{visitorNum}}位访客</h2>
-            <h2>您打开过本站{{ viewNum}}次</h2>
-            <h2>本站一共被访问过{{pageNum}}次</h2>
-            <h2>本站已存活{{runtime}}秒</h2>
-        </div>
+    <div class="home-wrap">
+        <transition name="fade">
+            <div class="home-content"
+                 v-show="show"
+                 :style="`background-image:url(\'http://p5yy6xq69.bkt.clouddn.com/cat${bgImg}.jpg\')`">
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -19,42 +19,60 @@
         name: "Home",
         data() {
             return {
-                pageNum: null,
-                runtime: null,
-                viewNum: null,
-                visitorNum: null,
+                bgImg: 4,
+                i: 0,
+                show: true
+
             }
         },
         methods: {
-            async fetchSiteInfo() {
-                const rsp = await this.$ajax.get(`/siteinfo`);
-                const data = rsp.data;
-                this.pageNum = data.pageNum;
-                this.runtime = data.runtime;
-                this.viewNum = data.viewNum;
-                this.visitorNum = data.visitorNum
+            timer() {
+                setTimeout(() => {
+                    this.show = false;
+                }, 800);
+                setTimeout(() => {
+                    this.bgImg = this.i++;
+                    this.show = true
+                }, 3000);
             },
+            changeImg() {
+                this.timer();
+                setInterval(() => {
+                    this.timer();
+                    if (this.i > 3) {
+                        this.i = 0
+                    }
+                }, 5000)
+            }
         },
-        created() {
-            this.fetchSiteInfo()
+        mounted() {
+            this.changeImg()
         }
     }
 </script>
 
 <style scoped lang="scss">
-    @import "../../assets/style/index";
 
-    .site-wrap {
-        width: 100vw;
+    .home-wrap {
+        display: flex;
         overflow: hidden;
-        .site-content {
-            margin-top: 3em;
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            background-color: $background;
+        height: 100vh;
+        margin-top: 1em;
+        cursor: pointer;
+        .home-content {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: transform 1.5s ease-in;
+    }
+
+    .fade-enter, .fade-leave-to {
+        transform: translateX(-100%);
     }
 </style>
