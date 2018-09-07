@@ -11,6 +11,7 @@ import Archive from '../views/archive/index.vue';
 import About from '../views/about/index.vue';
 import Laboratory from '../views/laboratory/index.vue';
 import Home from '../views/home/index.vue';
+import Article from '../views/article/index.vue';
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
             path: '/laboratory',
             name: 'laboratory',
             component: Laboratory,
+        },
+        {
+            path: '/article/:id',
+            name: 'article',
+            component: Article,
         },
         {
             path: '/',
