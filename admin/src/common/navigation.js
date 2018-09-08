@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -25,11 +25,11 @@ const styles = theme => ({
 
 class NavListItem extends React.PureComponent {
     render() {
-        const {to, name, icon, className} = this.props;
+        const {to, name, icon, location, className} = this.props;
         return (
             <ListItem button className={className} component={Link} to={to}>
                 <ListItemIcon>
-                    <Icon>{icon}</Icon>
+                    <Icon color={to === location.pathname ? 'primary' : 'inherit'}>{icon}</Icon>
                 </ListItemIcon>
                 <ListItemText primary={name}/>
             </ListItem>
@@ -48,11 +48,11 @@ class Navigation extends React.Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, location} = this.props;
         return (
             <div>
                 <List>
-                    <NavListItem to="/profile" icon="person" name="Profile"/>
+                    <NavListItem location={location} to="/profile" icon="person" name="Profile"/>
                     <ListItem button onClick={this.handleClick}>
                         <ListItemIcon>
                             <Icon>file_copy</Icon>
@@ -62,13 +62,16 @@ class Navigation extends React.Component {
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <NavListItem to="/article" icon="list" name="List" className={classes.nested}/>
-                            <NavListItem to="/category" icon="class" name="Category" className={classes.nested}/>
-                            <NavListItem to="/tag" icon="label" name="Tag" className={classes.nested}/>
+                            <NavListItem to="/article" location={location} icon="list" name="List"
+                                         className={classes.nested}/>
+                            <NavListItem to="/category" location={location} icon="class" name="Category"
+                                         className={classes.nested}/>
+                            <NavListItem to="/tag" location={location} icon="label" name="Tag"
+                                         className={classes.nested}/>
                         </List>
                     </Collapse>
-                    <NavListItem to="/read" icon="chrome_reader_mode" name="Read"/>
-                    <NavListItem to="/laboratory" icon="developer_board" name="Laboratory"/>
+                    <NavListItem to="/read" location={location} icon="chrome_reader_mode" name="Read"/>
+                    <NavListItem to="/laboratory" location={location} icon="developer_board" name="Laboratory"/>
                 </List>
             </div>
         )
@@ -79,4 +82,4 @@ Navigation.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Navigation);
+export default withRouter(withStyles(styles)(Navigation));
