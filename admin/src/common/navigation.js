@@ -16,12 +16,27 @@ import Collapse from '@material-ui/core/Collapse';
 
 import Icon from '@material-ui/core/Icon';
 
-
 const styles = theme => ({
     nested: {
         paddingLeft: theme.spacing.unit * 4,
     },
 });
+
+
+class NavListItem extends React.PureComponent {
+    render() {
+        const {to, name, icon, className} = this.props;
+        return (
+            <ListItem button className={className} component={Link} to={to}>
+                <ListItemIcon>
+                    <Icon>{icon}</Icon>
+                </ListItemIcon>
+                <ListItemText primary={name}/>
+            </ListItem>
+        )
+    }
+}
+
 
 class Navigation extends React.Component {
     state = {
@@ -37,12 +52,7 @@ class Navigation extends React.Component {
         return (
             <div>
                 <List>
-                    <ListItem button component={Link} to="/profile">
-                        <ListItemIcon>
-                            <Icon color="primary">person</Icon>
-                        </ListItemIcon>
-                        <ListItemText primary="Profile"/>
-                    </ListItem>
+                    <NavListItem to="/profile" icon="person" name="Profile"/>
                     <ListItem button onClick={this.handleClick}>
                         <ListItemIcon>
                             <Icon>file_copy</Icon>
@@ -52,41 +62,16 @@ class Navigation extends React.Component {
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItem button className={classes.nested} component={Link} to="/article">
-                                <ListItemIcon>
-                                    <Icon>list</Icon>
-                                </ListItemIcon>
-                                <ListItemText inset primary="List"/>
-                            </ListItem>
-                            <ListItem button className={classes.nested} component={Link} to="/category">
-                                <ListItemIcon>
-                                    <Icon>class</Icon>
-                                </ListItemIcon>
-                                <ListItemText primary="Category"/>
-                            </ListItem>
-                            <ListItem button className={classes.nested} component={Link} to="/tag">
-                                <ListItemIcon>
-                                    <Icon>label</Icon>
-                                </ListItemIcon>
-                                <ListItemText primary="Tag"/>
-                            </ListItem>
+                            <NavListItem to="/article" icon="list" name="List" className={classes.nested}/>
+                            <NavListItem to="/category" icon="class" name="Category" className={classes.nested}/>
+                            <NavListItem to="/tag" icon="label" name="Tag" className={classes.nested}/>
                         </List>
                     </Collapse>
-                    <ListItem button component={Link} to="/read">
-                        <ListItemIcon>
-                            <Icon>chrome_reader_mode</Icon>
-                        </ListItemIcon>
-                        <ListItemText primary="Read"/>
-                    </ListItem>
-                    <ListItem button component={Link} to="/laboratory">
-                        <ListItemIcon>
-                            <Icon>developer_board</Icon>
-                        </ListItemIcon>
-                        <ListItemText primary="Laboratory"/>
-                    </ListItem>
+                    <NavListItem to="/read" icon="chrome_reader_mode" name="Read"/>
+                    <NavListItem to="/laboratory" icon="developer_board" name="Laboratory"/>
                 </List>
             </div>
-        );
+        )
     }
 }
 
