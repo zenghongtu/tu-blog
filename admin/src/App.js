@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route} from "react-router-dom";
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -21,6 +21,7 @@ import './App.css';
 import {Navigation} from "./common/index";
 
 import Login from "./pages/login";
+import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import Article from "./pages/article";
 import Category from "./pages/category";
@@ -28,7 +29,7 @@ import Tag from "./pages/tag";
 import Read from "./pages/read";
 import Laboratory from "./pages/laboratory";
 
-const drawerWidth = 240;
+const drawerWidth = 190;
 
 const styles = theme => ({
     root: {
@@ -84,6 +85,7 @@ const styles = theme => ({
             width: theme.spacing.unit * 9,
         },
     },
+    appBarSpacer: theme.mixins.toolbar,
     toolbar: {
         display: 'flex',
         alignItems: 'center',
@@ -117,7 +119,6 @@ class App extends React.Component {
 
     render() {
         const {classes, theme} = this.props;
-
         return (
             <Router>
                 <div className={classes.root}>
@@ -139,7 +140,7 @@ class App extends React.Component {
                                 Article
                             </Button>
                             <Typography variant="title" color="inherit" align="center" className={classes.flex}>
-                                TuBlog Administration
+                                <Button color="inherit" component={Link} to="/">TuBlog Administration</Button>
                             </Typography>
                             <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
                         </Toolbar>
@@ -160,7 +161,8 @@ class App extends React.Component {
                         <Navigation/>
                     </Drawer>
                     <main className={classes.content}>
-                        <Route path="/login" component={Login}/>
+                        <div className={classes.appBarSpacer}/>
+                        <Route exact path="/" component={Dashboard}/>
                         <Route path="/profile" component={Profile}/>
                         <Route path="/article" component={Article}/>
                         <Route path="/category" component={Category}/>
@@ -168,6 +170,7 @@ class App extends React.Component {
                         <Route path="/read" component={Read}/>
                         <Route path="/laboratory" component={Laboratory}/>
                     </main>
+                    <Route path="/login" component={Login}/>
                 </div>
             </Router>
         );

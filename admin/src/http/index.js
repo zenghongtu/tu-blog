@@ -3,8 +3,11 @@
  * Desc: index
  */
 
-import ajax from './config'
+import $ajax from './config'
+import {getSiteInfo} from './server'
 
 export {
-    ajax
+    $ajax,
+    getSiteInfo
 }
+
