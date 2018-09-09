@@ -34,6 +34,9 @@ import {logoutAction} from "./pages/login/store/actionCreators";
 const drawerWidth = 190;
 
 const styles = theme => ({
+    layout: {
+        minWidth: '30rem'
+    },
     root: {
         flexGrow: 1,
         height: '100vh',
@@ -124,9 +127,9 @@ class App extends Component {
         const {classes, theme, isAuthenticated} = this.props;
         return (
             <Router>
-                <div>
+                <div className={classes.layout}>
                     {
-                        isAuthenticated ?
+                        !isAuthenticated ?
                             (
                                 <div className={classes.root}>
                                     <AppBar
