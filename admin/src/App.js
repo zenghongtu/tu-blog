@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter as Router, Link, Route} from "react-router-dom";
 import classNames from 'classnames';
@@ -28,6 +28,8 @@ import Category from "./pages/category";
 import Tag from "./pages/tag";
 import Read from "./pages/read";
 import Laboratory from "./pages/laboratory";
+import {connect} from "react-redux";
+import {logoutAction} from "./pages/login/store/actionCreators";
 
 const drawerWidth = 190;
 
@@ -100,9 +102,10 @@ const styles = theme => ({
     },
 });
 
-class App extends React.Component {
+class App extends Component {
     state = {
         open: false,
+        isAuthenticated: false
     };
 
     handleDrawerSwitch = () => {
@@ -113,64 +116,72 @@ class App extends React.Component {
         console.log('createArticle');
     };
 
-    handleLogout = () => {
-        console.log('logout');
+    handlerLogout = () => {
+        const {logout} = this.props;
+        logout()
     };
 
     render() {
-        const {classes, theme} = this.props;
+        const {classes, theme, isAuthenticated} = this.props;
         return (
             <Router>
-                <div className={classes.root}>
-                    <AppBar
-                        position="absolute"
-                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-                    >
-                        <Toolbar disableGutters={!this.state.open}>
-                            <IconButton
-                                color="inherit"
-                                aria-label="Open drawer"
-                                onClick={this.handleDrawerSwitch}
-                                className={classNames(classes.menuButton, this.state.open && classes.hide)}
-                            >
-                                <MenuIcon/>
-                            </IconButton>
-                            <Button color="inherit" onClick={this.handleCreateArticle}>
-                                <AddIcon/>
-                                Article
-                            </Button>
-                            <Typography variant="title" color="inherit" align="center" className={classes.flex}>
-                                <Button color="inherit" component={Link} to="/">TuBlog Administration</Button>
-                            </Typography>
-                            <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
-                        </Toolbar>
-                    </AppBar>
-                    <Drawer
-                        variant="permanent"
-                        classes={{
-                            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-                        }}
-                        open={this.state.open}
-                    >
-                        <div className={classes.toolbar}>
-                            <IconButton onClick={this.handleDrawerSwitch}>
-                                {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
-                            </IconButton>
-                        </div>
-                        <Divider/>
-                        <Navigation/>
-                    </Drawer>
-                    <main className={classes.content}>
-                        <div className={classes.appBarSpacer}/>
-                        <Route exact path="/" component={Dashboard}/>
-                        <Route path="/profile" component={Profile}/>
-                        <Route path="/article" component={Article}/>
-                        <Route path="/category" component={Category}/>
-                        <Route path="/tag" component={Tag}/>
-                        <Route path="/read" component={Read}/>
-                        <Route path="/laboratory" component={Laboratory}/>
-                    </main>
-                    <Route path="/login" component={Login}/>
+                <div>
+                    {
+                        isAuthenticated ?
+                            (<div className={classes.root}>
+                                <AppBar
+                                    position="absolute"
+                                    className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+                                >
+                                    <Toolbar disableGutters={!this.state.open}>
+                                        <IconButton
+                                            color="inherit"
+                                            aria-label="Open drawer"
+                                            onClick={this.handleDrawerSwitch}
+                                            className={classNames(classes.menuButton, this.state.open && classes.hide)}
+                                        >
+                                            <MenuIcon/>
+                                        </IconButton>
+                                        <Button color="inherit" onClick={this.handleCreateArticle}>
+                                            <AddIcon/>
+                                            Article
+                                        </Button>
+                                        <Typography variant="title" color="inherit" align="center"
+                                                    className={classes.flex}>
+                                            <Button color="inherit" component={Link} to="/">TuBlog
+                                                Administration</Button>
+                                        </Typography>
+                                        <Button color="inherit" onClick={this.handlerLogout}>Logout</Button>
+                                    </Toolbar>
+                                </AppBar>
+                                <Drawer
+                                    variant="permanent"
+                                    classes={{
+                                        paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+                                    }}
+                                    open={this.state.open}
+                                >
+                                    <div className={classes.toolbar}>
+                                        <IconButton onClick={this.handleDrawerSwitch}>
+                                            {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+                                        </IconButton>
+                                    </div>
+                                    <Divider/>
+                                    <Navigation/>
+                                </Drawer>
+                                <main className={classes.content}>
+                                    <div className={classes.appBarSpacer}/>
+                                    <Route exact path="/" component={Dashboard}/>
+                                    <Route path="/profile" component={Profile}/>
+                                    <Route path="/article" component={Article}/>
+                                    <Route path="/category" component={Category}/>
+                                    <Route path="/tag" component={Tag}/>
+                                    <Route path="/read" component={Read}/>
+                                    <Route path="/laboratory" component={Laboratory}/>
+                                </main>
+                            </div>) :
+                            <Route path="/login" component={Login}/>
+                    }
                 </div>
             </Router>
         );
@@ -182,4 +193,18 @@ App.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, {withTheme: true})(App);
+const mapState = (state) => {
+    return {
+        isAuthenticated: state.getIn(['login', 'isAuthenticated'])
+    }
+};
+
+const mapDispatch = (dispath) => {
+    return {
+        logout() {
+            dispath(logoutAction())
+        }
+    }
+};
+
+export default connect(mapState, mapDispatch)(withStyles(styles, {withTheme: true})(App));
