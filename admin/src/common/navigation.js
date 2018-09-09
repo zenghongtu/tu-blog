@@ -52,6 +52,7 @@ class Navigation extends React.Component {
         return (
             <div>
                 <List>
+                    <NavListItem location={location} to="/dashboard" icon="timeline" name="Dashboard"/>
                     <NavListItem location={location} to="/profile" icon="person" name="Profile"/>
                     <ListItem button onClick={this.handleClick}>
                         <ListItemIcon>
