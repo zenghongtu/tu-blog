@@ -12,8 +12,12 @@ const baseURL =
 
 const ajax = axios.create({
     timeout: 5000,
-    baseURL
+    baseURL,
+
 });
+
+ajax.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
+ajax.defaults.headers.put['Content-Type'] = 'application/json; charset=UTF-8';
 
 ajax.interceptors.request.use(
     (config) => {
@@ -26,7 +30,7 @@ ajax.interceptors.request.use(
 
 ajax.interceptors.response.use(
     (res) => {
-        if (res.status === 200) {
+        if (/^2/.test(res.status)) {
             return (res && res.data) || ''
         } else {
             throw new Error(res.data.message)
