@@ -24,6 +24,9 @@ function generate(num) {
         login: {
             isAuthenticated: true,
             data: 'token'
+        },
+        profile: {
+            message: 'ok'
         }
     }
 }
