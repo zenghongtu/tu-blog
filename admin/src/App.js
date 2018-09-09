@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import {BrowserRouter as Router, Link, Redirect, Route, Switch} from "react-router-dom";
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -104,8 +104,7 @@ const styles = theme => ({
 
 class App extends Component {
     state = {
-        open: false,
-        isAuthenticated: false
+        open: false
     };
 
     handleDrawerSwitch = () => {
@@ -128,59 +127,68 @@ class App extends Component {
                 <div>
                     {
                         isAuthenticated ?
-                            (<div className={classes.root}>
-                                <AppBar
-                                    position="absolute"
-                                    className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-                                >
-                                    <Toolbar disableGutters={!this.state.open}>
-                                        <IconButton
-                                            color="inherit"
-                                            aria-label="Open drawer"
-                                            onClick={this.handleDrawerSwitch}
-                                            className={classNames(classes.menuButton, this.state.open && classes.hide)}
-                                        >
-                                            <MenuIcon/>
-                                        </IconButton>
-                                        <Button color="inherit" onClick={this.handleCreateArticle}>
-                                            <AddIcon/>
-                                            Article
-                                        </Button>
-                                        <Typography variant="title" color="inherit" align="center"
-                                                    className={classes.flex}>
-                                            <Button color="inherit" component={Link} to="/">TuBlog
-                                                Administration</Button>
-                                        </Typography>
-                                        <Button color="inherit" onClick={this.handlerLogout}>Logout</Button>
-                                    </Toolbar>
-                                </AppBar>
-                                <Drawer
-                                    variant="permanent"
-                                    classes={{
-                                        paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-                                    }}
-                                    open={this.state.open}
-                                >
-                                    <div className={classes.toolbar}>
-                                        <IconButton onClick={this.handleDrawerSwitch}>
-                                            {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
-                                        </IconButton>
-                                    </div>
-                                    <Divider/>
-                                    <Navigation/>
-                                </Drawer>
-                                <main className={classes.content}>
-                                    <div className={classes.appBarSpacer}/>
-                                    <Route exact path="/" component={Dashboard}/>
-                                    <Route path="/profile" component={Profile}/>
-                                    <Route path="/article" component={Article}/>
-                                    <Route path="/category" component={Category}/>
-                                    <Route path="/tag" component={Tag}/>
-                                    <Route path="/read" component={Read}/>
-                                    <Route path="/laboratory" component={Laboratory}/>
-                                </main>
-                            </div>) :
-                            <Route path="/login" component={Login}/>
+                            (
+                                <div className={classes.root}>
+                                    <AppBar
+                                        position="absolute"
+                                        className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+                                    >
+                                        <Toolbar disableGutters={!this.state.open}>
+                                            <IconButton
+                                                color="inherit"
+                                                aria-label="Open drawer"
+                                                onClick={this.handleDrawerSwitch}
+                                                className={classNames(classes.menuButton, this.state.open && classes.hide)}
+                                            >
+                                                <MenuIcon/>
+                                            </IconButton>
+                                            <Button color="inherit" onClick={this.handleCreateArticle}>
+                                                <AddIcon/>
+                                                Article
+                                            </Button>
+                                            <Typography variant="title" color="inherit" align="center"
+                                                        className={classes.flex}>
+                                                <Button color="inherit" component={Link} to="/">TuBlog
+                                                    Administration</Button>
+                                            </Typography>
+                                            <Button color="inherit" onClick={this.handlerLogout}>Logout</Button>
+                                        </Toolbar>
+                                    </AppBar>
+                                    <Drawer
+                                        variant="permanent"
+                                        classes={{
+                                            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+                                        }}
+                                        open={this.state.open}
+                                    >
+                                        <div className={classes.toolbar}>
+                                            <IconButton onClick={this.handleDrawerSwitch}>
+                                                {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+                                            </IconButton>
+                                        </div>
+                                        <Divider/>
+                                        <Navigation/>
+                                    </Drawer>
+                                    <main className={classes.content}>
+                                        <div className={classes.appBarSpacer}/>
+                                        <Switch>
+                                            <Route path="/dashboard" component={Dashboard}/>
+                                            <Route path="/profile" component={Profile}/>
+                                            <Route path="/article" component={Article}/>
+                                            <Route path="/category" component={Category}/>
+                                            <Route path="/tag" component={Tag}/>
+                                            <Route path="/read" component={Read}/>
+                                            <Route path="/laboratory" component={Laboratory}/>
+                                            <Redirect path="/" to="/dashboard"/>
+                                        </Switch>
+                                    </main>
+                                </div>
+                            )
+                            :
+                            <Switch>
+                                <Route exact path="/login" component={Login}/>
+                                <Redirect path="/" to="/login"/>
+                            </Switch>
                     }
                 </div>
             </Router>
