@@ -8,6 +8,7 @@ var faker = require('faker');
 
 function generate(num) {
     const siteInfo = [];
+    const tags = [];
     let _n = num;
     while (_n--) {
         var _date = new Date(faker.date.between('2018-08-12T21:34:21.389Z', '2018-09-12T21:34:21.389Z')).toISOString().slice(0, 10);
@@ -17,7 +18,10 @@ function generate(num) {
             date: _date,
             visitorNum: _visitorNum,
             pageNum: _pageNum
-        })
+        });
+
+        const _tag = faker.hacker.noun();
+        tags.push(_tag)
     }
     return {
         siteInfo,
@@ -27,7 +31,8 @@ function generate(num) {
         },
         profile: {
             message: 'ok'
-        }
+        },
+        tags
     }
 }
 
