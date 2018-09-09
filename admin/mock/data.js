@@ -19,7 +19,13 @@ function generate(num) {
             pageNum: _pageNum
         })
     }
-    return {siteInfo}
+    return {
+        siteInfo,
+        login: {
+            isAuthenticated: true,
+            data: 'token'
+        }
+    }
 }
 
 
