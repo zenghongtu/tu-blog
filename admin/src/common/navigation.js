@@ -65,6 +65,8 @@ class Navigation extends React.Component {
                         <List component="div" disablePadding>
                             <NavListItem to="/article" location={location} icon="list" name="List"
                                          className={classes.nested}/>
+                            <NavListItem to="/new_article" location={location} icon="add" name="New"
+                                         className={classes.nested}/>
                             <NavListItem to="/category" location={location} icon="class" name="Category"
                                          className={classes.nested}/>
                             <NavListItem to="/tag" location={location} icon="label" name="Tag"
