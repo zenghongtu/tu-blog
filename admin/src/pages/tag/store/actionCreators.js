@@ -38,7 +38,7 @@ const setTagsHandler = (name, aid) => {
         const rsp = await $ajax.put(`/tags/${name}`, {
             aid
         });
-        dispatch(setTagsAction(name))
+        dispatch(setTagsAction(rsp))
     }
 };
 
@@ -52,7 +52,7 @@ const deleteTagAction = (name) => {
 const deleteTagHandler = (name) => {
     return async (dispatch) => {
         const rsp = await $ajax.delete(`/tags/${name}`);
-        dispatch(deleteTagAction(name))
+        dispatch(deleteTagAction(rsp))
     }
 };
 
@@ -68,7 +68,7 @@ const addTagHandler = (name) => {
         const rsp = await $ajax.post(`/tags`, {
             name
         });
-        dispath(addTagAction(name))
+        dispath(addTagAction(rsp))
     }
 };
 
