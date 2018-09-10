@@ -8,11 +8,13 @@ import {combineReducers} from "redux-immutable";
 
 import {reducer as loginReducer} from '../pages/login/store'
 import {reducer as tagReducer} from '../pages/tag/store'
+import {reducer as categoryReducer} from '../pages/category/store'
 
 
 const reducer = combineReducers({
     login: loginReducer,
     tag: tagReducer,
+    category: categoryReducer
 });
 
 export default reducer
