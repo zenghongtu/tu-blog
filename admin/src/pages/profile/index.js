@@ -14,7 +14,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
-import Slide from '@material-ui/core/Slide';
 
 import {$ajax} from "../../http";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";

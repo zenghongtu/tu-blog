@@ -26,7 +26,8 @@ function generate(num) {
         tags.push(_tag);
         categories.push(_tag);
         const _title = faker.lorem.sentence();
-        const _content = faker.lorem.paragraphs();
+        const _desc = faker.lorem.paragraphs();
+        const _paragraphs = faker.lorem.paragraphs(faker.random.number({min: 10, max: 25}));
         const _viewsCount = faker.random.number({min: 10, max: 100});
         const _likeCount = faker.random.number({min: 10, max: 100});
         const _commentCount = faker.random.number({min: 10, max: 100});
@@ -37,7 +38,8 @@ function generate(num) {
         articles.push({
             id: _n,
             title: _title,
-            content: _content,
+            content: _paragraphs,
+            des: _desc,
             viewsCount: _viewsCount,
             likeCount: _likeCount,
             commentCount: _commentCount,
