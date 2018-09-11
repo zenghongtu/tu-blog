@@ -5,7 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper/Paper";
@@ -18,12 +17,15 @@ import SelectCategories from './selectCategories'
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import KeyboardVoiceICon from '@material-ui/icons/KeyboardVoice';
-import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
 import PublishIcon from '@material-ui/icons/Publish';
 import LocalSeeIcon from '@material-ui/icons/LocalSee';
+import {
+    saveArticle,
+    deleteArticle,
+    updateArticle
+} from '../../http'
+
 
 const styles = theme => ({
     root: {
@@ -49,11 +51,6 @@ const styles = theme => ({
         width: '100%',
         display: 'flex',
         justifyContent: 'space-between'
-    },
-    selectItem: {
-        flex: '1',
-        width: '200px',
-        boxSizing: 'border-box'
     },
     articleInput: {
         borderRadius: 4,
@@ -89,10 +86,12 @@ const styles = theme => ({
 
 class NewArticle extends React.Component {
     state = {
+        id: '',
         title: '',
         content: '',
         tags: [],
         categories: [],
+        is_publish: 1,
     };
 
     handleChange = prop => event => {
@@ -100,11 +99,33 @@ class NewArticle extends React.Component {
     };
 
     handleSelectChange = prop => value => {
+        console.log(value);
         this.setState({[prop]: value});
+    };
+
+    handleButtonClick = prop => _ => {
+        switch (prop) {
+            case 'save':
+                this.state.id ? updateArticle(this.state)
+                    : saveArticle(this.state);
+                break;
+            case 'delete':
+                deleteArticle(this.state.id);
+                break;
+            case 'draft':
+                saveArticle({...this.state, is_publish: 0});
+                break;
+            case 'preview':
+                console.log('preview');
+                break;
+            default:
+                console.log(`未知 ${prop}`);
+        }
     };
 
     render() {
         const {classes} = this.props;
+        const {handleButtonClick} = this;
         return (
             <React.Fragment>
                 <Typography variant="title" gutterBottom={true}>
@@ -132,23 +153,28 @@ class NewArticle extends React.Component {
                             rowsMax={20}
                             multiline
                             fullWidth
+                            onChange={this.handleChange('content')}
                         />
 
                     </main>
                     <div>
-                        <Button variant="contained" size="small" className={classes.button}>
+                        <Button onClick={handleButtonClick('save')} variant="contained" size="small" color="primary"
+                                className={classes.button}>
                             <PublishIcon/>
                             发布
                         </Button>
-                        <Button variant="contained" size="small" className={classes.button}>
+                        <Button onClick={handleButtonClick('draft')} variant="contained" size="small"
+                                className={classes.button}>
                             <SaveIcon/>
-                            保存
+                            保存草稿
                         </Button>
-                        <Button variant="contained" size="small" className={classes.button}>
+                        <Button onClick={handleButtonClick('preview')} variant="contained" size="small"
+                                className={classes.button}>
                             <LocalSeeIcon/>
                             预览
                         </Button>
-                        <Button variant="contained" color="secondary" className={classes.button}>
+                        <Button onClick={handleButtonClick('delete')} variant="contained" size="small" color="secondary"
+                                className={classes.button}>
                             <DeleteIcon/>
                             删除
                         </Button>

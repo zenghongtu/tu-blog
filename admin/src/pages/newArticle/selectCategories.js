@@ -190,9 +190,8 @@ class selectCategories extends React.Component {
     handleChangeSelect = value => {
         if (value.length > 1) {
             value.shift()
-        } else {
-            this.props.onChange(value)
         }
+        this.props.onChange(value)
     };
 
     componentDidMount() {
