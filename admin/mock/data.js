@@ -11,6 +11,8 @@ function generate(num) {
     const tags = [];
     const categories = [];
     const articles = [];
+    const books = [];
+
     let _n = num;
     while (_n--) {
         var _date = new Date(faker.date.between('2018-08-12T21:34:21.389Z', '2018-09-12T21:34:21.389Z')).toISOString().slice(0, 10);
@@ -46,6 +48,19 @@ function generate(num) {
             updatedAt: _updatedAt,
             is_publish: _is_publish
         });
+
+        const _booktitle = faker.lorem.sentence();
+        let j = faker.random.number({min: 1, max: 3});
+        const _articles = [];
+        const _authors = [];
+        while (j--) {
+            const _article = faker.lorem.sentence();
+            const _author = faker.name.firstName() + faker.name.lastName();
+            _articles.push({article: _article, id: j});
+            _authors.push(_author)
+        }
+        books.push({title: _booktitle, authors: _authors, articles: _articles});
+
     }
     return {
         siteInfo,
@@ -58,7 +73,8 @@ function generate(num) {
         },
         tags,
         categories,
-        articles
+        articles,
+        books
     }
 }
 

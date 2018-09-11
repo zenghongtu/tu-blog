@@ -28,3 +28,19 @@ export const getArticleList = (page, limit = 10) => {
 export const getArticle = (id) => {
     return $ajax.get(`/articles?id=${id}`)
 };
+
+export const getBooks = () => {
+    return $ajax.get(`/books`)
+};
+
+export const addBook = (content) => {
+    return $ajax.post('/books', content)
+};
+
+export const editBook = (id, content) => {
+    return $ajax.put(`/books/${id}`, content)
+};
+
+export const deleteBook = (id) => {
+    return $ajax.delete(`/books/${id}`)
+};

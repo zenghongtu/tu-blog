@@ -10,7 +10,11 @@ import {
     deleteArticle,
     updateArticle,
     getArticleList,
-    getArticle
+    getArticle,
+    getBooks,
+    addBook,
+    editBook,
+    deleteBook,
 } from './api'
 
 export {
@@ -20,6 +24,10 @@ export {
     deleteArticle,
     updateArticle,
     getArticleList,
-    getArticle
+    getArticle,
+    getBooks,
+    addBook,
+    editBook,
+    deleteBook,
 }
 
