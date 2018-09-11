@@ -4,7 +4,7 @@
  */
 
 import $ajax from './config'
-import {getSiteInfo} from './server'
+import {getSiteInfo} from './api'
 
 export {
     $ajax,
