@@ -28,7 +28,8 @@ import reactRenderer from 'remark-react'
 import {
     saveArticle,
     deleteArticle,
-    updateArticle
+    updateArticle,
+    getArticle
 } from '../../http'
 
 
@@ -80,25 +81,18 @@ const styles = theme => ({
 });
 
 
-class NewArticle extends React.Component {
-    state = {
-        id: '',
-        title: '',
-        content: '',
-        tags: [],
-        categories: [],
-        is_publish: 1,
-        showPreview: false
-    };
+const state = {
+    id: '',
+    title: '',
+    content: '',
+    tags: [],
+    categories: [],
+    is_publish: false,
+    showPreview: false
+};
 
-    handleChange = prop => event => {
-        this.setState({[prop]: event.target.value});
-    };
-
-    handleSelectChange = prop => value => {
-        this.setState({[prop]: value});
-    };
-
+class Article extends React.Component {
+    state = Object.assign(state);
     handleButtonClick = prop => _ => {
         const state = this.state;
 
@@ -111,7 +105,7 @@ class NewArticle extends React.Component {
                 deleteArticle(state.id);
                 break;
             case 'draft':
-                saveArticle({...state, is_publish: 0});
+                saveArticle({...state, is_publish: false});
                 break;
             case 'preview':
                 this.handlePreview();
@@ -120,6 +114,36 @@ class NewArticle extends React.Component {
                 console.log(`未知 ${prop}`);
         }
     };
+
+    componentDidMount() {
+        const id = this.props.match.params.id;
+        if (id > -1) {
+            this.fetchArticle(id)
+        }
+    }
+
+    componentWillReceiveProps() {
+        this.setState(state)
+    }
+
+    handleChange = prop => event => {
+        this.setState({[prop]: event.target.value});
+    };
+
+    handleSelectChange = prop => value => {
+        this.setState({[prop]: value});
+    };
+
+    async fetchArticle(id) {
+        const rsp = await getArticle(id);
+        const article = rsp[0];
+        this.setState({
+            id: article.id,
+            title: article.title,
+            content: article.content,
+            is_publish: article.is_publish
+        })
+    }
 
     handlePreview = _ => {
         this.setState({
@@ -141,7 +165,7 @@ class NewArticle extends React.Component {
                         <InputLabel htmlFor="title-input">
                             标题
                         </InputLabel>
-                        <Input id="title-input" onChange={handleChange('title')}/>
+                        <Input id="title-input" onChange={handleChange('title')} value={state.title}/>
                     </FormControl>
                     <SelectTags onChange={handleSelectChange('tags')} value={state.tags}/>
                     <SelectCategories onChange={handleSelectChange('categories')} value={state.categories}/>
@@ -158,6 +182,7 @@ class NewArticle extends React.Component {
                             multiline
                             fullWidth
                             onChange={handleChange('content')}
+                            value={state.content}
                         />
 
                     </main>
@@ -167,11 +192,15 @@ class NewArticle extends React.Component {
                             <PublishIcon/>
                             发布
                         </Button>
-                        <Button onClick={handleButtonClick('draft')} variant="contained" size="small"
-                                className={classes.button}>
-                            <SaveIcon/>
-                            保存草稿
-                        </Button>
+                        {
+                            !state.is_publish && (
+                                <Button onClick={handleButtonClick('draft')} variant="contained" size="small"
+                                        className={classes.button}>
+                                    <SaveIcon/>
+                                    保存草稿
+                                </Button>
+                            )
+                        }
                         <Button onClick={handleButtonClick('preview')} variant="contained" size="small"
                                 className={classes.button}>
                             <LocalSeeIcon/>
@@ -195,9 +224,9 @@ class NewArticle extends React.Component {
 }
 
 
-NewArticle.propTypes = {
+Article.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
 
-export default withStyles(styles)(NewArticle);
+export default withStyles(styles)(Article);

@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
+import {Link} from 'react-router-dom'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -58,7 +59,6 @@ class ArticleList extends React.Component {
         this.setState({page});
     };
 
-
     async fetchArticleList() {
         const {page, limit} = this.state;
         const rsp = await getArticleList(page, limit);
@@ -107,10 +107,12 @@ class ArticleList extends React.Component {
                                             <TableCell numeric
                                                        className={row.is_publish ? classes.light : classes.dark}>{row.is_publish ? '已发布' : '草稿'}</TableCell>
                                             <TableCell numeric>
-                                                <Button variant="contained" className={classes.button}>
+                                                <Button variant="contained" className={classes.button} component={Link}
+                                                        to={`/article/${row.id}`}>
                                                     编辑
                                                 </Button>
-                                                <Button variant="contained" color="primary" className={classes.button}>
+                                                <Button variant="contained" color="primary" className={classes.button}
+                                                        component={Link} to="/open-collective">
                                                     查看
                                                 </Button>
                                                 <Button variant="contained" color="secondary"

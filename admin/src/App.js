@@ -179,6 +179,7 @@ class App extends Component {
                                             <Route path="/dashboard" component={Dashboard}/>
                                             <Route path="/profile" component={Profile}/>
                                             <Route path="/article_list" component={ArticleList}/>
+                                            <Route path="/article/:id" component={Article}/>
                                             <Route path="/article" component={Article}/>
                                             <Route path="/category" component={Category}/>
                                             <Route path="/tag" component={Tag}/>

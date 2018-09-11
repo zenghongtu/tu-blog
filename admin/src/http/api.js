@@ -24,3 +24,7 @@ export const updateArticle = (id, content) => {
 export const getArticleList = (page, limit = 10) => {
     return $ajax.get(`/articles`)
 };
+
+export const getArticle = (id) => {
+    return $ajax.get(`/articles?id=${id}`)
+};

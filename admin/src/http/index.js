@@ -10,6 +10,7 @@ import {
     deleteArticle,
     updateArticle,
     getArticleList,
+    getArticle
 } from './api'
 
 export {
@@ -19,5 +20,6 @@ export {
     deleteArticle,
     updateArticle,
     getArticleList,
+    getArticle
 }
 
