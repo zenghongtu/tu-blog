@@ -15,6 +15,10 @@ import {
     addBook,
     updateBook,
     deleteBook,
+    getProjects,
+    addProject,
+    updateProject,
+    deleteProject,
 } from './api'
 
 export {
@@ -29,5 +33,9 @@ export {
     addBook,
     updateBook,
     deleteBook,
+    getProjects,
+    addProject,
+    updateProject,
+    deleteProject,
 }
 

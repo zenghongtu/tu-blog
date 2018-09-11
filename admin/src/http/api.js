@@ -44,3 +44,20 @@ export const updateBook = (id, content) => {
 export const deleteBook = (id) => {
     return $ajax.delete(`/books/${id}`)
 };
+
+export const getProjects = () => {
+    return $ajax.get(`/projects`)
+};
+
+export const addProject = (content) => {
+    return $ajax.post('/projects', content)
+};
+
+export const updateProject = (id, content) => {
+    return $ajax.put(`/projects/${id}`, content)
+};
+
+export const deleteProject = (id) => {
+    return $ajax.delete(`/projects/${id}`)
+};
+
