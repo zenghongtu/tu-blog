@@ -32,6 +32,7 @@ function generate(num) {
         const _commentCount = faker.random.number({min: 10, max: 100});
         const _createdAt = faker.date.past();
         const _updatedAt = faker.date.recent();
+        const _is_publish = faker.random.boolean();
 
         articles.push({
             id: _n,
@@ -41,6 +42,7 @@ function generate(num) {
             likeCount: _likeCount,
             commentCount: _commentCount,
             updatedAt: _updatedAt,
+            is_publish: _is_publish
         });
     }
     return {
