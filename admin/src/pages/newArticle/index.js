@@ -15,6 +15,15 @@ import Input from "@material-ui/core/Input/Input";
 
 import SelectTags from './selectTags'
 import SelectCategories from './selectCategories'
+import TextField from "@material-ui/core/TextField/TextField";
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import KeyboardVoiceICon from '@material-ui/icons/KeyboardVoice';
+import Icon from '@material-ui/core/Icon';
+import SaveIcon from '@material-ui/icons/Save';
+import PublishIcon from '@material-ui/icons/Publish';
+import LocalSeeIcon from '@material-ui/icons/LocalSee';
 
 const styles = theme => ({
     root: {
@@ -24,30 +33,75 @@ const styles = theme => ({
         padding: theme.spacing.unit / 2,
     },
     layout: {
-        width: 'auto',
+        width: '100%',
+        display: 'flex',
         marginLeft: theme.spacing.unit * 3,
         marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(900 + theme.spacing.unit * 3 * 2)]: {
-            width: 900,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
+        padding: '10px 12px',
     },
     margin: {
         margin: theme.spacing.unit,
     },
+    button: {
+        marginLeft: theme.spacing.unit * 3,
+    },
+    selectContainer: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    selectItem: {
+        flex: '1',
+        width: '200px',
+        boxSizing: 'border-box'
+    },
+    articleInput: {
+        borderRadius: 4,
+        fontSize: 14,
+        border: '1px solid #ced4da',
+        backgroundColor: theme.palette.common.white,
+        margin: '0 auto',
+        padding: '10px'
+    },
+    bootstrapInput: {
+        width: 'calc(100% - 24px)',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+    bootstrapFormLabel: {},
 });
 
 
 class NewArticle extends React.Component {
     state = {
-        title: ''
+        title: '',
+        content: '',
+        tags: [],
+        categories: [],
     };
 
     handleChange = prop => event => {
         this.setState({[prop]: event.target.value});
     };
 
+    handleSelectChange = prop => value => {
+        this.setState({[prop]: value});
+    };
 
     render() {
         const {classes} = this.props;
@@ -64,14 +118,41 @@ class NewArticle extends React.Component {
                         </InputLabel>
                         <Input id="title-input" onChange={this.handleChange('title')}/>
                     </FormControl>
+                    <SelectTags onChange={this.handleSelectChange('tags')} value={this.tags}/>
+                    <SelectCategories onChange={this.handleSelectChange('categories')} value={this.categories}/>
 
-                    <SelectTags/>
-                    <SelectCategories/>
                     <main className={classes.layout}>
-                        <Grid container spacing={40} alignItems="flex-end">
+                        <TextField
+                            InputProps={{
+                                disableUnderline: true,
+                                fullWidth: true
+                            }}
+                            className={classes.articleInput}
+                            rows={20}
+                            rowsMax={20}
+                            multiline
+                            fullWidth
+                        />
 
-                        </Grid>
                     </main>
+                    <div>
+                        <Button variant="contained" size="small" className={classes.button}>
+                            <PublishIcon/>
+                            发布
+                        </Button>
+                        <Button variant="contained" size="small" className={classes.button}>
+                            <SaveIcon/>
+                            保存
+                        </Button>
+                        <Button variant="contained" size="small" className={classes.button}>
+                            <LocalSeeIcon/>
+                            预览
+                        </Button>
+                        <Button variant="contained" color="secondary" className={classes.button}>
+                            <DeleteIcon/>
+                            删除
+                        </Button>
+                    </div>
                 </Paper>
             </React.Fragment>
         );

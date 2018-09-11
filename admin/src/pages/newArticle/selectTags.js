@@ -33,9 +33,10 @@ const styles = theme => ({
         flexWrap: 'wrap',
         flex: 1,
         alignItems: 'center',
+        paddingBottom: `${theme.spacing.unit / 2}px`
     },
     chip: {
-        margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+        // margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
     },
     chipFocused: {
         backgroundColor: emphasize(
@@ -185,13 +186,11 @@ const components = {
 
 
 class selectTags extends React.Component {
-    state = {
-        multi: null,
-    };
-    handleChangeSelect = name => value => {
-        this.setState({
-            [name]: value,
-        });
+    handleChangeSelect = value => {
+        if (value.length > 3) {
+            value.shift()
+        }
+        this.props.onChange(value)
     };
 
     componentDidMount() {
@@ -218,8 +217,8 @@ class selectTags extends React.Component {
                         label: tag
                     }))}
                     components={components}
-                    value={this.state.multi}
-                    onChange={this.handleChangeSelect('multi')}
+                    value={this.props.value}
+                    onChange={this.handleChangeSelect}
                     placeholder="可直接输入"
                     isMulti
                 />
