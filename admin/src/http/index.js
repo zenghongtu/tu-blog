@@ -13,7 +13,7 @@ import {
     getArticle,
     getBooks,
     addBook,
-    editBook,
+    updateBook,
     deleteBook,
 } from './api'
 
@@ -27,7 +27,7 @@ export {
     getArticle,
     getBooks,
     addBook,
-    editBook,
+    updateBook,
     deleteBook,
 }
 

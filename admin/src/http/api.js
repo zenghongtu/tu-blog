@@ -37,7 +37,7 @@ export const addBook = (content) => {
     return $ajax.post('/books', content)
 };
 
-export const editBook = (id, content) => {
+export const updateBook = (id, content) => {
     return $ajax.put(`/books/${id}`, content)
 };
 
