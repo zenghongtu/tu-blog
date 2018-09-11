@@ -5,7 +5,7 @@
 
 
 module.exports = (req, res, next) => {
-    if (req.method === 'POST' || req.method === 'PUT') {
+    if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
         res.status(200).json(req.body);
     } else {
         next();
