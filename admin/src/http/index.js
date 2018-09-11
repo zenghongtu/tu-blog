@@ -4,10 +4,18 @@
  */
 
 import $ajax from './config'
-import {getSiteInfo} from './api'
+import {
+    getSiteInfo,
+    saveArticle,
+    deleteArticle,
+    updateArticle,
+} from './api'
 
 export {
     $ajax,
-    getSiteInfo
+    getSiteInfo,
+    saveArticle,
+    deleteArticle,
+    updateArticle,
 }
 

@@ -8,3 +8,15 @@ import $ajax from './config'
 export const getSiteInfo = () => {
     return $ajax.get('/siteInfo')
 };
+
+export const saveArticle = (content) => {
+    return $ajax.post('/articles', content)
+};
+
+export const deleteArticle = (id) => {
+    return $ajax.delete(`/articles/${id}`)
+};
+
+export const updateArticle = (id, content) => {
+    return $ajax.put(`/articles/${id}`, content)
+};
