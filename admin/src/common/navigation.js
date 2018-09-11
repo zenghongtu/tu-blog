@@ -63,9 +63,9 @@ class Navigation extends React.Component {
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <NavListItem to="/article" location={location} icon="list" name="List"
+                            <NavListItem to="/article_list" location={location} icon="list" name="List"
                                          className={classes.nested}/>
-                            <NavListItem to="/new_article" location={location} icon="add" name="New"
+                            <NavListItem to="/article" location={location} icon="add" name="New"
                                          className={classes.nested}/>
                             <NavListItem to="/category" location={location} icon="class" name="Category"
                                          className={classes.nested}/>
