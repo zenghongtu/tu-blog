@@ -24,7 +24,7 @@ import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import Article from "./pages/article";
-import NewArticle from "./pages/newArticle/index";
+import ArticleList from "./pages/articleList";
 import Category from "./pages/category";
 import Tag from "./pages/tag";
 import Read from "./pages/read";
@@ -178,8 +178,8 @@ class App extends Component {
                                         <Switch>
                                             <Route path="/dashboard" component={Dashboard}/>
                                             <Route path="/profile" component={Profile}/>
+                                            <Route path="/article_list" component={ArticleList}/>
                                             <Route path="/article" component={Article}/>
-                                            <Route path="/new_article" component={NewArticle}/>
                                             <Route path="/category" component={Category}/>
                                             <Route path="/tag" component={Tag}/>
                                             <Route path="/read" component={Read}/>
