@@ -9,6 +9,7 @@ import {
     saveArticle,
     deleteArticle,
     updateArticle,
+    getArticleList,
 } from './api'
 
 export {
@@ -17,5 +18,6 @@ export {
     saveArticle,
     deleteArticle,
     updateArticle,
+    getArticleList,
 }
 
