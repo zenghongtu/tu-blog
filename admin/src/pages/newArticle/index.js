@@ -20,6 +20,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import PublishIcon from '@material-ui/icons/Publish';
 import LocalSeeIcon from '@material-ui/icons/LocalSee';
+
+import Modal from '@material-ui/core/Modal';
+import remark from 'remark'
+import reactRenderer from 'remark-react'
+
 import {
     saveArticle,
     deleteArticle,
@@ -60,27 +65,18 @@ const styles = theme => ({
         margin: '0 auto',
         padding: '10px'
     },
-    bootstrapInput: {
-        width: 'calc(100% - 24px)',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-    bootstrapFormLabel: {},
+    preview: {
+        width: `75vw`,
+        height: '80vh',
+        position: 'absolute',
+        top: '5vh',
+        left: '50%',
+        transform: `translateX(-50%)`,
+        overflowY: 'scroll',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+    }
 });
 
 
@@ -92,6 +88,7 @@ class NewArticle extends React.Component {
         tags: [],
         categories: [],
         is_publish: 1,
+        showPreview: false
     };
 
     handleChange = prop => event => {
@@ -99,33 +96,40 @@ class NewArticle extends React.Component {
     };
 
     handleSelectChange = prop => value => {
-        console.log(value);
         this.setState({[prop]: value});
     };
 
     handleButtonClick = prop => _ => {
+        const state = this.state;
+
         switch (prop) {
             case 'save':
-                this.state.id ? updateArticle(this.state)
-                    : saveArticle(this.state);
+                state.id ? updateArticle(state)
+                    : saveArticle(state);
                 break;
             case 'delete':
-                deleteArticle(this.state.id);
+                deleteArticle(state.id);
                 break;
             case 'draft':
-                saveArticle({...this.state, is_publish: 0});
+                saveArticle({...state, is_publish: 0});
                 break;
             case 'preview':
-                console.log('preview');
+                this.handlePreview();
                 break;
             default:
                 console.log(`未知 ${prop}`);
         }
     };
 
+    handlePreview = _ => {
+        this.setState({
+            showPreview: !this.state.showPreview
+        })
+    };
+
     render() {
         const {classes} = this.props;
-        const {handleButtonClick} = this;
+        const {handleButtonClick, handleSelectChange, handleChange, state, handlePreview} = this;
         return (
             <React.Fragment>
                 <Typography variant="title" gutterBottom={true}>
@@ -137,10 +141,10 @@ class NewArticle extends React.Component {
                         <InputLabel htmlFor="title-input">
                             标题
                         </InputLabel>
-                        <Input id="title-input" onChange={this.handleChange('title')}/>
+                        <Input id="title-input" onChange={handleChange('title')}/>
                     </FormControl>
-                    <SelectTags onChange={this.handleSelectChange('tags')} value={this.tags}/>
-                    <SelectCategories onChange={this.handleSelectChange('categories')} value={this.categories}/>
+                    <SelectTags onChange={handleSelectChange('tags')} value={state.tags}/>
+                    <SelectCategories onChange={handleSelectChange('categories')} value={state.categories}/>
 
                     <main className={classes.layout}>
                         <TextField
@@ -153,7 +157,7 @@ class NewArticle extends React.Component {
                             rowsMax={20}
                             multiline
                             fullWidth
-                            onChange={this.handleChange('content')}
+                            onChange={handleChange('content')}
                         />
 
                     </main>
@@ -180,6 +184,11 @@ class NewArticle extends React.Component {
                         </Button>
                     </div>
                 </Paper>
+                <Modal open={state.showPreview} onClose={handlePreview}>
+                    <div className={classes.preview}>
+                        {remark().use(reactRenderer).processSync(state.content).contents}
+                    </div>
+                </Modal>
             </React.Fragment>
         );
     }
