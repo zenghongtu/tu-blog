@@ -12,6 +12,7 @@ function generate(num) {
     const categories = [];
     const articles = [];
     const books = [];
+    const projects = {create: [], contribute: []};
 
     let _n = num;
     while (_n--) {
@@ -59,8 +60,39 @@ function generate(num) {
             _articles.push({article: _article, id: j});
             _authors.push(_author)
         }
-        books.push({title: _booktitle, authors: _authors, articles: _articles});
+        books.push({id: _n, title: _booktitle, authors: _authors, articles: _articles});
 
+        const _projectName = faker.name.title();
+        const _projectUrl = faker.internet.url();
+        const _starNum = faker.random.number({min: 100, max: 1000});
+        const _forkNum = faker.random.number({min: 100, max: 1000});
+        const _projectDesc = faker.lorem.sentence();
+        const _projectArticles = [];
+        let k = faker.random.number({min: 1, max: 3});
+        while (k--) {
+            const _article = faker.lorem.sentence();
+            _projectArticles.push({article: _article, id: k});
+        }
+        faker.random.boolean() ?
+            projects.create.push({
+                id: _n,
+                name: _projectName,
+                url: _projectUrl,
+                star: _starNum,
+                fork: _forkNum,
+                desc: _projectDesc,
+                articles: _projectArticles
+            })
+            :
+            projects.contribute.push({
+                id: _n,
+                name: _projectName,
+                url: _projectUrl,
+                star: _starNum,
+                fork: _forkNum,
+                desc: _projectDesc,
+                articles: _projectArticles
+            });
     }
     return {
         siteInfo,
@@ -74,7 +106,8 @@ function generate(num) {
         tags,
         categories,
         articles,
-        books
+        books,
+        projects
     }
 }
 
