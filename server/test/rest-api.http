@@ -4,53 +4,6 @@ Content-Type: application/x-www-form-urlencoded
 id=999&value=content
 
 ###
-POST http://localhost:9000/categories
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE1Yjc2YTBiODIwMTMwYTVkMzg4ZSIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0MzAzNywiZXhwIjoxNTM2ODg2MjM3fQ.nnMvY8wpuRUTDd-dKKO2qloxoe3sJd6dQh76w5oEkeE
-
-{
-  "name": "cat4"
-}
-
-###
-GET http://localhost:9000/categories/5b99f956265c9e806716eff9
-
-###
-GET http://localhost:9000/categories?field=name&field=articles&field=meta.createAt
-
-###
-POST http://localhost:9000/tags
-Content-Type: application/json
-
-{
-  "name": "tag1"
-}
-
-###
-
-POST http://localhost:9000/articles
-Content-Type: application/json
-
-{
-  "title": "a test",
-  "desc": "this is a test",
-  "body": "this is a body",
-  "category": "5b99ebeaad47327ca70dbc47",
-  "tags": [
-    "5b99eda6f3bcce7d54dbd599"
-  ],
-  "isPublish": true
-}
-
-
-###
-GET http://localhost:9000/articles/5b99ee65f3bcce7d54dbd59c?flag=1
-Content-Type: application/json
-
-###
-DELETE http://localhost:9000/articles/5b99ef73f3bcce7d54dbd59f
-
-###
 POST http://localhost:9000/users
 Content-Type: application/json
 
@@ -68,6 +21,91 @@ Content-Type: application/json
 {
   "name": "zenghongtu",
   "password": "123456"
+}
+
+
+###
+POST http://localhost:9000/categories
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+
+{
+  "name": "cat"
+}
+
+###
+GET http://localhost:9000/categories/5b99f956265c9e806716eff9
+
+###
+GET http://localhost:9000/categories?field=name&field=articles&field=meta.createAt
+
+###
+POST http://localhost:9000/tags
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+
+{
+  "name": "tag1"
+}
+
+###
+
+POST http://localhost:9000/articles
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+
+{
+  "title": "a test",
+  "desc": "this is a test",
+  "body": "this is a body",
+  "category": "5b99ebeaad47327ca70dbc47",
+  "tags": [
+    "5b99eda6f3bcce7d54dbd599"
+  ],
+  "isPublish": true
+}
+
+
+###
+GET http://localhost:9000/articles/5b9a7656cff74396692afc4f
+Content-Type: application/json
+
+###
+DELETE http://localhost:9000/articles/5b99ef73f3bcce7d54dbd59f
+
+###
+POST http://localhost:9000/comments
+Content-Type: application/json
+
+{
+  "article": "5b9a7656cff74396692afc4f",
+  "content": "this is a comment"
+}
+
+###
+POST http://localhost:9000/books
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+
+{
+  "title": "book1",
+  "authors": [
+    "author1"
+  ]
+}
+
+###
+POST http://localhost:9000/projects
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+
+{
+  "name": "this is a test name",
+  "url": "this is a test url",
+  "stars": 1,
+  "forks": 1,
+  "desc": "this is a test desc",
+  "action": "create"
 }
 
 ###
