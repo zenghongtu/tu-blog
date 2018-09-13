@@ -5,6 +5,7 @@
 
 import Router from 'koa-router';
 import {baseApi} from '../config';
+import jwt from '../middlewares/jwt';
 import CategoryControllers from '../controllers/category';
 
 const api = 'categories';
@@ -15,12 +16,12 @@ router.prefix(`${baseApi}/${api}`);
 
 router.get('/', CategoryControllers.find);
 
-router.post('/', CategoryControllers.add);
+router.post('/', jwt, CategoryControllers.add);
 
 router.get('/:id', CategoryControllers.findById);
 
-router.put('/:id', CategoryControllers.update);
+router.put('/:id', jwt, CategoryControllers.update);
 
-router.delete('/:id', CategoryControllers.delete);
+router.delete('/:id', jwt, CategoryControllers.delete);
 
 export default router;
