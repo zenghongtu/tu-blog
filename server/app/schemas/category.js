@@ -39,9 +39,10 @@ CategorySchema.pre('save', function (next) {
 });
 
 CategorySchema.statics = {
-    fetch: function () {
+    fetch: function (field = '') {
         return this
             .find({})
+            .select(field)
             .sort('meta.updateAt')
             .exec()
     },
