@@ -3,6 +3,6 @@
  * Desc: server 配置文件
  */
 
-export const port = process.env.PORT || 8000;
+export const port = process.env.PORT || 9000;
 export const connexionString = ("mongodb://localhost:27017/tublog");
-export const baseApi = 'api/v1';
+export const baseApi = process.env.NODE_ENV === 'development' ? '' : '/api/v1';

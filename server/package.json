@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "start": "nodemon app/ --exec babel-node",
-    "build": "babel app -d dist",
+    "start": "export NODE_ENV=development && nodemon app/ --exec babel-node",
+    "build": "export NODE_ENV=production && babel app -d dist",
     "lint": "eslint ./app",
     "test": "npm run lint && npm run mocha",
     "prod": "npm run build && node dist/",
@@ -27,7 +27,7 @@
     "koa-jwt": "^3.3.0",
     "koa-logger": "^3.1.0",
     "koa-router": "^7.3.0",
-    "mongoose": "^5.0.1"
+    "mongoose": "5.2.14"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
