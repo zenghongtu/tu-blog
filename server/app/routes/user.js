@@ -14,7 +14,7 @@ const router = new Router();
 
 router.prefix(`${baseApi}/${api}`);
 
-router.get('/', UserControllers.find);
+router.get('/', jwt, UserControllers.find);
 
 router.post('/', UserControllers.add);
 

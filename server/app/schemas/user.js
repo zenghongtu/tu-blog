@@ -38,7 +38,7 @@ UserSchema.pre('save', function (next) {
         this.meta.updateAt = Date.now()
     }
 
-    if (user.role === 99) {
+    if (user.name === 'tu') {
         bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
             if (err) return next(err);
             bcrypt.hash(user.password, salt, function (err, hash) {
