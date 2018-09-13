@@ -9,7 +9,7 @@
  */
 
 import mongoose from 'mongoose'
-import {TagSchema} from '../schemas/'
+import TagSchema from '../schemas/tag'
 
 const Tag = mongoose.model('Tag', TagSchema);
 

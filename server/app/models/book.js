@@ -4,7 +4,7 @@
  */
 
 import mongoose from 'mongoose'
-import {BookSchema} from '../schemas/'
+import BookSchema from '../schemas/book'
 
 const Book = mongoose.model('Book', BookSchema);
 

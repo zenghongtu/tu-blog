@@ -4,7 +4,7 @@
  */
 
 import mongoose from 'mongoose'
-import {SiteSchema} from '../schemas/'
+import SiteSchema from '../schemas/site'
 
 const Site = mongoose.model('Site', SiteSchema);
 

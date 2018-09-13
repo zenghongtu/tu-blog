@@ -4,7 +4,7 @@
  */
 
 import mongoose from 'mongoose'
-import {ArticleSchema} from '../schemas/'
+import ArticleSchema from '../schemas/article'
 
 const Article = mongoose.model('Article', ArticleSchema);
 
