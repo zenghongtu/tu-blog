@@ -8,7 +8,7 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-  "name": "tu3",
+  "name": "tutu3",
   "email": "zenghongtu@gmail.com",
   "password": "1223456",
   "role": 1
@@ -19,7 +19,7 @@ POST http://localhost:9000/authenticate
 Content-Type: application/json
 
 {
-  "name": "zenght",
+  "name": "zht",
   "password": "123456"
 }
 
@@ -71,7 +71,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE1Yjc2Y
 
 
 ###
-GET http://localhost:9000/articles?limit=aa&field=desc&page=cc
+GET http://localhost:9000/articles/5b9a7656cff74396692afc4f
 Content-Type: application/json
 
 ###
@@ -82,8 +82,13 @@ POST http://localhost:9000/comments
 Content-Type: application/json
 
 {
-  "article": "5b9a7656cff74396692afc4f",
-  "content": "this is a comment"
+  "comment": {
+    "article": "5b9a7656cff74396692afc4f",
+    "content": "this is a comment"
+  },
+  "user": {
+    "name": "tutut"
+  }
 }
 
 ###

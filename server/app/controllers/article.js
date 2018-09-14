@@ -25,8 +25,8 @@ class ArticleControllers {
             await Article.update({_id: id}, {$inc: {'meta.viewCount': 1}});
             let comments = await Comment
                 .find({article: id})
-                .populate('from', 'name')
-                .populate('reply.from reply.to', 'name')
+                .populate('from', 'name agent')
+                .populate('reply.from reply.to', 'name agent')
                 .exec();
 
             ctx.body = {article, comments};

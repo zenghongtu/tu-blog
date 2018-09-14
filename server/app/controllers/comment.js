@@ -4,6 +4,8 @@
  */
 
 import Comment from '../models/comment';
+import userAgent from '../utils/userAgent'
+import User from "../models/user";
 
 class CommentControllers {
 
@@ -35,8 +37,15 @@ class CommentControllers {
      */
     async add(ctx) {
         try {
-            const comment = await new Comment(ctx.request.body).save();
-            ctx.body = comment;
+            const _body = ctx.request.body;
+            const _user = _body.user;
+            const _comment = _body.comment;
+            if (!_user._id) {
+                _user.agent = userAgent(ctx);
+                const user = await new User(_user).save();
+                _comment.from = user._id
+            }
+            ctx.body = await new Comment(_comment).save();
         } catch (err) {
             ctx.throw(422);
         }
@@ -54,7 +63,15 @@ class CommentControllers {
                 ctx.throw(404);
             }
 
-            const _comment = ctx.request.body;
+            const _body = ctx.request.body;
+            const _user = _body.user;
+            const _comment = _body.comment;
+            if (!_user._id) {
+                _user.agent = userAgent(ctx);
+                const user = await new User(_user).save();
+                _comment.from = user._id
+            }
+
             const reply = {
                 from: _comment.from,  // 回复人 ID
                 to: _comment.to,  // 评论人 ID
