@@ -4,6 +4,7 @@
  */
 
 import User from "../models/user";
+import ipCheck from '../utils/ipCheck'
 
 class UserControllers {
 
@@ -30,7 +31,9 @@ class UserControllers {
 
     async add(ctx) {
         try {
-            const user = await new User(ctx.request.body).save();
+            const _body = ctx.request.body;
+            _body.ip = ipCheck(ctx);
+            const user = await new User(_body).save();
             ctx.body = user;
         } catch (err) {
             ctx.throw(422);
