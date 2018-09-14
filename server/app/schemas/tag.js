@@ -41,9 +41,10 @@ TagSchema.pre('save', function (next) {
 });
 
 TagSchema.statics = {
-    fetch: function () {
+    fetch: function (field = '') {
         return this
             .find({})
+            .select(field)
             .sort('meta.updateAt')
             .exec()
     },

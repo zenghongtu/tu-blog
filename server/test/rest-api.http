@@ -48,6 +48,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
   "name": "tag1"
 }
 
+
+###
+GET http://localhost:9000/tags?field=name
+
 ###
 
 POST http://localhost:9000/articles

@@ -8,7 +8,8 @@ import Tag from '../models/tag';
 class TagControllers {
 
     async find(ctx) {
-        ctx.body = await Tag.fetch();
+        const field = ctx.query.field || '';
+        ctx.body = await Tag.fetch(field);
     }
 
     async findById(ctx) {
