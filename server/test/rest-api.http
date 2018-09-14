@@ -118,3 +118,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 }
 
 ###
+POST http://localhost:9000/site
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+
+{
+  "pageViews": 1
+}
+
+###
+GET http://localhost:9000/site
+Content-Type: application/json
+
+###
+

@@ -28,8 +28,41 @@ const SiteSchema = new Schema({
                 default: Date.now()
             }
         }
-    ]
+    ],
+    meta: {
+        createAt: {
+            type: Date,
+            default: Date.now()
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now()
+        }
+    }
 });
+
+SiteSchema.pre('save', function (next) {
+    if (this.isNew) {
+        this.meta.createAt = this.meta.updateAt = Date.now()
+    } else {
+        this.meta.updateAt = Date.now()
+    }
+    next()
+});
+
+SiteSchema.statics = {
+    fetch: function () {
+        return this
+            .find({})
+            .exec()
+    },
+    findById: function (id) {
+        return this
+            .findOne({_id: id})
+            .exec()
+    }
+};
+
 
 
 export default SiteSchema
