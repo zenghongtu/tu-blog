@@ -34,7 +34,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 }
 
 ###
-GET http://localhost:9000/categories/5b99f956265c9e806716eff9
+GET http://localhost:9000/categories
 
 ###
 GET http://localhost:9000/categories?field=name&field=articles&field=meta.createAt
@@ -52,7 +52,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 
 POST http://localhost:9000/articles
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE1Yjc2YTBiODIwMTMwYTVkMzg4ZSIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjkyMzQyNywiZXhwIjoxNTM2OTY2NjI3fQ.goEFORFt_N0vDvi-CzGRpnTNvnxZqpKqzwitzWq48fo
 
 {
   "title": "a test",
@@ -67,7 +67,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 
 
 ###
-GET http://localhost:9000/articles/5b9a7656cff74396692afc4f
+GET http://localhost:9000/articles?limit=aa&field=desc&page=cc
 Content-Type: application/json
 
 ###

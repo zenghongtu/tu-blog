@@ -9,7 +9,10 @@ import Comment from '../models/comment';
 class ArticleControllers {
 
     async find(ctx) {
-        ctx.body = await Article.fetch();
+        const limit = ctx.query.limit || null;
+        const page = ctx.query.page || null;
+        const field = ctx.query.field || null;
+        ctx.body = await Article.fetch(+limit, +page, field);
     }
 
     async findById(ctx) {

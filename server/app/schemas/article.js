@@ -67,10 +67,13 @@ ArticleSchema.pre('save', function (next) {
 });
 
 ArticleSchema.statics = {
-    fetch: function () {
+    fetch: function (limit, page, field = '') {
         return this
             .find({})
+            .skip(page)
+            .limit(limit)
             .sort('meta.updateAt')
+            .select(field)
             .exec()
     },
     findById: function (id) {
