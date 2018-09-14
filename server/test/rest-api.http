@@ -8,10 +8,10 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-  "name": "zenghongtu",
+  "name": "tu3",
   "email": "zenghongtu@gmail.com",
-  "password": "123456",
-  "role": 99
+  "password": "1223456",
+  "role": 1
 }
 
 ###
@@ -19,7 +19,7 @@ POST http://localhost:9000/authenticate
 Content-Type: application/json
 
 {
-  "name": "zenghongtu",
+  "name": "zenght",
   "password": "123456"
 }
 

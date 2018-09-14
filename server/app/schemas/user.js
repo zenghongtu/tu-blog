@@ -12,11 +12,18 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         type: String
     },
+    ip: String,
     email: String,
     password: String,
     role: {
         type: Number,
         default: 0
+    },
+    agent: {
+        browser: String,
+        version: String,
+        os: String,
+        platform: String,
     },
     meta: {
         createAt: {
