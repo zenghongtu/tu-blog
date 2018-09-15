@@ -7,6 +7,7 @@ import Router from 'koa-router';
 import {baseApi} from '../config';
 import jwt from '../middlewares/jwt';
 import CategoryControllers from '../controllers/category';
+import siteRecord from "../middlewares/siteRecord";
 
 const api = 'categories';
 
@@ -18,7 +19,7 @@ router.get('/', CategoryControllers.find);
 
 router.post('/', jwt, CategoryControllers.add);
 
-router.get('/:id', CategoryControllers.findById);
+router.get('/:id', siteRecord, CategoryControllers.findById);
 
 router.put('/:id', jwt, CategoryControllers.update);
 
