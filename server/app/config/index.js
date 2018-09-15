@@ -8,3 +8,9 @@ export const connexionString = ("mongodb://localhost:27017/tublog");
 export const baseApi = process.env.NODE_ENV === 'development' ? '' : '/api/v1';
 export const secret = 'this is a secret';
 export const expires = 60 * 60 * 12;
+export const redis = {
+    host: process.env.REDIS_TCP_ADDR || '127.0.0.1',
+    port: process.env.REDIS__TCP_PORT || 6379,
+    password: process.env.REDIS_PASSWORD || '',
+    db: 0
+};

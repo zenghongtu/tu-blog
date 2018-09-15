@@ -10,9 +10,11 @@ import mongoose from 'mongoose';
 import helmet from 'koa-helmet';
 import routing from './routes/';
 import {port, connexionString} from './config';
+import init from './utils/init'
 
 mongoose.connect(connexionString, {useNewUrlParser: true});
 mongoose.connection.on('error', console.error);
+
 
 // Create Koa Application
 const app = new Koa();
@@ -23,6 +25,8 @@ app
     .use(helmet());
 
 routing(app);
+
+init();
 
 // Start the application
 app.listen(port, () =>
