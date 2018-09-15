@@ -55,6 +55,7 @@ UserSchema.pre('save', function (next) {
             })
         })
     } else {
+        user.name += Math.floor(Math.random() * 1e6);  // 避免用户名重复
         next()
     }
 
