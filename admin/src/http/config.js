@@ -7,7 +7,7 @@ import axios from 'axios'
 
 const baseURL =
     process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3999/api/v1/'
+        ? 'http://localhost:9000/'
         : 'https://zenghongtu.com/api/v1/';
 
 const ajax = axios.create({

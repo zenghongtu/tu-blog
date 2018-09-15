@@ -4,23 +4,29 @@
  */
 
 import React, {Component} from "react";
-
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from "@material-ui/core/Typography/Typography";
 import {getSiteInfo} from "../../http/index";
-
 import SiteInfoLineChart from "./chart";
 
-class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            siteInfo: []
-        }
+const styles = theme => ({
+    root: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
     }
+});
+
+class Dashboard extends Component {
+    state = {
+        siteInfo: []
+    };
 
     async fetchSiteInfo() {
         const siteInfo = await getSiteInfo();
         this.setState((state) => ({
-                siteInfo
+                siteInfo: siteInfo
             }
         ))
     }
@@ -30,15 +36,23 @@ class Dashboard extends Component {
     }
 
     render() {
+        const {classes} = this.props;
         const {siteInfo} = this.state;
         return (
             <div>
-                <h2>流量统计</h2>
-                <SiteInfoLineChart data={siteInfo}/>
+                <Typography variant="title" gutterBottom={true} className={classes.title}>
+                    网站状况
+                </Typography>
+                <Paper className={classes.root}>
+                    <SiteInfoLineChart data={siteInfo}/>
+                </Paper>
             </div>
         )
     }
 }
 
+Dashboard.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
-export default Dashboard
+export default withStyles(styles)(Dashboard);

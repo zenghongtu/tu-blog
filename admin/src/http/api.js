@@ -6,7 +6,7 @@
 import $ajax from './config'
 
 export const getSiteInfo = () => {
-    return $ajax.get('/siteInfo')
+    return $ajax.get('/site')
 };
 
 export const saveArticle = (content) => {

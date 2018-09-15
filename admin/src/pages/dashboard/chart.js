@@ -11,14 +11,14 @@ const SiteInfoLineChart = (props) => {
     return (
         // 99% per https://github.com/recharts/recharts/issues/172
         <ResponsiveContainer width="99%" height={320}>
-            <LineChart data={data}>
+            <LineChart data={data.dayViewsList}>
                 <XAxis dataKey="date"/>
                 <YAxis/>
                 <CartesianGrid vertical={false} strokeDasharray="3 3"/>
                 <Tooltip/>
                 <Legend/>
                 <Line type="monotone" dataKey="visitorNum" stroke="#82ca9d"/>
-                <Line type="monotone" dataKey="pageNum" stroke="#8884d8" activeDot={{r: 8}}/>
+                <Line type="monotone" dataKey="pageViews" stroke="#8884d8" activeDot={{r: 8}}/>
             </LineChart>
         </ResponsiveContainer>
     );
