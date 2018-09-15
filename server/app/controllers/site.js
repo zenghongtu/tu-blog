@@ -4,15 +4,19 @@
  */
 
 import Site from '../models/site';
+import client from "../utils/redis";
 
 class SiteControllers {
 
     async find(ctx) {
         try {
-            const _site = await Site.fetch();
-            const _ = _site[0];
-            Site.update({_id: _._id}, {$inc: {'uniqueVisitors': 1}});
-            ctx.body = _
+            const info_id = await client.get('info_id');
+            const pageViews = await client.get('pageViews');
+            await Site.findByIdAndUpdate(
+                info_id,
+                {pageViews}
+            );
+            ctx.body = await Site.findById(info_id)
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {
                 ctx.throw(404);
@@ -39,8 +43,8 @@ class SiteControllers {
 
     async add(ctx) {
         try {
-            const site = await new Site(ctx.request.body).save();
-            ctx.body = site;
+            const body = ctx.request.body;
+            ctx.body = await new Site(body).save();
         } catch (err) {
             ctx.throw(422);
         }
