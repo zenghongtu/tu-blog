@@ -28,6 +28,7 @@
     "koa-jwt": "^3.3.0",
     "koa-logger": "^3.1.0",
     "koa-router": "^7.3.0",
+    "koa2-cors": "^2.0.6",
     "mongoose": "5.2.14"
   },
   "devDependencies": {
