@@ -5,8 +5,6 @@
 
 import mongoose from 'mongoose';
 
-mongoose.Promise = global.Promise;
-
 const citySchema = new mongoose.Schema({
     name: {
         type: String,
