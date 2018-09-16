@@ -78,6 +78,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@koa/cors@2":
+  version "2.2.2"
+  resolved "http://registry.npm.taobao.org/@koa/cors/download/@koa/cors-2.2.2.tgz#9084ab7f58107734e6b19d602d99538eda73f2d0"
+
 abbrev@1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/abbrev/download/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -2488,10 +2492,6 @@ koa-router@^7.3.0:
 koa-unless@1.0.7:
   version "1.0.7"
   resolved "http://registry.npm.taobao.org/koa-unless/download/koa-unless-1.0.7.tgz#b9df375e2b4da3043918d48622520c2c0b79f032"
-
-koa2-cors@^2.0.6:
-  version "2.0.6"
-  resolved "http://registry.npm.taobao.org/koa2-cors/download/koa2-cors-2.0.6.tgz#9ad23df3a0b9bb84530b46f5944f3fb576086554"
 
 koa@^2.5.2:
   version "2.5.2"
