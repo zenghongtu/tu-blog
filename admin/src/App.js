@@ -31,6 +31,7 @@ import Read from "./pages/read";
 import Laboratory from "./pages/laboratory";
 import {connect} from "react-redux";
 import {logoutAction} from "./pages/login/store/actionCreators";
+import TopSnackbar from './common/topSnackbar'
 
 const drawerWidth = 190;
 
@@ -130,8 +131,9 @@ class App extends Component {
         return (
             <Router>
                 <div className={classes.layout}>
+                    <TopSnackbar></TopSnackbar>
                     {
-                        !isAuthenticated ?
+                        isAuthenticated ?
                             (
                                 <div className={classes.root}>
                                     <AppBar
