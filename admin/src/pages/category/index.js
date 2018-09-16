@@ -34,10 +34,8 @@ const styles = theme => ({
     },
     chip: {
         margin: theme.spacing.unit / 2,
-        cursor: 'pointer'
     },
     button: {
-        // width:'0',
         float: 'left',
         margin: theme.spacing.unit,
     },
@@ -102,14 +100,15 @@ class Category extends React.Component {
                             <Chip
                                 key={data._id}
                                 label={data.name}
-                                onDelete={(e) => {
-                                    e.preventDefault();
+                                onDelete={() => {
                                     deleteCategory(data._id);
                                 }}
                                 className={classes.chip}
-                                component={Link}
-                                to={"/categories/" + data._id}
-                                avatar={<Avatar>{data.name.slice(0, 2)}</Avatar>}
+                                avatar={
+                                    <Avatar component={Link} to={"/categories/" + data._id}>
+                                        {data.name.slice(0, 2)}
+                                    </Avatar>
+                                }
                             />
                         );
                     })}

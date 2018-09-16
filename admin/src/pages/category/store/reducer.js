@@ -23,7 +23,10 @@ const reducer = (state = initState, action) => {
         case ADD_CATEGORY:
             return state.push(action.content);
         case DELETE_CATEGORY:
-            return List.of(...action.content);
+            const idx = state.findKey((value) => {
+                return value._id === action.content._id
+            });
+            return state.delete(idx);
         default :
             return state
     }
