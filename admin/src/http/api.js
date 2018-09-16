@@ -9,6 +9,10 @@ export const login = (playload) => {
     return $ajax.post('/authenticate', playload)
 };
 
+export const changePassword = (name, password) => {
+    return $ajax.put('/users/:', {name, password})
+};
+
 export const getSiteInfo = () => {
     return $ajax.get('/site')
 };

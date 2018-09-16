@@ -15,8 +15,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from "@material-ui/core/Button/Button";
 
-import {$ajax} from "../../http";
-import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import {changePassword} from "../../http/api";
+import {connect} from "react-redux";
+import {setSnackbarAction} from "../../common/topSnackbar/store";
+import {ERROR, SUCCESS} from "../../common/topSnackbar/store/constants";
 
 const styles = theme => ({
     layout: {
@@ -31,6 +33,10 @@ const styles = theme => ({
 });
 
 class Profile extends React.Component {
+    state = {
+        showPassword: false,
+        open: false,
+    };
 
     handleChange = prop => event => {
         this.setState({[prop]: event.target.value});
@@ -43,23 +49,14 @@ class Profile extends React.Component {
     };
     handleChangePassword = async () => {
         const {password} = this.state;
-        const rsp = await $ajax.get(`/profile?pw=${password}`);
-        if ('ok' === rsp.message) {
-            this.setState(state => ({open: true}))
+        const {showMsg} = this.props;
+        try {
+            const rsp = await changePassword('tu', password);
+            showMsg(SUCCESS, rsp)
+        } catch (e) {
+            showMsg(ERROR, e.message)
         }
     };
-    handleClose = () => {
-        this.setState({open: false});
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            password: '',
-            showPassword: false,
-            open: false,
-        }
-    }
 
     render() {
         const {classes} = this.props;
@@ -90,16 +87,7 @@ class Profile extends React.Component {
                 <Button variant="contained" className={classNames(classes.item)} onClick={this.handleChangePassword}>
                     确定
                 </Button>
-                <Snackbar
-                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">修改成功</span>}
-                    className={classNames(classes.item)}
-                />
+
             </div>
         );
     }
@@ -109,4 +97,16 @@ Profile.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Profile);
+const mapDispatch = (dispatch) => {
+    return {
+        showMsg(status, rsp) {
+            dispatch(setSnackbarAction({
+                status,
+                isShow: true,
+                message: rsp
+            }))
+        }
+    }
+};
+
+export default connect(null, mapDispatch)(withStyles(styles)(Profile));
