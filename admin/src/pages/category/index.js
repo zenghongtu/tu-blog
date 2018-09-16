@@ -24,6 +24,7 @@ import {
     setCategoryHandler,
     addCategoryHandler
 } from "./store";
+import Modal from "@material-ui/core/Modal/Modal";
 
 const styles = theme => ({
     root: {
@@ -65,11 +66,23 @@ const styles = theme => ({
         margin: 0,
         marginRight: theme.spacing.unit,
     },
+    modalPaper: {
+        width: `75vw`,
+        position: 'absolute',
+        top: '20%',
+        left: '50%',
+        transform: `translateX(-50%)`,
+        overflowY: 'scroll',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+    },
 });
 
 class Category extends React.Component {
     state = {
-        open: false
+        open: false,
+        curCatIdx: -1,
     };
 
     componentDidMount() {
@@ -78,6 +91,12 @@ class Category extends React.Component {
 
     openInputBox = _ => _ => {
         this.setState({open: !this.state.open});
+    };
+
+    handleModalSwitch = (idx = -1) => () => {
+        this.setState({
+            curCatIdx: idx
+        })
     };
 
     render() {
@@ -95,7 +114,7 @@ class Category extends React.Component {
                     分类管理
                 </Typography>
                 <Paper className={classes.root}>
-                    {categories.map(data => {
+                    {categories.map((data, idx) => {
                         return (
                             <Chip
                                 key={data._id}
@@ -105,7 +124,7 @@ class Category extends React.Component {
                                 }}
                                 className={classes.chip}
                                 avatar={
-                                    <Avatar component={Link} to={"/categories/" + data._id}>
+                                    <Avatar onClick={this.handleModalSwitch(idx)}>
                                         {data.name.slice(0, 2)}
                                     </Avatar>
                                 }
@@ -133,6 +152,23 @@ class Category extends React.Component {
                         确定
                     </Button>
                 </div>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.curCatIdx > -1}
+                    onClose={this.handleModalSwitch()}
+                >
+                    <div className={classes.modalPaper}>
+                        { // todo
+                            categories[this.state.curCatIdx] ?
+                                categories[this.state.curCatIdx].articles.map(item => {
+                                    return <div key={item._id}>
+                                        {item._id}
+                                    </div>
+                                }) : null
+                        }
+                    </div>
+                </Modal>
             </React.Fragment>
         )
     }
