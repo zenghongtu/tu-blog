@@ -18,7 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import {loginAction} from "./store/actionCreators";
+import {loginActionHandler} from "./store/actionCreators";
 
 
 const styles = theme => ({
@@ -132,7 +132,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         login(account, password) {
-            dispatch(loginAction(account, password))
+            dispatch(loginActionHandler(account, password))
         }
     }
 };

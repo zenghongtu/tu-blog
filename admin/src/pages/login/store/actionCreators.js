@@ -3,26 +3,32 @@
  * Desc: actionCreators
  */
 
-import {$ajax} from "../../../http/index";
 import {LOGIN, LOGOUT} from "./constants";
+import {login} from "../../../http";
+import {setSnackbarAction} from "../../../common/topSnackbar/store";
+import {ERROR} from "../../../common/topSnackbar/store/constants";
 
-const loginActionHandler = (result) => {
+const loginAction = (result) => {
     return {
         type: LOGIN,
         content: {
             isAuthenticated: result.isAuthenticated,
-            token: result.data
+            token: result.token
         }
     }
 };
 
-const loginAction = (account, password) => {
+const loginActionHandler = (account, password) => {
     return async (dispatch) => {
         try {
-            const rsp = await $ajax.get(`/login?account=${account}&password=${password}`);
-            dispatch(loginActionHandler(rsp))
+            const data = await login({name: account, password});
+            dispatch(loginAction(data))
         } catch (err) {
-            throw new Error(err)
+            dispatch(setSnackbarAction({
+                status: ERROR,
+                isShow: true,
+                message: err.message
+            }))
         }
     }
 };
@@ -35,6 +41,6 @@ const logoutAction = () => {
 
 
 export {
-    loginAction,
+    loginActionHandler,
     logoutAction
 }
