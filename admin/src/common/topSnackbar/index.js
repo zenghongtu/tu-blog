@@ -112,12 +112,6 @@ const styles2 = theme => ({
 });
 
 class TopSnackbar extends React.Component {
-    state = {
-        open: false,
-        status: ERROR,
-        message: 'this is a success warning'
-    };
-
     handleClick = () => {
         const {setShow, isShow} = this.props;
         setShow(!isShow)
@@ -129,16 +123,13 @@ class TopSnackbar extends React.Component {
 
         return (
             <div>
-                <Button className={classes.margin} onClick={this.handleClick}>
-                    Open success snackbar
-                </Button>
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'top',
                         horizontal: 'center',
                     }}
                     open={isShow}
-                    autoHideDuration={1000}
+                    autoHideDuration={1500}
                     onClose={this.handleClick}
                 >
                     <SnackbarContentWrapper
@@ -147,7 +138,6 @@ class TopSnackbar extends React.Component {
                         message={message}
                     />
                 </Snackbar>
-
             </div>
         );
     }
