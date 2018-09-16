@@ -28,7 +28,7 @@ const addCategoryHandler = (name, el) => {
                 name
             });
             dispatch(addCategoryAction(rsp));
-            el.value = ''
+            if (el) el.value = ''
         } catch (err) {
             dispatch(setSnackbarAction({
                 status: ERROR,

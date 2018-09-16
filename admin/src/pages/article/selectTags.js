@@ -70,7 +70,7 @@ const styles = theme => ({
 });
 
 function NoOptionsMessage(props) {
-    const {addTag, classes, inputValue} = props.selectProps;
+    const {addTag, classes, inputValue, onChange} = props.selectProps;
     return (
         <MenuItem
             component="div"
@@ -194,7 +194,9 @@ class selectTags extends React.Component {
     };
 
     componentDidMount() {
-        this.props.getAllTags()
+        if (this.props.tags.length < 1) {
+            this.props.getAllTags()
+        }
     }
 
     render() {
@@ -213,8 +215,8 @@ class selectTags extends React.Component {
                     addTag={addTag}
                     style={{width: '200px'}}
                     options={tags.map(tag => ({
-                        value: tag,
-                        label: tag
+                        value: tag._id,
+                        label: tag.name
                     }))}
                     components={components}
                     value={this.props.value}
@@ -242,8 +244,8 @@ const mapToDispatch = (dispatch) => {
         getAllTags() {
             return dispatch(getAllTagsHandler())
         },
-        addTag(name) {
-            return dispatch(addTagHandler(name))
+        addTag(name, onChange) {
+            return dispatch(addTagHandler(name, onChange))
         }
     }
 };

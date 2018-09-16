@@ -195,7 +195,9 @@ class selectCategories extends React.Component {
     };
 
     componentDidMount() {
-        this.props.getAllCategory()
+        if (this.props.categories.length < 1) {
+            this.props.getAllCategory()
+        }
     }
 
     render() {
@@ -214,8 +216,8 @@ class selectCategories extends React.Component {
                     categories={addCategory}
                     style={{width: '200px'}}
                     options={categories.map(category => ({
-                        value: category,
-                        label: category
+                        value: category._id,
+                        label: category.name
                     }))}
                     components={components}
                     value={this.props.value}

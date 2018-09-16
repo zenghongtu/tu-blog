@@ -72,7 +72,7 @@ const addTagHandler = (name, el) => {
                 name
             });
             dispatch(addTagAction(rsp));
-            el.value = ''
+            if (el) el.value = ''
         } catch (err) {
             dispatch(setSnackbarAction({
                 status: ERROR,
