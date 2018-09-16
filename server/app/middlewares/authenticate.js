@@ -31,7 +31,8 @@ export default async ctx => {
                     expiresIn: expires
                 }
             ),
-            message: 'Successful Authentication'
+            isAuthenticated: true,
+            message: 'Successful Authentication',
         };
     } else {
         ctx.throw(401, {message: 'Authentication Failed'});
