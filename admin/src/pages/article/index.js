@@ -31,6 +31,9 @@ import {
     updateArticle,
     getArticle
 } from '../../http'
+import {connect} from "react-redux";
+import {setSnackbarAction} from "../../common/topSnackbar/store";
+import {ERROR} from "../../common/topSnackbar/store/constants";
 
 
 const styles = theme => ({
@@ -46,6 +49,10 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit * 3,
         marginRight: theme.spacing.unit * 3,
         padding: '10px 12px',
+    },
+    title: {
+        paddingLeft: '30px',
+        paddingRight: '30px',
     },
     margin: {
         margin: theme.spacing.unit,
@@ -82,42 +89,57 @@ const styles = theme => ({
 
 
 const state = {
-    id: '',
     title: '',
-    content: '',
+    desc: '',
+    body: '',
     tags: [],
-    categories: [],
-    is_publish: false,
+    category: [],
+    isPublish: true,
     showPreview: false
 };
 
 class Article extends React.Component {
-    state = Object.assign(state);
-    handleButtonClick = prop => _ => {
-        const state = this.state;
+    state = Object.assign({}, state);
 
-        switch (prop) {
-            case 'save':
-                state.id ? updateArticle(state)
-                    : saveArticle(state);
-                break;
-            case 'delete':
-                deleteArticle(state.id);
-                break;
-            case 'draft':
-                saveArticle({...state, is_publish: false});
-                break;
-            case 'preview':
-                this.handlePreview();
-                break;
-            default:
-                console.log(`未知 ${prop}`);
+    handleFormat = (arr) => {
+        return arr.map((item) => {
+            return item.value
+        })
+    };
+
+    handleButtonClick = prop => async _ => {
+        const state = this.state;
+        const {showSnackbar} = this.props;
+        try {
+            switch (prop) {
+                case 'save':
+                    const tags = this.handleFormat(state.tags);
+                    const category = this.handleFormat(state.category);
+                    state._id ? await updateArticle(Object.assign(state, {tags: tags}, {category: category}))
+                        : await saveArticle(Object.assign(state, {tags: tags}, {category: category}));
+                    break;
+                case 'delete':
+                    await deleteArticle(state._id);
+                    break;
+                case 'draft':
+                    const _tags = this.handleFormat(state.tags);
+                    const _category = this.handleFormat(state.category);
+                    await saveArticle(Object.assign(state, {tags: _tags}, {category: _category}, {isPublish: false}));
+                    break;
+                case 'preview':
+                    this.handlePreview();
+                    break;
+                default:
+                    console.log(`未知操作 ${prop}`);
+            }
+        } catch (err) {
+            showSnackbar(err)
         }
     };
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        if (id > -1) {
+        if (id) {
             this.fetchArticle(id)
         }
     }
@@ -138,10 +160,11 @@ class Article extends React.Component {
         const rsp = await getArticle(id);
         const article = rsp[0];
         this.setState({
-            id: article.id,
+            _id: article._id,
             title: article.title,
-            content: article.content,
-            is_publish: article.is_publish
+            body: article.body,
+            desc: article.desc,
+            isPublish: article.isPublish
         })
     }
 
@@ -162,13 +185,14 @@ class Article extends React.Component {
 
                 <Paper className={classes.root}>
                     <FormControl fullWidth className={classes.margin}>
-                        <InputLabel htmlFor="title-input">
+                        <InputLabel htmlFor="title-input" className={classes.title}>
                             标题
                         </InputLabel>
                         <Input id="title-input" onChange={handleChange('title')} value={state.title}/>
                     </FormControl>
                     <SelectTags onChange={handleSelectChange('tags')} value={state.tags}/>
-                    <SelectCategories onChange={handleSelectChange('categories')} value={state.categories}/>
+                    <SelectCategories onChange={handleSelectChange('category')} value={state.category}/>
+
 
                     <main className={classes.layout}>
                         <TextField
@@ -176,13 +200,30 @@ class Article extends React.Component {
                                 disableUnderline: true,
                                 fullWidth: true
                             }}
+                            placeholder={'描述'}
+                            className={classes.articleInput}
+                            rows={5}
+                            rowsMax={10}
+                            multiline
+                            fullWidth
+                            onChange={handleChange('desc')}
+                            value={state.desc}
+                        />
+                    </main>
+                    <main className={classes.layout}>
+                        <TextField
+                            InputProps={{
+                                disableUnderline: true,
+                                fullWidth: true
+                            }}
+                            placeholder={'内容'}
                             className={classes.articleInput}
                             rows={20}
                             rowsMax={20}
                             multiline
                             fullWidth
-                            onChange={handleChange('content')}
-                            value={state.content}
+                            onChange={handleChange('body')}
+                            value={state.body}
                         />
 
                     </main>
@@ -193,7 +234,7 @@ class Article extends React.Component {
                             发布
                         </Button>
                         {
-                            !state.is_publish && (
+                            !state.isPublish && (
                                 <Button onClick={handleButtonClick('draft')} variant="contained" size="small"
                                         className={classes.button}>
                                     <SaveIcon/>
@@ -215,7 +256,7 @@ class Article extends React.Component {
                 </Paper>
                 <Modal open={state.showPreview} onClose={handlePreview}>
                     <div className={classes.preview}>
-                        {remark().use(reactRenderer).processSync(state.content).contents}
+                        {remark().use(reactRenderer).processSync(state.desc + '<hr/>' + state.body).contents}
                     </div>
                 </Modal>
             </React.Fragment>
@@ -229,4 +270,15 @@ Article.propTypes = {
 };
 
 
-export default withStyles(styles)(Article);
+const mapDispatch = (dispatch) => ({
+        showSnackbar(err) {
+            dispatch(setSnackbarAction({
+                status: ERROR,
+                isShow: true,
+                message: err.message
+            }))
+        }
+    }
+);
+
+export default connect(null, mapDispatch)(withStyles(styles)(Article));

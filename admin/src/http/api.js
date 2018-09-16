@@ -34,7 +34,7 @@ export const getArticleList = (page, limit = 10) => {
 };
 
 export const getArticle = (id) => {
-    return $ajax.get(`/articles?id=${id}`)
+    return $ajax.get(`/articles/${id}`)
 };
 
 export const getBooks = () => {
