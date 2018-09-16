@@ -5,6 +5,7 @@
 
 import User from "../models/user";
 import ipCheck from '../utils/ipCheck'
+import bcrypt from "../utils/bcrypt";
 
 class UserControllers {
 
@@ -42,14 +43,25 @@ class UserControllers {
 
     async update(ctx) {
         try {
-            const user = await User.findByIdAndUpdate(
-                ctx.params.id,
-                ctx.request.body
-            );
+            const _body = ctx.request.body;
+            if (!_body) ctx.throw(400);
+            let user = null;
+            if (_body.password) {
+                const _password = await bcrypt(_body.password);
+                user = await User.findOneAndUpdate(
+                    {name: _body.name},
+                    {'password': _password}
+                );
+            } else {
+                user = await User.findByIdAndUpdate(
+                    ctx.params.id,
+                    _body
+                );
+            }
             if (!user) {
                 ctx.throw(404);
             }
-            ctx.body = user;
+            ctx.body = 'update success';
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {
                 ctx.throw(404);
