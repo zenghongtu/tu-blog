@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
 
-import {Link} from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
@@ -23,6 +22,7 @@ import {
     deleteTagHandler,
     addTagHandler
 } from "./store";
+import Modal from "@material-ui/core/Modal/Modal";
 
 const styles = theme => ({
     root: {
@@ -33,10 +33,8 @@ const styles = theme => ({
     },
     chip: {
         margin: theme.spacing.unit / 2,
-        cursor: 'pointer'
     },
     button: {
-        // width:'0',
         float: 'left',
         margin: theme.spacing.unit,
     },
@@ -66,24 +64,38 @@ const styles = theme => ({
         margin: 0,
         marginRight: theme.spacing.unit,
     },
+    modalPaper: {
+        width: `75vw`,
+        position: 'absolute',
+        top: '20%',
+        left: '50%',
+        transform: `translateX(-50%)`,
+        overflowY: 'scroll',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+    },
 });
 
 class Tag extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false
-        };
-        this.openInputBox = this.openInputBox.bind(this)
-    }
+    state = {
+        open: false,
+        curCatIdx: -1,
+    };
 
     componentDidMount() {
         this.props.getAllTags()
     }
 
-    openInputBox() {
+    openInputBox = _ => _ => {
         this.setState({open: !this.state.open});
-    }
+    };
+
+    handleModalSwitch = (idx = -1) => () => {
+        this.setState({
+            curCatIdx: idx
+        })
+    };
 
     render() {
         const {
@@ -97,27 +109,28 @@ class Tag extends React.Component {
         return (
             <React.Fragment>
                 <Typography variant="title" gutterBottom={true}>
-                    标签管理
+                    分类管理
                 </Typography>
                 <Paper className={classes.root}>
-                    {tags.map(data => {
+                    {tags.map((data, idx) => {
                         return (
                             <Chip
-                                key={data}
-                                label={data}
-                                onDelete={(e) => {
-                                    e.preventDefault();
-                                    deleteTag(data);
+                                key={data._id}
+                                label={data.name}
+                                onDelete={() => {
+                                    deleteTag(data._id);
                                 }}
                                 className={classes.chip}
-                                component={Link}
-                                to={"/" + data}
-                                avatar={<Avatar>{data.slice(0, 2)}</Avatar>}
+                                avatar={
+                                    <Avatar onClick={this.handleModalSwitch(idx)}>
+                                        {data.name.slice(0, 2)}
+                                    </Avatar>
+                                }
                             />
                         );
                     })}
                 </Paper>
-                <Button variant="fab" mini color="primary" aria-label="Add" onClick={this.openInputBox}
+                <Button variant="fab" mini color="primary" aria-label="Add" onClick={this.openInputBox()}
                         className={classes.button}>
                     <AddIcon/>
                 </Button>
@@ -132,11 +145,28 @@ class Tag extends React.Component {
                         }}
                     />
                     <Button variant="contained" color="primary" onClick={() => {
-                        addTag(this.el.value)
+                        addTag(this.el.value, this.el)
                     }}>
                         确定
                     </Button>
                 </div>
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.curCatIdx > -1}
+                    onClose={this.handleModalSwitch()}
+                >
+                    <div className={classes.modalPaper}>
+                        { // todo
+                            tags[this.state.curCatIdx] ?
+                                tags[this.state.curCatIdx].articles.map(item => {
+                                    return <div key={item._id}>
+                                        {item._id}
+                                    </div>
+                                }) : null
+                        }
+                    </div>
+                </Modal>
             </React.Fragment>
         )
     }
@@ -159,8 +189,8 @@ const mapDispatch = (dispatch) => {
         deleteTag(name) {
             return dispatch(deleteTagHandler(name))
         },
-        addTag(name) {
-            return dispatch(addTagHandler(name))
+        addTag(name, el) {
+            return dispatch(addTagHandler(name, el))
         },
     })
 };

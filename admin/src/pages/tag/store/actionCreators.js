@@ -11,6 +11,8 @@ import {
     DELETE_TAG,
     ADD_TAG,
 } from "./constants";
+import {setSnackbarAction} from "../../../common/topSnackbar/store";
+import {ERROR} from "../../../common/topSnackbar/store/constants";
 
 const getAllTagsAction = (result) => {
     return {
@@ -63,12 +65,21 @@ const addTagAction = (name) => {
     }
 };
 
-const addTagHandler = (name) => {
-    return async (dispath) => {
-        const rsp = await $ajax.post(`/tags`, {
-            name
-        });
-        dispath(addTagAction(rsp))
+const addTagHandler = (name, el) => {
+    return async (dispatch) => {
+        try {
+            const rsp = await $ajax.post(`/tags`, {
+                name
+            });
+            dispatch(addTagAction(rsp));
+            el.value = ''
+        } catch (err) {
+            dispatch(setSnackbarAction({
+                status: ERROR,
+                isShow: true,
+                message: err.message
+            }))
+        }
     }
 };
 

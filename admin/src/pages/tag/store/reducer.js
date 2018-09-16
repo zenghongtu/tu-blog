@@ -16,15 +16,20 @@ const initState = List([]);
 const reducer = (state = initState, action) => {
     switch (action.type) {
         case GET_ALL_TAGS:
-            return List.of(...action.content);
+            return List(action.content);
         case SET_TAGS:
             return List.of(...action.content);
         case DELETE_TAG:
-            return List.of(...action.content);
+            const idx = state.findKey((value) => {
+                return value._id === action.content._id
+            });
+            return state.delete(idx);
         case ADD_TAG:
-            return List.of(...action.content);
+            return state.push(action.content);
         default:
             return state
+
+
     }
 };
 
