@@ -70,21 +70,17 @@ const styles = theme => ({
 });
 
 class Category extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false
-        };
-        this.openInputBox = this.openInputBox.bind(this)
-    }
+    state = {
+        open: false
+    };
 
     componentDidMount() {
         this.props.getAllCategories()
     }
 
-    openInputBox() {
+    openInputBox = _ => _ => {
         this.setState({open: !this.state.open});
-    }
+    };
 
     render() {
         const {
@@ -104,21 +100,21 @@ class Category extends React.Component {
                     {categories.map(data => {
                         return (
                             <Chip
-                                key={data}
-                                label={data}
+                                key={data._id}
+                                label={data.name}
                                 onDelete={(e) => {
                                     e.preventDefault();
-                                    deleteCategory(data);
+                                    deleteCategory(data._id);
                                 }}
                                 className={classes.chip}
                                 component={Link}
-                                to={"/" + data}
-                                avatar={<Avatar>{data.slice(0, 2)}</Avatar>}
+                                to={"/categories/" + data._id}
+                                avatar={<Avatar>{data.name.slice(0, 2)}</Avatar>}
                             />
                         );
                     })}
                 </Paper>
-                <Button variant="fab" mini color="primary" aria-label="Add" onClick={this.openInputBox}
+                <Button variant="fab" mini color="primary" aria-label="Add" onClick={this.openInputBox()}
                         className={classes.button}>
                     <AddIcon/>
                 </Button>

@@ -17,7 +17,7 @@ const initState = List([]);
 const reducer = (state = initState, action) => {
     switch (action.type) {
         case GET_ALL_CATEGORY:
-            return List.of(...action.content);
+            return List(action.content);
         case SET_CATEGORY:
             return List.of(...action.content);
         case ADD_CATEGORY:
