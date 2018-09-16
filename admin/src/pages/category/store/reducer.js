@@ -21,7 +21,7 @@ const reducer = (state = initState, action) => {
         case SET_CATEGORY:
             return List.of(...action.content);
         case ADD_CATEGORY:
-            return List.of(...action.content);
+            return state.push(action.content);
         case DELETE_CATEGORY:
             return List.of(...action.content);
         default :

@@ -129,7 +129,7 @@ class Category extends React.Component {
                         }}
                     />
                     <Button variant="contained" color="primary" onClick={() => {
-                        addCategory(this.el.value)
+                        addCategory(this.el.value, this.el)
                     }}>
                         确定
                     </Button>
@@ -156,8 +156,8 @@ const mapDispatch = (dispatch) => {
         deleteCategory(name) {
             return dispatch(deleteCategoryHandler(name))
         },
-        addCategory(name) {
-            return dispatch(addCategoryHandler(name))
+        addCategory(name, el) {
+            return dispatch(addCategoryHandler(name, el))
         },
     })
 };

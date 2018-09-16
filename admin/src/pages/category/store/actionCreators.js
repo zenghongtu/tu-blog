@@ -10,6 +10,8 @@ import {
     DELETE_CATEGORY,
     GET_ALL_CATEGORY,
 } from "./constants";
+import {setSnackbarAction} from "../../../common/topSnackbar/store";
+import {ERROR} from "../../../common/topSnackbar/store/constants";
 
 
 const addCategoryAction = (name) => {
@@ -19,12 +21,21 @@ const addCategoryAction = (name) => {
     }
 };
 
-const addCategoryHandler = (name) => {
+const addCategoryHandler = (name, el) => {
     return async (dispatch) => {
-        const rsp = await $ajax.post('/categories', {
-            name
-        });
-        dispatch(addCategoryAction(rsp))
+        try {
+            const rsp = await $ajax.post('/categories', {
+                name
+            });
+            dispatch(addCategoryAction(rsp));
+            el.value = ''
+        } catch (err) {
+            dispatch(setSnackbarAction({
+                status: ERROR,
+                isShow: true,
+                message: err.message
+            }))
+        }
     }
 };
 
