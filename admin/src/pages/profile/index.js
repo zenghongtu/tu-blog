@@ -19,17 +19,23 @@ import {changePassword} from "../../http/api";
 import {connect} from "react-redux";
 import {setSnackbarAction} from "../../common/topSnackbar/store";
 import {ERROR, SUCCESS} from "../../common/topSnackbar/store/constants";
+import Paper from "@material-ui/core/Paper/Paper";
 
 const styles = theme => ({
-    layout: {
-        display: 'flex',
-        marginTop: theme.spacing.unit
+    root: {
+        width: '100%',
+        marginTop: theme.spacing.unit * 3,
+        padding: '15px',
+        boxSizing: 'border-box',
+    },
+    title: {
+        display: 'inline-block'
     },
     item: {
         textAlign: 'center',
         marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
     },
+
 });
 
 class Profile extends React.Component {
@@ -62,33 +68,38 @@ class Profile extends React.Component {
         const {classes} = this.props;
 
         return (
-            <div className={classes.layout}>
-                <Typography variant="body2" className={classes.item}>
-                    修改密码:
+            <React.Fragment>
+                <Typography variant="title" gutterBottom={true} className={classes.title}>
+                    个人设置
                 </Typography>
-                <Input
-                    id="adornment-password"
-                    type={this.state.showPassword ? 'text' : 'password'}
-                    value={this.state.password}
-                    onChange={this.handleChange('password')}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="Toggle password visibility"
-                                onClick={this.handleClickShowPassword}
-                                onMouseDown={this.handleMouseDownPassword}
-                            >
-                                {this.state.showPassword ? <VisibilityOff/> : <Visibility/>}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    className={classes.item}
-                />
-                <Button variant="contained" className={classNames(classes.item)} onClick={this.handleChangePassword}>
-                    确定
-                </Button>
-
-            </div>
+                <Paper className={classes.root}>
+                    <Typography variant="body1" gutterBottom={true} className={classes.title}>
+                        密码修改:
+                    </Typography>
+                    <Input
+                        id="adornment-password"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        value={this.state.password}
+                        onChange={this.handleChange('password')}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="Toggle password visibility"
+                                    onClick={this.handleClickShowPassword}
+                                    onMouseDown={this.handleMouseDownPassword}
+                                >
+                                    {this.state.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        className={classes.item}
+                    />
+                    <Button variant="contained" className={classNames(classes.item)}
+                            onClick={this.handleChangePassword}>
+                        确定
+                    </Button>
+                </Paper>
+            </React.Fragment>
         );
     }
 }
