@@ -9,6 +9,7 @@ import {
     SETSTATUS,
     SETSHOW,
     SETMESSAGE,
+    SETSNACKBAR,
     SUCCESS,
     WARNING,
     ERROR,
@@ -36,6 +37,13 @@ export const setMessageAction = (message) => {
     }
 };
 
+export const setSnackbarAction = (value) => {
+    return {
+        type: SETSNACKBAR,
+        value
+    }
+};
+
 const defaultStore = fromJS({
     status: SUCCESS,
     isShow: false,
@@ -50,6 +58,8 @@ export const reducer = (state = defaultStore, action) => {
             return state.set('isShow', action.value);
         case SETMESSAGE:
             return state.set('message', action.value);
+        case SETSNACKBAR:
+            return state.merge(action.value);
         default:
             return state
     }

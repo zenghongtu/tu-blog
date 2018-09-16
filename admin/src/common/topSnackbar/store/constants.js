@@ -12,3 +12,4 @@ export const INFO = 'info';
 export const SETSTATUS = 'topSnackbar/setStatus';
 export const SETSHOW = 'topSnackbar/setShow';
 export const SETMESSAGE = 'topSnackbar/setMessage';
+export const SETSNACKBAR = 'topSnackbar/setSnackbar';
