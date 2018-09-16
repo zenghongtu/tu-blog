@@ -5,6 +5,10 @@
 
 import $ajax from './config'
 
+export const login = (playload) => {
+    return $ajax.post('/authenticate', playload)
+};
+
 export const getSiteInfo = () => {
     return $ajax.get('/site')
 };

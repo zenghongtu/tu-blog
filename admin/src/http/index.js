@@ -19,10 +19,12 @@ import {
     addProject,
     updateProject,
     deleteProject,
+    login
 } from './api'
 
 export {
     $ajax,
+    login,
     getSiteInfo,
     saveArticle,
     deleteArticle,

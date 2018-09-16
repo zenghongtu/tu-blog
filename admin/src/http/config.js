@@ -33,18 +33,11 @@ ajax.interceptors.response.use(
         if (/^2/.test(res.status)) {
             return (res && res.data) || ''
         } else {
-            throw new Error(res.data.message)
+            throw new Error(res.data)
         }
     },
     (err) => {
-        if (err.response.status === 504 || err.response.status === 404) {
-            alert('服务器问题')
-        } else if (err.response.status === 403) {
-            alert('权限不足')
-        } else {
-            alert('未知错误')
-        }
-        throw new Error(err)
+        throw new Error(err.response.data)
     }
 );
 
