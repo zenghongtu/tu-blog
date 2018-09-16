@@ -12,11 +12,11 @@ class SiteControllers {
         try {
             const info_id = await client.get('info_id');
             const pageViews = await client.get('pageViews');
-            await Site.findByIdAndUpdate(
+            ctx.body = await Site.findByIdAndUpdate(
                 info_id,
-                {pageViews}
+                {pageViews},
+                {new: true}
             );
-            ctx.body = await Site.findById(info_id)
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {
                 ctx.throw(404);
