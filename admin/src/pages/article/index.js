@@ -54,8 +54,8 @@ const styles = theme => ({
         paddingLeft: '30px',
         paddingRight: '30px',
     },
-    margin: {
-        margin: theme.spacing.unit,
+    formControl: {
+        padding: '0 30px 5px'
     },
     button: {
         marginLeft: theme.spacing.unit * 3,
@@ -184,7 +184,7 @@ class Article extends React.Component {
                 </Typography>
 
                 <Paper className={classes.root}>
-                    <FormControl fullWidth className={classes.margin}>
+                    <FormControl fullWidth className={classes.formControl}>
                         <InputLabel htmlFor="title-input" className={classes.title}>
                             标题
                         </InputLabel>
@@ -202,8 +202,8 @@ class Article extends React.Component {
                             }}
                             placeholder={'描述'}
                             className={classes.articleInput}
-                            rows={5}
-                            rowsMax={10}
+                            rows={4}
+                            rowsMax={8}
                             multiline
                             fullWidth
                             onChange={handleChange('desc')}
@@ -234,7 +234,7 @@ class Article extends React.Component {
                             发布
                         </Button>
                         {
-                            !state.isPublish && (
+                            state.isPublish && (
                                 <Button onClick={handleButtonClick('draft')} variant="contained" size="small"
                                         className={classes.button}>
                                     <SaveIcon/>
@@ -256,7 +256,7 @@ class Article extends React.Component {
                 </Paper>
                 <Modal open={state.showPreview} onClose={handlePreview}>
                     <div className={classes.preview}>
-                        {remark().use(reactRenderer).processSync(state.desc + '<hr/>' + state.body).contents}
+                        {remark().use(reactRenderer).processSync(state.desc + '\n\r' + state.body).contents}
                     </div>
                 </Modal>
             </React.Fragment>
