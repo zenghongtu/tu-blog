@@ -15,19 +15,24 @@
         <div class="widget">
             <div class="widget-title">分类</div>
             <div class="category-list">
-                <div class="category-list-item" v-for="(category,idx) in categories" :key="idx">{{category}}</div>
+                <div class="category-list-item" v-for="category in categories" :key="category._id"
+                     @click="linkTo('category',category._id,category.name)">{{category.name}}
+                </div>
             </div>
         </div>
         <div class="widget">
             <div class="widget-title">标签</div>
             <div class="tag-list">
-                <span class="tag" v-for="(tag,idx) in tags" :key="idx">{{tag}}</span>
+                <span class="tag" v-for="tag in tags" :key="tag._id"
+                      @click="linkTo('tag',tag._id,tag.name)">{{tag.name}}</span>
             </div>
         </div>
         <div class="widget">
             <div class="widget-title">热门文章</div>
             <div class="article-list">
-                <div class="article-list-item" v-for="(title,idx) in titles" :key="idx">{{title}}</div>
+                <div class="article-list-item" v-for="item in titles" :key="item._id"
+                     @click="linkTo('article',item._id)">{{item.title}}
+                </div>
             </div>
         </div>
     </div>
@@ -43,13 +48,27 @@
                 titles: null,
             }
         },
-        methods: {},
-        async created() {
-            const rsp = await this.$ajax.get('/sidebar');
-            const data = rsp.data;
-            this.categories = data.categories;
-            this.tags = data.tags;
-            this.titles = data.titles
+        methods: {
+            getCategories() {
+                return this.$ajax.get('/categories?field=name')
+            },
+            getTags() {
+                return this.$ajax.get('/tags?field=name')
+            },
+            getTitles() {
+                return this.$ajax.get('/articles?page=0&limit=10&field=title&sort=meta.viewCount')
+            },
+            linkTo(location, _id, name = '') {
+                this.$router.push({name: location, params: {_id}, query: {name}})
+            }
+        },
+        created() {
+            this.axios.all([this.getCategories(), this.getTags(), this.getTitles()])
+                .then(this.axios.spread((categories, tags, titles) => {
+                    this.categories = categories.data;
+                    this.tags = tags.data;
+                    this.titles = titles.data.data
+                }))
         }
     }
 </script>

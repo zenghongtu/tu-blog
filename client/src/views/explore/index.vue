@@ -7,15 +7,15 @@
     <div class="wrap">
         <div class="left-wrap">
             <main class="left">
-                <article class="article-wrap" v-for="item in articles" :key="item.id">
-                    <a :href="'/article/'+item.id" class="article-title">
+                <article class="article-wrap" v-for="item in articles" :key="item._id">
+                    <a :href="'/article/'+item._id" class="article-title">
                         {{item.title}}
                     </a>
                     <div class="article-date">
-                        {{item.updatedAt}}
+                        {{item.meta.updateAt}}
                     </div>
                     <p class="article-content">
-                        {{item.content}}
+                        {{item.desc}}
                     </p>
                     <p class="read-more-wrap">
                         <a :href="'/article/'+item.id" class="read-more">
@@ -43,7 +43,7 @@
         },
         data() {
             return {
-                articles: undefined,
+                articles: null,
                 articleTotal: 0,
                 limit: 10,
                 curPage: 1,
@@ -55,11 +55,11 @@
             }
         },
         methods: {
-            fetchArticles(page = 1, limit = this.limit) {
-                this.$ajax.get(`/articles?_page=${page}&_limit=${limit}`).then(rsp => {
-                    this.articleTotal = +rsp.headers['x-total-count'];
+            fetchArticles(page = 0, limit = this.limit) {
+                this.$ajax.get(`/articles?page=${page}&limit=${limit}&field=-body`).then(rsp => {
+                    this.articleTotal = rsp.data.total;
                     this.curPage = page;
-                    this.articles = rsp.data;
+                    this.articles = rsp.data.data;
                 })
             },
             getNewArticles(page) {
