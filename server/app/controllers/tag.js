@@ -4,6 +4,7 @@
  */
 
 import Tag from '../models/tag';
+import Category from "../models/category";
 
 class TagControllers {
 
@@ -13,9 +14,11 @@ class TagControllers {
     }
 
     async findById(ctx) {
-        const id = ctx.params.id;
+        const _id = ctx.params.id;
         try {
-            const tag = await Tag.findById(id);
+            const tag = await Tag.find({_id})
+                .populate('articles', 'title meta')
+                .exec();
             if (!tag) {
                 ctx.throw(404);
             }

@@ -13,9 +13,11 @@ class CategoryControllers {
     }
 
     async findById(ctx) {
-        const id = ctx.params.id;
+        const _id = ctx.params.id;
         try {
-            const category = await Category.findById(id);
+            const category = await Category.find({_id})
+                .populate('articles', 'title meta')
+                .exec();
             if (!category) {
                 ctx.throw(404);
             }
