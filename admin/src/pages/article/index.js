@@ -108,28 +108,30 @@ class Article extends React.Component {
     };
 
     handleButtonClick = prop => async _ => {
-        const state = this.state;
+        const _state = this.state;
         const {showSnackbar} = this.props;
-        if (state.tags.length < 1 || state.category.length < 1) {
-            return showSnackbar('分类或标签不能为空😯', WARNING)
-        }
+
         try {
             switch (prop) {
                 case 'save':
-                    const tags = this.handleFormat(state.tags);
-                    const category = this.handleFormat(state.category);
-                    state._id ? await updateArticle(Object.assign({}, state, {tags: tags}, {category: category}))
-                        : await saveArticle(Object.assign({}, state, {tags: tags}, {category: category}));
+                    if (_state.tags.length < 1 || _state.category.length < 1) {
+                        return showSnackbar('分类或标签不能为空😯', WARNING)
+                    }
+                    const tags = this.handleFormat(_state.tags);
+                    const category = this.handleFormat(_state.category);
+                    _state._id ? await updateArticle(Object.assign({}, _state, {tags: tags}, {category: category}))
+                        : await saveArticle(Object.assign({}, _state, {tags: tags}, {category: category}));
                     return showSnackbar('保存成功', SUCCESS);
 
-                case 'delete':
-                    await deleteArticle(state._id);
-                    return showSnackbar('删除成功', SUCCESS);
-
+                case 'empty':
+                    return this.setState(state);
                 case 'draft':
-                    const _tags = this.handleFormat(state.tags);
-                    const _category = this.handleFormat(state.category);
-                    await saveArticle(Object.assign({}, state, {tags: _tags}, {category: _category}, {isPublish: false}));
+                    if (_state.tags.length < 1 || _state.category.length < 1) {
+                        return showSnackbar('分类或标签不能为空😯', WARNING)
+                    }
+                    const _tags = this.handleFormat(_state.tags);
+                    const _category = this.handleFormat(_state.category);
+                    await saveArticle(Object.assign({}, _state, {tags: _tags}, {category: _category}, {isPublish: false}));
                     return showSnackbar('保存成功', SUCCESS);
 
                 case 'preview':
@@ -257,10 +259,10 @@ class Article extends React.Component {
                             <LocalSeeIcon/>
                             预览
                         </Button>
-                        <Button onClick={handleButtonClick('delete')} variant="contained" size="small" color="secondary"
+                        <Button onClick={handleButtonClick('empty')} variant="contained" size="small" color="secondary"
                                 className={classes.button}>
                             <DeleteIcon/>
-                            删除
+                            清空
                         </Button>
                     </div>
                 </Paper>
