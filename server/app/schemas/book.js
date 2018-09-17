@@ -9,7 +9,10 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const BookSchema = new Schema({
-    title: String,
+    title: {
+        type: String,
+        unique: true
+    },
     authors: [{
         type: String
     }],
@@ -39,10 +42,13 @@ BookSchema.pre('save', function (next) {
 });
 
 BookSchema.statics = {
-    fetch: function () {
+    fetch: function (limit, page, field = '') {
         return this
             .find({})
+            .skip(page)
+            .limit(limit)
             .sort('meta.updateAt')
+            .select(field)
             .exec()
     },
     findById: function (id) {

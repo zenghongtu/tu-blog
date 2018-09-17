@@ -26,6 +26,9 @@ import {
 } from "../../http";
 import Modal from "@material-ui/core/Modal/Modal";
 import TextField from "@material-ui/core/TextField/TextField";
+import {ERROR} from "../../common/topSnackbar/store/constants";
+import {setSnackbarAction} from "../../common/topSnackbar/store";
+import {connect} from "react-redux";
 
 const styles = theme => ({
     root: {
@@ -91,11 +94,11 @@ const styles = theme => ({
 
 class ReadBook extends React.Component {
     state = {
-        book_list: [],
         page: 0,
         limit: 9,
+        book_list: [],
+        book_total: 0,
         modalOpen: false,
-        id: '',
         book_title: '',
         book_authors: '',
         book_articles: '',
@@ -104,23 +107,23 @@ class ReadBook extends React.Component {
     handleChangePage = (event, page) => {
         this.setState({page});
     };
+    handleEditBook = (row) => _ => {
+        this.setState({
+            modalOpen: true,
+            _id: row._id,
+            book_title: row.title,
+            book_authors: row.authors.join(' | '),
+            book_articles: row.articles.join('|'),
+        })
+    };
 
     async getBookList() {
         const rsp = await getBooks();
         this.setState({
-            book_list: rsp
+            book_total: rsp.total,
+            book_list: rsp.data
         })
     }
-
-    handleEditBook = (row) => _ => {
-        this.setState({
-            modalOpen: true,
-            id: row.id,
-            book_title: row.title,
-            book_authors: row.authors.join(' | '),
-            book_articles: row.articles.map(item => item.article).join(' | '),
-        })
-    };
     handleModalSwitch = () => {
         this.setState({
             modalOpen: !this.state.modalOpen
@@ -136,37 +139,51 @@ class ReadBook extends React.Component {
     };
 
     async addNewBook() {
-        const rsp = await addBook({
-            title: this.state.book_title,
-            authors: this.state.book_authors,
-            articles: this.state.book_articles,
-        });
-        this.getBookList();
-        this.setState({
-            modalOpen: false,
-            book_title: '',
-            book_authors: '',
-            book_articles: '',
-        })
+        try {
+            const rsp = await addBook({
+                title: this.state.book_title,
+                authors: this.state.book_authors.split('|'),
+                articles: this.state.book_articles.split('|'),
+            });
+            this.getBookList();
+            this.setState({
+                modalOpen: false,
+                book_title: '',
+                book_authors: '',
+                book_articles: '',
+            })
+        } catch (err) {
+            this.props.showSnackbar(err.message)
+        }
     }
 
-    async deleteBook(id) {
-        const rsp = await deleteBook(id)
+    async deleteBook(_id) {
+        const rsp = await deleteBook(_id);
+        this.setState(state => {
+            const book_list = state.book_list;
+            return {
+                book_list: book_list.filter(item => item._id !== _id)
+            }
+        })
     }
 
     async updateBook() {
-        const rps = await updateBook(this.state.id, {
-            title: this.state.book_title,
-            authors: this.state.book_authors,
-            articles: this.state.book_articles,
-        });
-        this.getBookList();
-        this.setState({
-            modalOpen: false,
-            book_title: '',
-            book_authors: '',
-            book_articles: '',
-        })
+        try {
+            const rsp = await updateBook(this.state._id, {
+                title: this.state.book_title,
+                authors: this.state.book_authors,
+                articles: this.state.book_articles,
+            });
+            this.getBookList();
+            this.setState({
+                modalOpen: false,
+                book_title: '',
+                book_authors: '',
+                book_articles: '',
+            })
+        } catch (err) {
+            this.props.showSnackbar(err.message)
+        }
     }
 
     componentDidMount() {
@@ -175,9 +192,8 @@ class ReadBook extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const {book_list, page, limit} = this.state;
-        const emptyRows = limit - Math.min(limit, book_list.length - page * limit);
-        const cur_list = book_list.slice(page * limit, page * limit + limit);
+        const {book_list, book_total, page, limit} = this.state;
+        const emptyRows = limit - Math.min(limit, book_total - page * limit);
 
         return (
             <React.Fragment>
@@ -192,9 +208,9 @@ class ReadBook extends React.Component {
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table}>
                             <TableBody>
-                                {cur_list.map(row => {
+                                {book_list.map(row => {
                                     return (
-                                        <TableRow key={row.id} className={classes.tableRow}>
+                                        <TableRow key={row._id} className={classes.tableRow}>
                                             <TableCell className={classes.tableCell} component="th" scope="row">
                                                 <Typography variant="subheading" gutterBottom={true}>
                                                     {row.title}
@@ -203,7 +219,7 @@ class ReadBook extends React.Component {
                                             <TableCell className={classes.tableCell}
                                                        numeric>{row.authors.join(' / ')}</TableCell>
                                             <TableCell className={classes.tableCell}
-                                                       numeric>{row.articles.map(item => item.article)}</TableCell>
+                                                       numeric>{row.articles.join('|')}</TableCell>
                                             <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
                                                        numeric>
                                                 <Button variant="contained" className={classes.button}
@@ -214,7 +230,7 @@ class ReadBook extends React.Component {
                                                 <Button variant="contained" color="secondary"
                                                         className={classes.button}
                                                         onClick={() => {
-                                                            this.deleteBook(row.id)
+                                                            this.deleteBook(row._id)
                                                         }}
                                                 >
                                                     删除
@@ -232,7 +248,7 @@ class ReadBook extends React.Component {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        count={book_list.length}
+                                        count={book_total}
                                         rowsPerPage={limit}
                                         page={page}
                                         onChangePage={this.handleChangePage}
@@ -279,7 +295,7 @@ class ReadBook extends React.Component {
                                 margin="normal"
                             />
                             <Button variant="contained" className={classes.button}
-                                    onClick={this.state.id ? () => this.updateBook()
+                                    onClick={this.state._id ? () => this.updateBook()
                                         : this.handleAddButton}>
                                 确定
                             </Button>
@@ -295,4 +311,15 @@ ReadBook.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ReadBook);
+const mapDispatch = (dispatch) => ({
+        showSnackbar(message, status = ERROR, isShow = true) {
+            dispatch(setSnackbarAction({
+                status,
+                isShow,
+                message
+            }))
+        }
+    }
+);
+
+export default connect(null, mapDispatch)(withStyles(styles)(ReadBook));

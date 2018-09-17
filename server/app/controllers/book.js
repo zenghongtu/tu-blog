@@ -8,8 +8,12 @@ import Book from '../models/book';
 class BookControllers {
 
     async find(ctx) {
-        const field = ctx.query.field || '';
-        ctx.body = await Book.fetch(field);
+        const limit = ctx.query.limit || null;
+        const page = ctx.query.page || null;
+        const field = ctx.query.field || null;
+        const total = await Book.count();
+        const _body = await Book.fetch(+limit, +page, field);
+        ctx.body = {total, data: _body}
     }
 
     async findById(ctx) {
@@ -41,7 +45,8 @@ class BookControllers {
         try {
             const book = await Book.findByIdAndUpdate(
                 ctx.params.id,
-                ctx.request.body
+                ctx.request.body,
+                {new: true}
             );
             if (!book) {
                 ctx.throw(404);
