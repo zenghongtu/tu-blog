@@ -12,6 +12,8 @@ import About from '../views/about/index.vue';
 import Laboratory from '../views/laboratory/index.vue';
 import Home from '../views/home/index.vue';
 import Article from '../views/article/index.vue';
+import Category from '../views/category/index.vue';
+import Tag from '../views/tag/index.vue';
 
 Vue.use(Router);
 
@@ -21,6 +23,16 @@ export default new Router({
             path: '/read',
             name: 'read',
             component: Read,
+        },
+        {
+            path: '/tag/:_id',
+            name: 'tag',
+            component: Tag,
+        },
+        {
+            path: '/category/:_id',
+            name: 'category',
+            component: Category,
         },
         {
             path: '/explore',
@@ -38,12 +50,12 @@ export default new Router({
             component: About,
         },
         {
-            path: '/laboratory',
+            path: '/laboratory/',
             name: 'laboratory',
             component: Laboratory,
         },
         {
-            path: '/article/:id',
+            path: '/article/:_id',
             name: 'article',
             component: Article,
         },
