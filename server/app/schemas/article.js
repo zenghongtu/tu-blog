@@ -11,7 +11,7 @@ const ObjectId = Schema.Types.ObjectId;
 const ArticleSchema = new Schema({
     title: {
         type: String,
-        required: true,
+        unique: true
     }, // 标题
     desc: String,  // 摘要
     body: {
