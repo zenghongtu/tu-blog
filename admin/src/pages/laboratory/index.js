@@ -25,6 +25,9 @@ import {
 } from "../../http";
 import Modal from "@material-ui/core/Modal/Modal";
 import TextField from "@material-ui/core/TextField/TextField";
+import {ERROR} from "../../common/topSnackbar/store/constants";
+import {setSnackbarAction} from "../../common/topSnackbar/store";
+import connect from "react-redux/es/connect/connect";
 
 const styles = theme => ({
     root: {
@@ -94,10 +97,10 @@ const styles = theme => ({
 class Laboratory extends React.Component {
     state = {
         project_list: [],
+        project_total: 0,
         page: 0,
         limit: 9,
         modalOpen: false,
-        id: '',
         project_name: '',
         project_url: '',
         project_star: '',
@@ -109,16 +112,16 @@ class Laboratory extends React.Component {
     handleChangePage = (event, page) => {
         this.setState({page});
     };
-    handleEditProject = (row) => _ => {
+    handleEditProject = (project) => _ => {
         this.setState({
             modalOpen: true,
-            id: row.id,
-            project_name: row.name,
-            project_url: row.url,
-            project_star: row.star,
-            project_fork: row.fork,
-            project_desc: row.desc,
-            project_articles: row.articles.map(item => item.article).join(' | '),
+            _id: project._id,
+            project_name: project.name,
+            project_url: project.url,
+            project_star: project.star,
+            project_fork: project.fork,
+            project_desc: project.desc,
+            project_articles: project.articles.join('|'),
         })
     };
     handleModalSwitch = () => {
@@ -137,56 +140,72 @@ class Laboratory extends React.Component {
 
     async getProjectList() {
         const rsp = await getProjects();
-        const list = [...rsp.contribute, ...rsp.create];
+
         this.setState({
-            project_list: list
+            project_total: rsp.total,
+            project_list: rsp.data
         })
     }
 
     async addNewProject() {
-        const rsp = await addProject({
-            name: this.state.project_name,
-            url: this.state.project_url,
-            star: this.state.project_star,
-            fork: this.state.project_fork,
-            desc: this.state.project_desc,
-            articles: this.state.project_articles,
-        });
-        this.getProjectList();
-        this.setState({
-            modalOpen: false,
-            name: '',
-            url: '',
-            star: '',
-            fork: '',
-            desc: '',
-            articles: '',
-        })
+        try {
+            const rsp = await addProject({
+                name: this.state.project_name,
+                url: this.state.project_url,
+                star: this.state.project_star,
+                fork: this.state.project_fork,
+                desc: this.state.project_desc,
+                articles: this.state.project_articles.split('|'),
+            });
+            this.getProjectList();
+            this.setState({
+                modalOpen: false,
+                name: '',
+                url: '',
+                star: '',
+                fork: '',
+                desc: '',
+                articles: '',
+            })
+        } catch (err) {
+            this.props.showSnackbar(err.message)
+        }
     }
 
-    async deleteProject(id) {
-        const rsp = await deleteProject(id)
+    async deleteProject(_id) {
+        const rsp = await deleteProject(_id);
+        this.setState(state => {
+            const project_list = state.project_list;
+            return {
+                project_list: project_list.filter(item => item._id !== _id)
+            }
+        })
     }
 
     async updateProject() {
-        const rps = await updateProject(this.state.id, {
-            name: this.state.project_name,
-            url: this.state.project_url,
-            star: this.state.project_star,
-            fork: this.state.project_fork,
-            desc: this.state.project_desc,
-            articles: this.state.project_articles,
-        });
-        this.getProjectList();
-        this.setState({
-            modalOpen: false,
-            name: '',
-            url: '',
-            star: '',
-            fork: '',
-            desc: '',
-            articles: '',
-        })
+        try {
+
+            const rps = await updateProject(this.state._id, {
+                name: this.state.project_name,
+                url: this.state.project_url,
+                star: this.state.project_star,
+                fork: this.state.project_fork,
+                desc: this.state.project_desc,
+                articles: this.state.project_articles.split('|'),
+            });
+            this.getProjectList();
+            this.setState({
+                modalOpen: false,
+                name: '',
+                url: '',
+                star: '',
+                fork: '',
+                desc: '',
+                articles: '',
+            })
+        } catch (err) {
+            this.props.showSnackbar(err.message)
+        }
     }
 
     componentDidMount() {
@@ -195,9 +214,8 @@ class Laboratory extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const {project_list, page, limit} = this.state;
-        const emptyRows = limit - Math.min(limit, project_list.length - page * limit);
-        const cur_list = project_list.slice(page * limit, page * limit + limit);
+        const {project_list, project_total, page, limit} = this.state;
+        const emptyRows = limit - Math.min(limit, project_total - page * limit);
 
         return (
             <React.Fragment>
@@ -212,29 +230,29 @@ class Laboratory extends React.Component {
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table}>
                             <TableBody>
-                                {cur_list.map(row => {
+                                {project_list.map(project => {
                                     return (
-                                        <TableRow key={row.id} className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell} component="th" scope="row">
+                                        <TableRow key={project._id} className={classes.tableRow}>
+                                            <TableCell className={classes.tableCell} component="th" scope="project">
                                                 <Typography variant="subheading" gutterBottom={true}>
-                                                    <a href={row.url}>{row.name}</a>
+                                                    <a href={project.url}>{project.name}</a>
                                                 </Typography>
                                             </TableCell>
 
-                                            <TableCell className={classes.tableCell} numeric>{row.desc}</TableCell>
+                                            <TableCell className={classes.tableCell} numeric>{project.desc}</TableCell>
                                             <TableCell className={classNames(classes.tableCell, classes.tableSecond)}
-                                                       numeric>{row.articles.map(item => item.article).join(' | ')}</TableCell>
+                                                       numeric>{project.articles}</TableCell>
                                             <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
                                                        numeric>
                                                 <Button variant="contained" className={classes.button}
-                                                        onClick={this.handleEditProject(row)}
+                                                        onClick={this.handleEditProject(project)}
                                                 >
                                                     编辑
                                                 </Button>
                                                 <Button variant="contained" color="secondary"
                                                         className={classes.button}
                                                         onClick={() => {
-                                                            this.deleteProject(row.id)
+                                                            this.deleteProject(project._id)
                                                         }}
                                                 >
                                                     删除
@@ -252,7 +270,7 @@ class Laboratory extends React.Component {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        count={project_list.length}
+                                        count={project_total}
                                         rowsPerPage={limit}
                                         page={page}
                                         onChangePage={this.handleChangePage}
@@ -305,7 +323,7 @@ class Laboratory extends React.Component {
                                 margin="normal"
                             />
                             <Button variant="contained" className={classes.button}
-                                    onClick={this.state.id ? () => this.updateProject()
+                                    onClick={this.state._id ? () => this.updateProject()
                                         : this.handleAddButton}>
                                 确定
                             </Button>
@@ -320,5 +338,16 @@ class Laboratory extends React.Component {
 Laboratory.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+const mapDispatch = (dispatch) => ({
+        showSnackbar(message, status = ERROR, isShow = true) {
+            dispatch(setSnackbarAction({
+                status,
+                isShow,
+                message
+            }))
+        }
+    }
+);
 
-export default withStyles(styles)(Laboratory);
+export default connect(null, mapDispatch)(withStyles(styles)(Laboratory));
+

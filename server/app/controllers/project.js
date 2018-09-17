@@ -8,8 +8,12 @@ import Project from '../models/project';
 class ProjectControllers {
 
     async find(ctx) {
-        const field = ctx.query.field || '';
-        ctx.body = await Project.fetch(field);
+        const limit = ctx.query.limit || null;
+        const page = ctx.query.page || null;
+        const field = ctx.query.field || null;
+        const total = await Project.count();
+        const _body = await Project.fetch(+limit, +page, field);
+        ctx.body = {total, data: _body}
     }
 
     async findById(ctx) {
@@ -39,9 +43,10 @@ class ProjectControllers {
 
     async update(ctx) {
         try {
-            const project = await Project.findByIdAndUpdate(
+            const book = await Project.findByIdAndUpdate(
                 ctx.params.id,
-                ctx.request.body
+                ctx.request.body,
+                {new: true}
             );
             if (!project) {
                 ctx.throw(404);

@@ -10,7 +10,10 @@ const ObjectId = Schema.Types.ObjectId;
 
 
 const ProjectSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        unique: true
+    },
     url: String,
     stars: Number,
     forks: Number,
@@ -50,10 +53,13 @@ ProjectSchema.pre('save', function (next) {
 });
 
 ProjectSchema.statics = {
-    fetch: function () {
+    fetch: function (limit, page, field = '') {
         return this
             .find({})
+            .skip(page)
+            .limit(limit)
             .sort('meta.updateAt')
+            .select(field)
             .exec()
     },
     findById: function (id) {
