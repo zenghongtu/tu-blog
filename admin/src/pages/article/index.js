@@ -33,7 +33,7 @@ import {
 } from '../../http'
 import {connect} from "react-redux";
 import {setSnackbarAction} from "../../common/topSnackbar/store";
-import {ERROR} from "../../common/topSnackbar/store/constants";
+import {ERROR, SUCCESS, WARNING} from "../../common/topSnackbar/store/constants";
 
 
 const styles = theme => ({
@@ -110,22 +110,28 @@ class Article extends React.Component {
     handleButtonClick = prop => async _ => {
         const state = this.state;
         const {showSnackbar} = this.props;
+        if (state.tags.length < 1 || state.category.length < 1) {
+            return showSnackbar('分类或标签不能为空😯', WARNING)
+        }
         try {
             switch (prop) {
                 case 'save':
                     const tags = this.handleFormat(state.tags);
                     const category = this.handleFormat(state.category);
-                    state._id ? await updateArticle(Object.assign(state, {tags: tags}, {category: category}))
-                        : await saveArticle(Object.assign(state, {tags: tags}, {category: category}));
-                    break;
+                    state._id ? await updateArticle(Object.assign({}, state, {tags: tags}, {category: category}))
+                        : await saveArticle(Object.assign({}, state, {tags: tags}, {category: category}));
+                    return showSnackbar('保存成功', SUCCESS);
+
                 case 'delete':
                     await deleteArticle(state._id);
-                    break;
+                    return showSnackbar('删除成功', SUCCESS);
+
                 case 'draft':
                     const _tags = this.handleFormat(state.tags);
                     const _category = this.handleFormat(state.category);
-                    await saveArticle(Object.assign(state, {tags: _tags}, {category: _category}, {isPublish: false}));
-                    break;
+                    await saveArticle(Object.assign({}, state, {tags: _tags}, {category: _category}, {isPublish: false}));
+                    return showSnackbar('保存成功', SUCCESS);
+
                 case 'preview':
                     this.handlePreview();
                     break;
@@ -133,7 +139,11 @@ class Article extends React.Component {
                     console.log(`未知操作 ${prop}`);
             }
         } catch (err) {
-            showSnackbar(err)
+            if (err.message === 'Unprocessable Entity') {
+                showSnackbar('该标题已经发布过了😯')
+            } else {
+                showSnackbar(err.message)
+            }
         }
     };
 
@@ -256,7 +266,7 @@ class Article extends React.Component {
                 </Paper>
                 <Modal open={state.showPreview} onClose={handlePreview}>
                     <div className={classes.preview}>
-                        {remark().use(reactRenderer).processSync(state.desc + '\n\r' + state.body).contents}
+                        {remark().use(reactRenderer).processSync(state.desc + '----\n\r' + state.body).contents}
                     </div>
                 </Modal>
             </React.Fragment>
@@ -271,11 +281,11 @@ Article.propTypes = {
 
 
 const mapDispatch = (dispatch) => ({
-        showSnackbar(err) {
+        showSnackbar(message, status = ERROR, isShow = true) {
             dispatch(setSnackbarAction({
-                status: ERROR,
-                isShow: true,
-                message: err.message
+                status,
+                isShow,
+                message
             }))
         }
     }
