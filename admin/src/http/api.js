@@ -29,8 +29,8 @@ export const updateArticle = (id, content) => {
     return $ajax.put(`/articles/${id}`, content)
 };
 
-export const getArticleList = (page, limit = 10) => {
-    return $ajax.get(`/articles`)
+export const getArticleList = (page, limit = 10, field = '-body') => {
+    return $ajax.get(`/articles?page=${page}&limit=${limit}&field=${field}`)
 };
 
 export const getArticle = (id) => {

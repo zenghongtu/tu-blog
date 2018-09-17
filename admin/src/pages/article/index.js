@@ -169,8 +169,9 @@ class Article extends React.Component {
     };
 
     async fetchArticle(id) {
+        // todo
         const rsp = await getArticle(id);
-        const article = rsp[0];
+        const article = rsp.article;
         this.setState({
             _id: article._id,
             title: article.title,

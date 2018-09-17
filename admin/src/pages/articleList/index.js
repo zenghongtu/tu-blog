@@ -51,7 +51,8 @@ const styles = theme => ({
 class ArticleList extends React.Component {
     state = {
         page: 0,
-        limit: 9,
+        limit: 10,
+        article_total: 0,
         article_list: []
     };
 
@@ -63,7 +64,8 @@ class ArticleList extends React.Component {
         const {page, limit} = this.state;
         const rsp = await getArticleList(page, limit);
         this.setState({
-            article_list: rsp
+            article_total: rsp.total,
+            article_list: rsp.data
         })
     }
 
@@ -73,9 +75,8 @@ class ArticleList extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const {article_list, rows, limit, page} = this.state;
-        const emptyRows = limit - Math.min(limit, article_list.length - page * limit);
-        const cur_list = article_list.slice(page * limit, page * limit + limit);
+        const {article_list, article_total, limit, page} = this.state;
+        const emptyRows = limit - Math.min(limit, article_total - page * limit);
 
         return (
             <React.Fragment>
@@ -86,33 +87,34 @@ class ArticleList extends React.Component {
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table}>
                             <TableBody>
-                                {cur_list.map(row => {
+                                {article_list.map(article => {
                                     return (
-                                        <TableRow key={row.id} className={classes.tableRow}>
+                                        <TableRow key={article._id} className={classes.tableRow}>
                                             <TableCell component="th" scope="row">
                                                 <Typography variant="subheading" gutterBottom={true}>
-                                                    {row.title}
+                                                    {article.title}
                                                 </Typography>
                                                 <div>
                                                     阅读数:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{row.viewsCount}</span>
+                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.viewCount}</span>
                                                     评论数:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{row.likeCount}</span>
+                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.favoriteCount}</span>
                                                     喜欢数:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{row.commentCount}</span>
+                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.commentsCount}</span>
                                                     最后编辑:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{row.updatedAt.slice(0, 10)}</span>
+                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.updateAt.slice(0, 10)}</span>
                                                 </div>
                                             </TableCell>
                                             <TableCell numeric
-                                                       className={row.is_publish ? classes.light : classes.dark}>{row.is_publish ? '已发布' : '草稿'}</TableCell>
+                                                       className={article.isPublish ? classes.light : classes.dark}>{article.isPublish ? '已发布' : '草稿'}</TableCell>
                                             <TableCell numeric>
                                                 <Button variant="contained" className={classes.button} component={Link}
-                                                        to={`/article/${row.id}`}>
+                                                        to={`/article/${article._id}`}>
                                                     编辑
                                                 </Button>
                                                 <Button variant="contained" color="primary" className={classes.button}
-                                                        component={Link} to="/open-collective">
+                                                    // todo
+                                                        component={Link} to="/">
                                                     查看
                                                 </Button>
                                                 <Button variant="contained" color="secondary"
@@ -132,7 +134,7 @@ class ArticleList extends React.Component {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        count={article_list.length}
+                                        count={article_total}
                                         rowsPerPage={limit}
                                         page={page}
                                         onChangePage={this.handleChangePage}
