@@ -46,7 +46,10 @@
             }
         },
         mounted() {
-            this.changeImg()
+            this.changeImg();
+            this.$nextTick(() => {
+                window.scrollTo(0, 165)
+            })
         }
     }
 </script>
