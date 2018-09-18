@@ -5,39 +5,54 @@
 
 <template>
     <div class="lab-wrap">
-        <div class="lab-content" v-for="(project,key) in projects" :key="key">
+        <div class="lab-content" v-for="(projects,key) in allProjects" :key="key">
             <div class="item-title">{{key.toUpperCase()}}:</div>
             <ul class="item-wrap">
-                <li class="item-content" v-for="info in project">
-                    <h5 class="item-name"><i class="fa">#</i><a class="link" :href="info.url">{{info.name}}</a></h5>
-                    <div class="item-desc">{{info.desc}}</div>
-                    <div class="item-star">star: {{info.star}}</div>
-                    <div class="item-fork">fork: {{info.fork}}</div>
+                <li class="item-content" v-for="project in projects" :key="project._id">
+                    <h5 class="item-name"><i class="fa">#</i><a class="link" :href="project.url">{{project.name}}</a>
+                    </h5>
+                    <div class="item-desc">{{project.desc}}</div>
+                    <div class="item-star">star: {{project.star}}</div>
+                    <div class="item-fork">fork: {{project.fork}}</div>
                     <ol type="i" class="item-articles-wrap">
-                        <li class="item-articles-content" v-for="(item,idx) in info.articles" :key="item.id">
-                            {{idx}}: <span class="link">{{item.article}}</span>
+                        <li class="item-articles-content" v-for="(article,idx) in project.articles" :key="article._id">
+                            {{idx}}: <span class="link"><a @click="linkTo('article',article._id)">{{article.title}}</a> </span>
                         </li>
                     </ol>
                 </li>
-                <li class="item-content" style="visibility: hidden" v-if="Object.keys(project).length%2!==0"></li>
+                <li class="item-content" style="visibility: hidden" v-if="projects.length%2!==0"></li>
             </ul>
         </div>
     </div>
 </template>
 
 <script>
+    import {getProjects} from "../../http/api";
+
     export default {
         name: "laboratory",
         data() {
             return {
-                projects: null
+                allProjects: null
             }
         },
         methods: {
             async fetchProjects() {
-                const rsp = await this.$ajax.get(`/projects`);
-                this.projects = rsp.data;
+                const rsp = await getProjects();
+                const data = rsp.data.data;
+                const allProjects = {};
+                data.forEach(item => {
+                    if (!allProjects[item.action]) {
+                        allProjects[item.action] = []
+                    }
+                    allProjects[item.action].push(item)
+                });
+                console.log(allProjects);
+                this.allProjects = allProjects
             },
+            linkTo(location, _id) {
+                this.$router.push({name: location, params: {_id}})
+            }
         },
         created() {
             this.fetchProjects()

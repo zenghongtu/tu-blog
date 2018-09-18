@@ -60,7 +60,8 @@ ProjectSchema.statics = {
             .limit(limit)
             .sort('meta.updateAt')
             .select(field)
-            .exec()
+            .populate('articles', 'title')
+            .exec();
     },
     findById: function (id) {
         return this
