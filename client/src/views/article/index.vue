@@ -8,19 +8,19 @@
         <div class="article-content" v-if="article">
             <h2 class="article-title">{{article.title}}</h2>
             <div class="article-meta">
-                <div class="date">发布于:{{article.createdAt.slice(0,10)}}</div>
+                <div class="date">发布于:{{article.meta.createAt.slice(0,10)}}</div>
                 <div class="category">| # {{article.category}}</div>
-                <div class="comment">{{article.commentCount}}</div>
+                <div class="comment">{{article.meta.viewCount}}</div>
             </div>
             <div class="content">
-                {{article.content}}
+                {{article.body}}
             </div>
             <p>-- EOF --</p>
-            <div class="tags"># {{article.tag[0]}}</div>
-            <p class="article-url">
-                <span>本文链接:{{url}} </span>
+            <div class="tags"># {{article.tags}}</div>
+            <p>
+                <span>本文链接:<a class="article-url" :href="url">{{url}} </a></span>
             </p>
-            <div class="update">最后更新于: {{article.updatedAt.slice(0,10)}}</div>
+            <div class="update">最后更新于: {{article.meta.updateAt.slice(0,10)}}</div>
         </div>
         <div class="article-nav">
             <div class="pre"> < 上一篇</div>
@@ -30,11 +30,14 @@
 </template>
 
 <script>
+    import {getArticle} from "../../http/api";
+
     export default {
         name: "article",
         data() {
             return {
                 article: null,
+                comments: null,
             }
         },
         computed: {
@@ -44,9 +47,10 @@
         },
         methods: {
             async fetchArticle() {
-                const id = this.$route.params.id;
-                const rsp = await this.$ajax(`/article?id=${id}`);
-                this.article = rsp.data[0]
+                const _id = this.$route.params._id;
+                const rsp = await getArticle(_id);
+                this.article = rsp.data.article;
+                this.comments = rsp.data.comments
             }
         },
         created() {
@@ -89,6 +93,11 @@
                     float: right;
                     margin-right: 5em;
                     text-indent: .15em;
+                }
+                .article-url {
+                    a {
+                        color: $date;
+                    }
                 }
 
             }

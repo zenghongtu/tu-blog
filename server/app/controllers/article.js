@@ -20,11 +20,10 @@ class ArticleControllers {
     async findById(ctx) {
         const id = ctx.params.id;
         try {
-            const article = await Article.findById(id);
+            const article = await Article.findByIdAndUpdate(id, {$inc: {'meta.viewCount': 1}}, {new: true});
             if (!article) {
                 ctx.throw(404);
             }
-            await Article.update({_id: id}, {$inc: {'meta.viewCount': 1}});
             let comments = await Comment
                 .find({article: id})
                 .populate('from', 'name agent')
