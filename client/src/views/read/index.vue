@@ -11,13 +11,13 @@
                 <th>作者</th>
                 <th>我de读感</th>
             </tr>
-            <tr v-for="(info,idx) in bookList" :key="idx">
-                <td class="col-1"><span class="link">{{info.title}}</span></td>
-                <td class="col-2">{{info.authors.join(', ')}}</td>
+            <tr v-for="book in bookList" :key="book._id">
+                <td class="col-1"><span class="link">{{book.title}}</span></td>
+                <td class="col-2">{{book.authors.join(', ')}}</td>
                 <td class="col-3">
                     <ol type="I">
-                        <li v-for="(item,i) in info.articles" :key="i">
-                            <span class="link">{{item.article}}</span>
+                        <li v-for="article in book.articles" :key="article._id">
+                            <span class="link"><a @click="linkTo('article',article._id)">{{article.title}}</a></span>
                         </li>
                     </ol>
                 </td>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+    import {getBooks} from "../../http/api";
+
     export default {
         name: "read",
         data() {
@@ -36,9 +38,12 @@
         },
         methods: {
             async fetchBooks() {
-                const rsp = await this.$ajax.get(`/books`);
-                this.bookList = rsp.data
+                const rsp = await getBooks();
+                this.bookList = rsp.data.data
             },
+            linkTo(location, _id) {
+                this.$router.push({name: location, params: {_id}})
+            }
         },
         created() {
             this.fetchBooks()
