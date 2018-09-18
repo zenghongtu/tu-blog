@@ -10,7 +10,7 @@
             <ul class="archive-item-wrap">
                 <li class="archive-item" v-for="article in timeArticles[year]" :key="article.id">
                     <span class="date">{{article.date}}</span>
-                    <span class="title link">{{article.title}}</span>
+                    <span @click="linkTo('article',article.id)" class="title link">{{article.title}}</span>
                 </li>
             </ul>
         </div>
@@ -18,11 +18,14 @@
 </template>
 
 <script>
+
+    import {getArticleList} from "../../http/api";
+
     export default {
         name: "archive",
         data() {
             return {
-                timeArticles: {}
+                timeArticles: []
             }
         },
         computed: {
@@ -31,14 +34,15 @@
             }
         },
         methods: {
-            async fetchArticleList() {
-                const rsp = await this.$ajax.get(`/articles`);
-                const articles = rsp.data;
+            async fetchArchiveArticles() {
+                const _id = this.$route.params._id;
+                const rsp = await getArticleList();
+                const item = rsp.data.data;
                 const timeArticles = {};
-                articles.forEach((item) => {
-                    const d = item.createdAt;
+                item.forEach((item) => {
+                    const d = item.meta.createAt;
                     const t = item.title;
-                    const id = item.id;
+                    const id = item._id;
                     const year = d.slice(0, 4);
                     if (!Object.keys(timeArticles).includes(year)) {
                         timeArticles[year] = []
@@ -52,9 +56,12 @@
                 });
                 this.timeArticles = timeArticles
             },
+            linkTo(location, _id) {
+                this.$router.push({name: location, params: {_id}})
+            }
         },
         created() {
-            this.fetchArticleList()
+            this.fetchArchiveArticles()
         }
     }
 </script>
