@@ -10,7 +10,10 @@ export default async (ctx, next) => {
     try {
         const ip = ipCheck(ctx);
         const visitor = await client.incr(ip);
-        const pageViews = await client.incr('pageViews')
+        if (visitor < 2) {
+            await client.incr('uniqueVisitors')
+        }
+        await client.incr('pageViews')
     } catch (e) {
         console.log(e);
     }

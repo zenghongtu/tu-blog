@@ -17,7 +17,8 @@ import Tag from '../views/tag/index.vue';
 
 Vue.use(Router);
 
-export default new Router({
+
+const router = new Router({
     routes: [
         {
             path: '/read',
@@ -67,3 +68,10 @@ export default new Router({
     ],
 });
 
+router.afterEach((to, from) => {
+    const storage = window.localStorage;
+    storage.setItem('views', +storage.getItem('views') + 1)
+
+});
+
+export default router

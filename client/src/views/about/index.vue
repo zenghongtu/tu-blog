@@ -7,25 +7,33 @@
     <div class="about-wrap">
         <div class="about-content">
             <div class="about-item">
+                <div class="about-title">Welcome,</div>
+                <h4>本站第<span class="light">{{uniqueVisitors}}</span>位访客</h4>
+                <h5>访问过本站<span class="light">{{views}}</span>次页面</h5>
+            </div>
+            <div class="about-item">
                 <div class="about-title">About site</div>
-                <h4>您是本站第<span class="light">{{visitorNum}}</span>位访客</h4>
-                <h5>访问过本站<span class="light">{{ viewNum}}</span>次页面</h5>
-                <h4>本站一共被访问过<span class="light">{{pageNum}}</span>次</h4>
-                <h5>已经稳定运行<span class="light">{{runtime}}</span>秒</h5>
+                <h4>本站一共被访问过<span class="light">{{pageViews}}</span>次</h4>
+                <h5>已稳定运行<span class="light">{{days}}</span>天
+                    <span class="light">{{hours}}</span>小时
+                    <span class="light">{{minutes}}</span>分钟
+                    <span class="light">{{seconds}}</span>秒</h5>
             </div>
             <div class="about-item">
                 <div class="about-title">About me</div>
                 <h3>全干码农一枚</h3>
                 <hr>
-                <h4 class="typing">{{type}}</h4><i v-if="isTyping" class="flash"></i>
+                <h4 class="typing">My slogan: {{type}}</h4><i v-if="isTyping" class="flash"></i>
                 <hr>
                 <h5 class="job">目前就职于一家人工智能企业</h5>
             </div>
             <div class="about-item">
                 <div class="about-title">Contact me</div>
                 <ul class="contact-info">
-                    <li class="email">邮箱:<span class="link">zenghongtu@gmail.com</span></li>
-                    <li class="github">GitHub:<span class="link">https://github.com/zenghongtu</span>
+                    <li class="email">邮箱:<span><a class="link"
+                                                  href="mailto:zenghongtu@gmail.com">zenghongtu@gmail.com</a></span>
+                    </li>
+                    <li class="github">GitHub:<span><a class="link" href="https://github.com/zenghongtu">https://github.com/zenghongtu</a></span>
                     </li>
                 </ul>
             </div>
@@ -34,24 +42,30 @@
 </template>
 
 <script>
+    import {getSiteInfo} from "../../http/api";
+
     export default {
         name: "about",
         data() {
             return {
-                slogan: '',
+                slogan: '两眼不闻窗外事,一心只写一打码.',
                 type: '',
                 isTyping: true,
-                pageNum: '',
-                runtime: '',
+                pageViews: '',
                 viewNum: '',
-                visitorNum: '',
+                uniqueVisitors: '',
+                start_time: '',
+                days: '',
+                hours: '',
+                minutes: '',
+                seconds: '',
             }
         },
         methods: {
-            generateSlogan(s) {
+            generateSlogan() {
+                const s = this.slogan;
                 const len = s.length;
                 let i = 0;
-
                 const timer = setInterval(() => {
                     this.type += s[i];
                     if (++i >= len) {
@@ -60,24 +74,39 @@
                     }
                 }, 250)
             },
-            async fetchAboutInfo() {
-                const rsp = await this.$ajax.get(`/aboutinfo`);
-                const data = rsp.data;
-                const slogan = data.slogan;
-                this.generateSlogan(slogan)
+            timer() {
+                setInterval(
+                    () => {
+                        const date = Date.now() - new Date(this.start_time).getTime();
+                        const days = Math.floor(date / (24 * 3600 * 1000));
+                        const value1 = date % (24 * 3600 * 1000);
+                        const hours = Math.floor(value1 / (3600 * 1000));
+                        const value2 = value1 % (3600 * 1000);
+                        const minutes = Math.floor(value2 / (60 * 1000));
+                        const value3 = value2 % (60 * 1000);
+                        const seconds = Math.round(value3 / 1000);
+                        this.days = days;
+                        this.hours = hours;
+                        this.minutes = minutes;
+                        this.seconds = seconds
+                    }, 900
+                )
             },
             async fetchSiteInfo() {
-                const rsp = await this.$ajax.get(`/siteinfo`);
+                const rsp = await getSiteInfo();
                 const data = rsp.data;
-                this.pageNum = data.pageNum;
-                this.runtime = data.runtime;
-                this.viewNum = data.viewNum;
-                this.visitorNum = data.visitorNum
+                this.pageViews = data.pageViews;
+                this.uniqueVisitors = data.uniqueVisitors;
+                this.start_time = data.meta.createAt;
+                this.timer();
+                this.generateSlogan()
             },
         },
+        created() {
+            this.views = window.localStorage.getItem('views')
+        },
         mounted() {
-            this.fetchAboutInfo();
-            this.fetchSiteInfo()
+            this.fetchSiteInfo();
         }
     }
 </script>
@@ -113,6 +142,7 @@
                     list-style: none;
                     .link {
                         text-decoration: underline;
+                        color: $black;
                     }
                     @include link;
                 }
