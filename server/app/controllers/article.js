@@ -5,6 +5,8 @@
 
 import Article from '../models/article';
 import Comment from '../models/comment';
+import Category from "../models/category";
+import Tag from "../models/tag";
 
 class ArticleControllers {
 
@@ -40,12 +42,25 @@ class ArticleControllers {
 
     async add(ctx) {
         try {
-            ctx.body = await new Article(ctx.request.body).save();
+            const _body = ctx.request.body;
+            const _category_id = _body.category;
+            const _tags = _body.tags;
+            const article = await new Article(_body).save();
+            const _id = article._id;
+            await Category.findByIdAndUpdate(_category_id, {$addToSet: {'articles': _id}});
+            _tags.forEach(async _tag_id => {
+                await Tag.findByIdAndUpdate(_tag_id, {$addToSet: {'articles': _id}})
+            });
+
+            ctx.body = article
         } catch (err) {
             ctx.throw(422);
         }
     }
 
+    /*
+        todo 修改 article 后更新 category/tag
+     */
     async update(ctx) {
         try {
             const article = await Article.findByIdAndUpdate(
@@ -70,6 +85,13 @@ class ArticleControllers {
             if (!article) {
                 ctx.throw(404);
             }
+            const _id = article._id;
+            const _category_id = article.category;
+            const _tags = article.tags;
+            await Category.findByIdAndUpdate(_category_id, {$pull: {'articles': _id}});
+            _tags.forEach(async _tag_id => {
+                await Tag.findByIdAndUpdate(_tag_id, {$pull: {'articles': _id}})
+            });
             ctx.body = article;
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {

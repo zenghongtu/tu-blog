@@ -8,10 +8,9 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-  "name": "tutu3",
+  "name": "tu",
   "email": "zenghongtu@gmail.com",
-  "password": "1223456",
-  "role": 1
+  "password": "123"
 }
 
 ###
@@ -19,30 +18,29 @@ POST http://localhost:9000/authenticate
 Content-Type: application/json
 
 {
-  "name": "zht",
-  "password": "123456"
+  "name": "tu",
+  "password": "123"
 }
 
 
 ###
 POST http://localhost:9000/categories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzMDM1NjUwZjE5YTAwNGU2OTA1ZCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM1NTg2MiwiZXhwIjoxNTM3Mzk5MDYyfQ.6iY4wU_QhNMf54utjLadNITpYBgR5fLtm5EhNKNpCvg
 
 {
-  "name": "cat"
+  "name": "cat1"
 }
 
 ###
 GET http://localhost:9000/categories
+_id: 5ba233a66c272da0dc4403d0
 
-###
-GET http://localhost:9000/categories?field=name&field=articles&field=meta.createAt
 
 ###
 POST http://localhost:9000/tags
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzMDM1NjUwZjE5YTAwNGU2OTA1ZCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM1NTg2MiwiZXhwIjoxNTM3Mzk5MDYyfQ.6iY4wU_QhNMf54utjLadNITpYBgR5fLtm5EhNKNpCvg
 
 {
   "name": "tag1"
@@ -50,32 +48,35 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 
 
 ###
-GET http://localhost:9000/tags?field=name
+GET http://localhost:9000/tags
 
 ###
 
 POST http://localhost:9000/articles
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE1Yjc2YTBiODIwMTMwYTVkMzg4ZSIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjkyMzQyNywiZXhwIjoxNTM2OTY2NjI3fQ.goEFORFt_N0vDvi-CzGRpnTNvnxZqpKqzwitzWq48fo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI0NDhiMGI1NDVlYTU2YWE1YjQ4NCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM2MTA0MSwiZXhwIjoxNTM3NDA0MjQxfQ.pC81AXFg0ZBmsIVOn26KhbW9XDmM4Gz1YWiVw7PyeOQ
 
 {
-  "title": "a test",
+  "title": "a test 5",
   "desc": "this is a test",
   "body": "this is a body",
-  "category": "5b99ebeaad47327ca70dbc47",
+  "category": "5ba2307c650f19a004e6905e",
   "tags": [
-    "5b99eda6f3bcce7d54dbd599"
+    "5ba230b3650f19a004e69062",
+    "5ba230af650f19a004e69061"
   ],
   "isPublish": true
 }
 
 
 ###
-GET http://localhost:9000/articles/5b9a7656cff74396692afc4f
-Content-Type: application/json
+GET http://localhost:9000/articles
 
 ###
-DELETE http://localhost:9000/articles/5b99ef73f3bcce7d54dbd59f
+DELETE http://localhost:9000/articles/5ba246a5054100a62597d6b5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI0NDhiMGI1NDVlYTU2YWE1YjQ4NCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM2MTA0MSwiZXhwIjoxNTM3NDA0MjQxfQ.pC81AXFg0ZBmsIVOn26KhbW9XDmM4Gz1YWiVw7PyeOQ
+
+
 
 ###
 POST http://localhost:9000/comments
@@ -94,19 +95,22 @@ Content-Type: application/json
 ###
 POST http://localhost:9000/books
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWYzOWJkZTk5NWU1MjViOGYxMWM4OSIsIm5hbWUiOiJ0dSIsInJvbGUiOjEsImlhdCI6MTUzNzE4NTg0NSwiZXhwIjoxNTM3MjI5MDQ1fQ.RL61XjF6KvowARqZgD3aj1Sf9kPKId--Gto-QkYe9Nc
 
 {
-  "title": "book1",
+  "title": "book3",
   "authors": [
-    "author1"
+    "author3"
   ]
 }
 
 ###
+GET http://localhost:9000/books
+
+###
 POST http://localhost:9000/projects
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y2ZmNzQzOTY2OTJhZmM0YyIsIm5hbWUiOiJ6ZW5naG9uZ3R1Iiwicm9sZSI6OTksImlhdCI6MTUzNjg0OTQxMiwiZXhwIjoxNTM2ODkyNjEyfQ.JJbV7b-tlx7QYlhdKrPPma74YEROn8ElAJuwOqdk4Os
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWYzOWJkZTk5NWU1MjViOGYxMWM4OSIsIm5hbWUiOiJ0dSIsInJvbGUiOjEsImlhdCI6MTUzNzM0NTExMywiZXhwIjoxNTM3Mzg4MzEzfQ.tYyd0kluhdJn7tkR7Lf0D3hM8jZoDKmxxLTcqikA_R4
 
 {
   "name": "this is a test name",
@@ -114,8 +118,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
   "stars": 1,
   "forks": 1,
   "desc": "this is a test desc",
-  "action": "create"
+  "action": "contribute"
 }
+
+###
+GET http://localhost:9000/projects
+_id: 5ba233a66c272da0dc4403d0
 
 ###
 POST http://localhost:9000/site
@@ -128,7 +136,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 
 ###
 GET http://localhost:9000/site
-Content-Type: application/json
+#_id: 5ba241c0c484bba4d979fae8
 
 ###
 
