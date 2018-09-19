@@ -17,13 +17,13 @@ class SiteControllers {
             const uniqueVisitors = await client.get('uniqueVisitors');
             const site = await Site.findOneAndUpdate(
                 {date: date()},
-                {pageViews, uniqueVisitors},
-                {new: true}
+                {pv: pageViews, uv: uniqueVisitors},
+                {new: true, upsert: true}
             );
             const visitor = await User.findByIdAndUpdate(
                 _id,
                 {visits},
-                {new: true}
+                {new: true, upsert: true}
             );
             ctx.body = {site, visitor}
         } catch (err) {

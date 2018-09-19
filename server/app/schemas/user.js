@@ -11,8 +11,8 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 const UserSchema = new Schema({
     name: {
-        unique: true,
-        type: String
+        type: String,
+        default: '',
     },
     ip: String,
     email: String,
@@ -39,7 +39,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', function (next) {
     var user = this;
-    if (user.name === admin) {
+    if (user.name && user.name === admin) {
         bcrypt(user.password).then(password => {
             user.password = password;
             next()
@@ -47,7 +47,6 @@ UserSchema.pre('save', function (next) {
             next(err);
         });
     } else {
-        user.name += Math.floor(Math.random() * 1e6);  // 避免用户名重复
         next()
     }
 
