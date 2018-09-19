@@ -18,7 +18,8 @@
     "test-server": "cd server && npm run test",
     "build": "yarn run build-client && yarn run build-admin && yarn run build-server",
     "test": "yarn run test-client && yarn run test-admin && yarn run test-server",
-    "init": "yarn run install-client && yarn run install-admin && yarn run install-server"
+    "init": "yarn run install-client && yarn run install-admin && yarn run install-server",
+    "start": "yarn run dev-client & yarn run dev-admin & yarn run dev-server"
   },
   "repository": {
     "type": "git",
