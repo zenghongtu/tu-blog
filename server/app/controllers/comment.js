@@ -36,12 +36,14 @@ class CommentControllers {
      */
     async add(ctx) {
         try {
-            let _id = ctx.request.header._id;
-            const _comment = ctx.request.body;
+            const _body = ctx.request.body;
+            const _comment = _body.comment;
+            const _user = _body.user;
             const comment = await new Comment(_comment).save();
-            if (_id || _comment.from) {
-                await User.findByIdAndUpdate(_id, {$addToSet: {'comments': comment._id}}, {upsert: true})
-            }
+            const con = Object.assign({}, _user, {
+                $addToSet: {'comments': comment._id}
+            });
+            await User.findByIdAndUpdate(_comment.from, con, {upsert: true});
             ctx.body = comment;
         } catch (err) {
             ctx.throw(422);
@@ -55,20 +57,26 @@ class CommentControllers {
      */
     async update(ctx) {
         try {
-            const comment = await Comment.findById(ctx.params.id);
+            const _body = ctx.request.body;
+            const _comment = _body.comment;
+            const comment = await Comment.findByIdAndUpdate(ctx.params.id, {$addToSet: {reply: _comment}}, {new: true});
             if (!comment) {
                 ctx.throw(404);
             }
-            const _comment = ctx.request.body;
+            const _user = _body.user;
 
-            const reply = {
-                from: _comment.from,  // 回复人 ID
-                to: _comment.to,  // 被回复人 ID
-                content: _comment.content
-            };
-            comment.reply.push(reply);
-            await User.findByIdAndUpdate(_comment.from, {$addToSet: {'comments': comment._id}}, {upsert: true});
-            ctx.body = await comment.save();
+            // const reply = {
+            //     from: _comment.from,  // 回复人 ID
+            //     to: _comment.to,  // 被回复人 ID
+            //     content: _comment.content
+            // };
+            const con = Object.assign({}, _user, {
+                $addToSet: {'comments': comment._id}
+            });
+            // comment.reply.push(reply);
+            // const res = await comment.save()
+            await User.findByIdAndUpdate(_comment.from, con, {upsert: true});
+            ctx.body = comment;
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {
                 ctx.throw(404);
