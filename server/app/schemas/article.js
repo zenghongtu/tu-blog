@@ -73,6 +73,8 @@ ArticleSchema.statics = {
             .skip(page)
             .limit(limit)
             .sort('-meta.updateAt')
+            .populate('category', 'name')
+            .populate('tags', 'name')
             .select(field)
             .exec()
     },
