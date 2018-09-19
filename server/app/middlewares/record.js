@@ -20,12 +20,17 @@ export default async (ctx, next) => {
             ctx.set('_id', _id);
             await client.incr('uniqueVisitors')
         } else {
-            const c = await client.get('t' + _id);
-            if (c) {
-                ctx.set('a_id', c);
+            let _ida = ctx.request.header._ida;
+            if (_ida) {
                 await client.del('t' + _id)
+            } else {
+                const c = await client.get('t' + _id);
+                if (c) {
+                    ctx.set('_ida', c);
+                }
             }
         }
+
         ctx._id = _id;
         const visitor = await client.incr(_id);
         await client.incr('pageViews')
