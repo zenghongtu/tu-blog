@@ -12,9 +12,10 @@ class SiteControllers {
         try {
             const info_id = await client.get('info_id');
             const pageViews = await client.get('pageViews');
+            const uniqueVisitors = await client.get('uniqueVisitors');
             ctx.body = await Site.findByIdAndUpdate(
                 info_id,
-                {pageViews},
+                {pageViews, uniqueVisitors},
                 {new: true}
             );
         } catch (err) {

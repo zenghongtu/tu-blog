@@ -48,7 +48,7 @@
         name: "about",
         data() {
             return {
-                slogan: '两眼不闻窗外事,一心只写一打码.',
+                slogan: '两眼不闻窗外事,一心只写这代码.',
                 type: '',
                 isTyping: true,
                 pageViews: '',
@@ -92,12 +92,23 @@
                     }, 900
                 )
             },
+            sotrageHandler(uniqueVisitors) {
+                const date = new Date().toLocaleDateString();
+                const storage = window.localStorage;
+                if (storage.getItem(date)) {
+                    this.uniqueVisitors = storage.getItem(date)
+                } else {
+                    this.uniqueVisitors = uniqueVisitors;
+                    storage.setItem(date, uniqueVisitors)
+                }
+            },
             async fetchSiteInfo() {
                 const rsp = await getSiteInfo();
                 const data = rsp.data;
                 this.pageViews = data.pageViews;
-                this.uniqueVisitors = data.uniqueVisitors;
+                const uniqueVisitors = data.uniqueVisitors;
                 this.start_time = data.meta.createAt;
+                this.sotrageHandler(uniqueVisitors);
                 this.timer();
                 this.generateSlogan()
             },
