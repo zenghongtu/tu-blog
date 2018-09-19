@@ -8,7 +8,7 @@ import Router from 'koa-router';
 import {baseApi} from '../config';
 import jwt from '../middlewares/jwt';
 import TagControllers from '../controllers/tag';
-import siteRecord from "../middlewares/siteRecord";
+import record from "../middlewares/record";
 
 const api = 'tags';
 
@@ -16,11 +16,11 @@ const router = new Router();
 
 router.prefix(`${baseApi}/${api}`);
 
-router.get('/', TagControllers.find);
+router.get('/', record, TagControllers.find);
 
 router.post('/', jwt, TagControllers.add);
 
-router.get('/:id', siteRecord, TagControllers.findById);
+router.get('/:id', record, TagControllers.findById);
 
 router.put('/:id', jwt, TagControllers.update);
 

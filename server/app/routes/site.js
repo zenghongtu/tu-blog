@@ -7,6 +7,7 @@ import Router from 'koa-router';
 import {baseApi} from '../config';
 import jwt from '../middlewares/jwt';
 import SiteControllers from '../controllers/site';
+import record from "../middlewares/record";
 
 const api = 'site';
 
@@ -14,7 +15,7 @@ const router = new Router();
 
 router.prefix(`${baseApi}/${api}`);
 
-router.get('/', SiteControllers.find);
+router.get('/', record, SiteControllers.find);
 
 router.post('/', jwt, SiteControllers.add);
 
