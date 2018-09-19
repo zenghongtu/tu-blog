@@ -72,7 +72,7 @@ ArticleSchema.statics = {
             .find({})
             .skip(page)
             .limit(limit)
-            .sort('meta.updateAt')
+            .sort('-meta.updateAt')
             .select(field)
             .exec()
     },
