@@ -47,7 +47,7 @@ BookSchema.statics = {
             .find({})
             .skip(page)
             .limit(limit)
-            .sort('meta.updateAt')
+            .sort('-meta.updateAt')
             .select(field)
             .populate('articles', 'title')
             .exec();

@@ -55,13 +55,15 @@ CommentSchema.statics = {
     fetch: function () {
         return this
             .find({})
-            .sort('meta.updateAt')
+            .sort('-meta.updateAt')
             .exec(cb)
     },
     findById: function (id) {
         return this
-            .findOne({_id: id})
-            .exec()
+            .find({article: id})
+            .populate('from', 'name agent')
+            .populate('reply.from reply.to', 'name agent')
+            .exec();
     }
 };
 

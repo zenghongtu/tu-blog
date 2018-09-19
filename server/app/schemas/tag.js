@@ -45,7 +45,8 @@ TagSchema.statics = {
         return this
             .find({})
             .select(field)
-            .sort('meta.updateAt')
+            .sort('-meta.updateAt')
+            .populate('articles', 'title')
             .exec()
     },
     findById: function (id) {
