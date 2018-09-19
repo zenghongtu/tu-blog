@@ -8,7 +8,7 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-  "name": "tu",
+  "name": "tu1",
   "email": "zenghongtu@gmail.com",
   "password": "123"
 }
@@ -26,30 +26,29 @@ Content-Type: application/json
 ###
 POST http://localhost:9000/categories
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzMDM1NjUwZjE5YTAwNGU2OTA1ZCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM1NTg2MiwiZXhwIjoxNTM3Mzk5MDYyfQ.6iY4wU_QhNMf54utjLadNITpYBgR5fLtm5EhNKNpCvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI2NzA4ZDJlMjNiOWRmNjRmZTdjZSIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM2OTg2OSwiZXhwIjoxNTM3NDEzMDY5fQ.UYBD6ZOQppqW9D1VEDPGyyT7Ybv6fp24FDn1n3E08iM
 
 {
-  "name": "cat1"
+  "name": "cat3"
 }
 
 ###
 GET http://localhost:9000/categories
-_id: 5ba233a66c272da0dc4403d0
-
+_id: 5ba26735d2e23b9df64fe7d2
 
 ###
 POST http://localhost:9000/tags
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzMDM1NjUwZjE5YTAwNGU2OTA1ZCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM1NTg2MiwiZXhwIjoxNTM3Mzk5MDYyfQ.6iY4wU_QhNMf54utjLadNITpYBgR5fLtm5EhNKNpCvg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI2NzA4ZDJlMjNiOWRmNjRmZTdjZSIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM2OTg2OSwiZXhwIjoxNTM3NDEzMDY5fQ.UYBD6ZOQppqW9D1VEDPGyyT7Ybv6fp24FDn1n3E08iM
 
 {
-  "name": "tag1"
+  "name": "tag2"
 }
 
 
 ###
 GET http://localhost:9000/tags
-
+_id: 5ba2677cd2e23b9df64fe7d6
 ###
 
 POST http://localhost:9000/articles
@@ -57,13 +56,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI0NDhiMGI1NDVlYTU2YWE1YjQ4NCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM2MTA0MSwiZXhwIjoxNTM3NDA0MjQxfQ.pC81AXFg0ZBmsIVOn26KhbW9XDmM4Gz1YWiVw7PyeOQ
 
 {
-  "title": "a test 5",
+  "title": "a test 2",
   "desc": "this is a test",
   "body": "this is a body",
-  "category": "5ba2307c650f19a004e6905e",
+  "category": "5ba2672ed2e23b9df64fe7d1",
   "tags": [
-    "5ba230b3650f19a004e69062",
-    "5ba230af650f19a004e69061"
+    "5ba26773d2e23b9df64fe7d4"
   ],
   "isPublish": true
 }
@@ -71,24 +69,26 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI0NDhiM
 
 ###
 GET http://localhost:9000/articles
+_id: 5ba267dfd2e23b9df64fe7da
 
 ###
 DELETE http://localhost:9000/articles/5ba246a5054100a62597d6b5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI0NDhiMGI1NDVlYTU2YWE1YjQ4NCIsIm5hbWUiOiJ0dSIsInJvbGUiOjAsImlhdCI6MTUzNzM2MTA0MSwiZXhwIjoxNTM3NDA0MjQxfQ.pC81AXFg0ZBmsIVOn26KhbW9XDmM4Gz1YWiVw7PyeOQ
 
 
-
 ###
-POST http://localhost:9000/comments
+PUT http://localhost:9000/comments/5ba26b1a7851da9f4a405d75
 Content-Type: application/json
 
 {
   "comment": {
-    "article": "5b9a7656cff74396692afc4f",
-    "content": "this is a comment"
+    "content": "this is a follow comment1",
+    "from": "5ba2677cd2e23b9df64fe7d7",
+    "to": "5ba267dfd2e23b9df64fe7da"
   },
   "user": {
-    "name": "tutut"
+    "name": "tu2",
+    "email": "zenghongtu1@gmail.com"
   }
 }
 
@@ -106,6 +106,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWYzOWJkZ
 
 ###
 GET http://localhost:9000/books
+_id:5ba267bfd2e23b9df64fe7d9
 
 ###
 POST http://localhost:9000/projects
@@ -136,7 +137,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViOWE3NWU5Y
 
 ###
 GET http://localhost:9000/site
-#_id: 5ba241c0c484bba4d979fae8
+_id:5ba267dfd2e23b9df64fe7da
 
 ###
 

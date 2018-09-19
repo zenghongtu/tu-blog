@@ -19,7 +19,7 @@ router.get('/', record, BookControllers.find);
 
 router.post('/', jwt, BookControllers.add);
 
-router.get('/:id', BookControllers.findById);
+router.get('/:id', record, BookControllers.findById);
 
 router.put('/:id', jwt, BookControllers.update);
 

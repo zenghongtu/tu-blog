@@ -19,6 +19,12 @@ export default async (ctx, next) => {
             await new User({ip, agent}).save();
             ctx.set('_id', _id);
             await client.incr('uniqueVisitors')
+        } else {
+            const c = await client.get('t' + _id);
+            if (c) {
+                ctx.set('a_id', c);
+                await client.del('t' + _id)
+            }
         }
         ctx._id = _id;
         const visitor = await client.incr(_id);

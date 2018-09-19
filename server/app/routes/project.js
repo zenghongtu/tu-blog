@@ -19,7 +19,7 @@ router.get('/', record, ProjectControllers.find);
 
 router.post('/', jwt, ProjectControllers.add);
 
-router.get('/:id', ProjectControllers.findById);
+router.get('/:id', record, ProjectControllers.findById);
 
 router.put('/:id', jwt, ProjectControllers.update);
 

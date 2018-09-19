@@ -1,10 +1,46 @@
-import app from '../server/';
+import app from '../app/';
 import supertest from 'supertest';
 import {expect, should} from 'chai';
 
 const temp = {};
 const request = supertest.agent(app.listen());
 should();
+
+const name = 'tu';
+const password = '123';
+
+describe('POST api/users', () => {
+    it('should get user info', done => {
+        request
+            .post('/api/users')
+            .set('Accept', 'application/json')
+            .send({
+                "name": 'name',
+                "email": "zenghongtu@gmail.com",
+                "password": password
+            })
+            .expect(200, (err, res) => {
+                res.body.name.should.eql('name', '不相等');
+                done();
+            });
+    });
+});
+
+describe('POST api/authenticate', () => {
+    it('should get all cities', done => {
+        request
+            .post('/api/authenticate')
+            .set('Accept', 'application/json')
+            .send({
+                password: 'password'
+            })
+            .expect(200, (err, res) => {
+                temp.token = res.body.token;
+                done();
+            });
+    });
+});
+
 
 describe('POST api/authenticate', () => {
     it('should get all cities', done => {

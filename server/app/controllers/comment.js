@@ -5,6 +5,7 @@
 
 import Comment from '../models/comment';
 import User from "../models/user";
+import client from "../utils/redis";
 
 class CommentControllers {
 
@@ -64,17 +65,10 @@ class CommentControllers {
                 ctx.throw(404);
             }
             const _user = _body.user;
-
-            // const reply = {
-            //     from: _comment.from,  // 回复人 ID
-            //     to: _comment.to,  // 被回复人 ID
-            //     content: _comment.content
-            // };
+            await client.set('t' + _comment.to, comment.article);
             const con = Object.assign({}, _user, {
                 $addToSet: {'comments': comment._id}
             });
-            // comment.reply.push(reply);
-            // const res = await comment.save()
             await User.findByIdAndUpdate(_comment.from, con, {upsert: true});
             ctx.body = comment;
         } catch (err) {
