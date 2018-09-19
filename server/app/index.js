@@ -11,7 +11,6 @@ import helmet from 'koa-helmet';
 import cors from '@koa/cors'
 import routing from './routes/';
 import {port, connexionString} from './config';
-import init from './utils/init'
 
 mongoose.connect(connexionString, {useNewUrlParser: true});
 mongoose.connection.on('error', console.error);
@@ -27,8 +26,6 @@ app
     .use(helmet());
 
 routing(app);
-
-init();
 
 // Start the application
 app.listen(port, () =>

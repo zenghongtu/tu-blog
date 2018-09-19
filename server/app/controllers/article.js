@@ -29,7 +29,6 @@ class ArticleControllers {
                 .populate('from', 'name agent')
                 .populate('reply.from reply.to', 'name agent')
                 .exec();
-
             ctx.body = {article, comments};
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {

@@ -16,7 +16,7 @@ router.prefix(`${baseApi}/${api}`);
 
 router.get('/', jwt, UserControllers.find);
 
-router.post('/', UserControllers.add);
+router.post('/', jwt, UserControllers.add);
 
 router.get('/:id', UserControllers.findById);
 

@@ -4,7 +4,6 @@
  */
 
 import Comment from '../models/comment';
-import userAgent from '../utils/userAgent'
 import User from "../models/user";
 
 class CommentControllers {
@@ -41,7 +40,6 @@ class CommentControllers {
             const _user = _body.user;
             const _comment = _body.comment;
             if (!_user._id) {
-                _user.agent = userAgent(ctx);
                 const user = await new User(_user).save();
                 _comment.from = user._id
             }

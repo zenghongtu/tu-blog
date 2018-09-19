@@ -17,9 +17,13 @@ const UserSchema = new Schema({
     ip: String,
     email: String,
     password: String,
+    visits: {
+        type: Number,
+        default: 1,
+    },
     role: {
         type: Number,
-        default: 0
+        default: 0,
     },
     agent: {
         browser: String,
@@ -29,7 +33,7 @@ const UserSchema = new Schema({
     },
     comments: [{
         type: ObjectId,
-        ref: 'Comment'
+        ref: 'Comment',
     }]
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
