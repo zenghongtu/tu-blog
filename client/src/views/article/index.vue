@@ -18,7 +18,7 @@
             <p>-- EOF --</p>
             <div class="tags"># {{article.tags}}</div>
             <p>
-                <span>本文链接:<a class="article-url" :href="url">{{url}} </a></span>
+                <span>本文链接:<a class="article-url" @click="linkTo('article',article._id)">{{url}} </a></span>
             </p>
             <div class="update">最后更新于: {{article.meta.updateAt.slice(0,10)}}</div>
         </div>
@@ -57,7 +57,10 @@
                 const article = this.article = rsp.data.article;
                 this.comments = rsp.data.comments;
                 this.content = article.body
-            }
+            },
+            linkTo(location, _id) {
+                this.$router.push({name: location, params: {_id}})
+            },
         },
         created() {
             this.fetchArticle()
