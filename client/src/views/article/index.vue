@@ -13,7 +13,7 @@
                 <div class="comment">{{article.meta.viewCount}}</div>
             </div>
             <div class="content">
-                {{article.body}}
+                <vue-markdown>{{content}}</vue-markdown>
             </div>
             <p>-- EOF --</p>
             <div class="tags"># {{article.tags}}</div>
@@ -31,6 +31,7 @@
 
 <script>
     import {getArticle} from "../../http/api";
+    import VueMarkdown from 'vue-markdown'
 
     export default {
         name: "article",
@@ -38,7 +39,11 @@
             return {
                 article: null,
                 comments: null,
+                content: null
             }
+        },
+        components: {
+            VueMarkdown
         },
         computed: {
             url() {
@@ -49,8 +54,9 @@
             async fetchArticle() {
                 const _id = this.$route.params._id;
                 const rsp = await getArticle(_id);
-                this.article = rsp.data.article;
-                this.comments = rsp.data.comments
+                const article = this.article = rsp.data.article;
+                this.comments = rsp.data.comments;
+                this.content = article.body
             }
         },
         created() {
