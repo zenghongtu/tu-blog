@@ -36,14 +36,13 @@ class CommentControllers {
      */
     async add(ctx) {
         try {
-            const _body = ctx.request.body;
-            const _user = _body.user;
-            const _comment = _body.comment;
-            if (!_user._id) {
-                const user = await new User(_user).save();
-                _comment.from = user._id
+            let _id = ctx.request.header._id;
+            const _comment = ctx.request.body;
+            const comment = await new Comment(_comment).save();
+            if (_id || _comment.from) {
+                await User.findByIdAndUpdate(_id, {$addToSet: {'comments': comment._id}}, {upsert: true})
             }
-            ctx.body = await new Comment(_comment).save();
+            ctx.body = comment;
         } catch (err) {
             ctx.throw(422);
         }
@@ -60,22 +59,15 @@ class CommentControllers {
             if (!comment) {
                 ctx.throw(404);
             }
-
-            const _body = ctx.request.body;
-            const _user = _body.user;
-            const _comment = _body.comment;
-            if (!_user._id) {
-                _user.agent = userAgent(ctx);
-                const user = await new User(_user).save();
-                _comment.from = user._id
-            }
+            const _comment = ctx.request.body;
 
             const reply = {
                 from: _comment.from,  // 回复人 ID
-                to: _comment.to,  // 评论人 ID
+                to: _comment.to,  // 被回复人 ID
                 content: _comment.content
             };
             comment.reply.push(reply);
+            await User.findByIdAndUpdate(_comment.from, {$addToSet: {'comments': comment._id}}, {upsert: true});
             ctx.body = await comment.save();
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {

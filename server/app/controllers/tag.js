@@ -4,6 +4,7 @@
  */
 
 import Tag from '../models/tag';
+import Article from "../models/article";
 
 class TagControllers {
 
@@ -36,6 +37,9 @@ class TagControllers {
         }
     }
 
+    /*
+        todo article 更新
+     */
     async update(ctx) {
         try {
             const tag = await Tag.findByIdAndUpdate(
@@ -60,6 +64,10 @@ class TagControllers {
             if (!tag) {
                 ctx.throw(404);
             }
+            const _articles = tag.articles;
+            _articles.forEach(article_id => {
+                Article.findByIdAndUpdate(article_id, {$pull: {'tags': tag._id}})
+            });
             ctx.body = tag;
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {

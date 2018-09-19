@@ -24,6 +24,7 @@ CategorySchema.statics = {
     fetch: function (field = '') {
         return this
             .find({})
+            .populate({path: 'articles', select: 'body'})
             .select(field)
             .sort('-createdAt')
             .populate('articles', 'title')
@@ -32,7 +33,7 @@ CategorySchema.statics = {
     findById: function (id) {
         return this
             .findOne({_id: id})
-            .populate('articles', 'title')
+            .populate('articles', '-body')
             .exec()
     }
 };

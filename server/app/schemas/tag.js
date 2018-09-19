@@ -34,7 +34,7 @@ TagSchema.statics = {
     findById: function (id) {
         return this
             .findOne({_id: id})
-            .populate('articles', 'title')
+            .populate('articles', '-body')
             .exec()
     }
 };
