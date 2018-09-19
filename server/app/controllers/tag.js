@@ -4,7 +4,6 @@
  */
 
 import Tag from '../models/tag';
-import Category from "../models/category";
 
 class TagControllers {
 
@@ -14,11 +13,9 @@ class TagControllers {
     }
 
     async findById(ctx) {
-        const _id = ctx.params.id;
+        const id = ctx.params.id;
         try {
-            const tag = await Tag.find({_id})
-                .populate('articles', 'title meta')
-                .exec();
+            const tag = await Tag.findById(id);
             if (!tag) {
                 ctx.throw(404);
             }
@@ -33,8 +30,7 @@ class TagControllers {
 
     async add(ctx) {
         try {
-            const tag = await new Tag(ctx.request.body).save();
-            ctx.body = tag;
+            ctx.body = await new Tag(ctx.request.body).save();
         } catch (err) {
             ctx.throw(422);
         }

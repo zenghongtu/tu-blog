@@ -29,34 +29,18 @@ const CommentSchema = new Schema({
         },
         content: String
     }],
-    content: String,
-    meta: {
-        createAt: {
-            type: Date,
-            default: Date.now()
-        },
-        updateAt: {
-            type: Date,
-            default: Date.now()
-        }
-    }
-});
+    content: String
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
-CommentSchema.pre('save', function (next) {
-    if (this.isNew) {
-        this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
-    }
-    next()
-});
 
 CommentSchema.statics = {
     fetch: function () {
         return this
             .find({})
-            .sort('-meta.updateAt')
-            .exec(cb)
+            .sort('-createdAt')
+            .populate('from', 'name agent')
+            .populate('reply.from reply.to', 'name agent')
+            .exec()
     },
     findById: function (id) {
         return this

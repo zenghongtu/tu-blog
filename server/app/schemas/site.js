@@ -4,48 +4,29 @@
  */
 
 import mongoose from "mongoose";
+import date from '../utils/date'
 
 const Schema = mongoose.Schema;
 
-
 const SiteSchema = new Schema({
-    pageViews: {
+    date: {
+        type: String,
+        unique: true,
+        default: date()
+    },
+    pv: {
         type: Number,
         default: 0
     },
-    uniqueVisitors: {
+    uv: {
         type: Number,
         default: 0
-    },
-    dayViewsList: [
-        {
-            dayViews: {
-                type: Number,
-                default: 0
-            },
-            time: {
-                type: Date,
-                default: Date.now()
-            }
-        }
-    ],
-    meta: {
-        createAt: {
-            type: Date,
-            default: Date.now()
-        },
-        updateAt: {
-            type: Date,
-            default: Date.now()
-        }
     }
-});
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 SiteSchema.pre('save', function (next) {
     if (this.isNew) {
         this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
     }
     next()
 });
@@ -62,7 +43,6 @@ SiteSchema.statics = {
             .exec()
     }
 };
-
 
 
 export default SiteSchema

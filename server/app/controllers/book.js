@@ -34,8 +34,7 @@ class BookControllers {
 
     async add(ctx) {
         try {
-            const book = await new Book(ctx.request.body).save();
-            ctx.body = book;
+            ctx.body = await new Book(ctx.request.body).save();
         } catch (err) {
             ctx.throw(422);
         }

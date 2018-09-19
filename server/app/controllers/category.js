@@ -13,11 +13,9 @@ class CategoryControllers {
     }
 
     async findById(ctx) {
-        const _id = ctx.params.id;
+        const id = ctx.params.id;
         try {
-            const category = await Category.find({_id})
-                .populate('articles', 'title meta')
-                .exec();
+            const category = await Category.findById(id);
             if (!category) {
                 ctx.throw(404);
             }
@@ -32,8 +30,7 @@ class CategoryControllers {
 
     async add(ctx) {
         try {
-            const category = await new Category(ctx.request.body).save();
-            ctx.body = category;
+            ctx.body = await new Category(ctx.request.body).save();
         } catch (err) {
             ctx.throw(422);
         }

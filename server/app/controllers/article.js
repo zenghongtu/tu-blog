@@ -41,8 +41,7 @@ class ArticleControllers {
 
     async add(ctx) {
         try {
-            const article = await new Article(ctx.request.body).save();
-            ctx.body = article;
+            ctx.body = await new Article(ctx.request.body).save();
         } catch (err) {
             ctx.throw(422);
         }

@@ -18,40 +18,23 @@ const TagSchema = new Schema({
         unique: true,
         type: String
     },
-    articles: [{type: ObjectId, ref: 'Article'}],
-    meta: {
-        createAt: {
-            type: Date,
-            default: Date.now()
-        },
-        updateAt: {
-            type: Date,
-            default: Date.now()
-        }
-    }
-});
+    articles: [{type: ObjectId, ref: 'Article'}]
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
-TagSchema.pre('save', function (next) {
-    if (this.isNew) {
-        this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
-    }
-    next()
-});
 
 TagSchema.statics = {
     fetch: function (field = '') {
         return this
             .find({})
             .select(field)
-            .sort('-meta.updateAt')
+            .sort('-createdAt')
             .populate('articles', 'title')
             .exec()
     },
     findById: function (id) {
         return this
             .findOne({_id: id})
+            .populate('articles', 'title')
             .exec()
     }
 };

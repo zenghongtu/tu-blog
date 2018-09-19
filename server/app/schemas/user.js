@@ -3,11 +3,13 @@
  * Desc: user
  */
 import mongoose from "mongoose";
-
 import bcryptjs from 'bcryptjs'
 import bcrypt from '../utils/bcrypt'
+import {admin} from "../config";
 
-const UserSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
+const UserSchema = new Schema({
     name: {
         unique: true,
         type: String
@@ -25,27 +27,15 @@ const UserSchema = new mongoose.Schema({
         os: String,
         platform: String,
     },
-    meta: {
-        createAt: {
-            type: Date,
-            default: Date.now()
-        },
-        updateAt: {
-            type: Date,
-            default: Date.now()
-        }
-    }
-});
+    comments: [{
+        type: ObjectId,
+        ref: 'Comment'
+    }]
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 UserSchema.pre('save', function (next) {
     var user = this;
-    if (this.isNew) {
-        this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
-    }
-
-    if (user.name === 'tu') {
+    if (user.name === admin) {
         bcrypt(user.password).then(password => {
             user.password = password;
             next()
@@ -70,15 +60,21 @@ UserSchema.methods = {
 };
 
 UserSchema.statics = {
-    fetch: function () {
+    fetch: function (limit, page, field = '') {
         return this
             .find({})
-            .sort('meta.updateAt')
+            .skip(page)
+            .limit(limit)
+            .sort('-createdAt')
+            .select(field)
+            .sort('-createdAt')
+            .populate('comments', 'content')
             .exec()
     },
     findById: function (id) {
         return this
             .findOne({_id: id})
+            .populate('comments', 'content')
             .exec()
     }
 };

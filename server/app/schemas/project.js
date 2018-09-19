@@ -30,27 +30,9 @@ const ProjectSchema = new Schema({
     articles: [{
         type: ObjectId,
         ref: 'Article'
-    }],
-    meta: {
-        createAt: {
-            type: Date,
-            default: Date.now()
-        },
-        updateAt: {
-            type: Date,
-            default: Date.now()
-        }
-    }
-});
+    }]
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
-ProjectSchema.pre('save', function (next) {
-    if (this.isNew) {
-        this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
-    }
-    next()
-});
 
 ProjectSchema.statics = {
     fetch: function (limit, page, field = '') {
@@ -58,7 +40,7 @@ ProjectSchema.statics = {
             .find({})
             .skip(page)
             .limit(limit)
-            .sort('-meta.updateAt')
+            .sort('-createdAt')
             .select(field)
             .populate('articles', 'title')
             .exec();
@@ -66,6 +48,7 @@ ProjectSchema.statics = {
     findById: function (id) {
         return this
             .findOne({_id: id})
+            .populate('articles', 'title')
             .exec()
     }
 };

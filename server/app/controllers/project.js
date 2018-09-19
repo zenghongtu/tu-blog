@@ -34,8 +34,7 @@ class ProjectControllers {
 
     async add(ctx) {
         try {
-            const project = await new Project(ctx.request.body).save();
-            ctx.body = project;
+            ctx.body = await new Project(ctx.request.body).save();
         } catch (err) {
             ctx.throw(422);
         }

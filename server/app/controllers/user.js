@@ -10,8 +10,10 @@ import bcrypt from "../utils/bcrypt";
 class UserControllers {
 
     async find(ctx) {
-        const field = ctx.query.field || '';
-        ctx.body = await User.fetch(field);
+        const limit = ctx.query.limit || null;
+        const page = ctx.query.page || null;
+        const field = ctx.query.field || null;
+        ctx.body = await User.fetch(+limit, +page, field);
     }
 
     async findById(ctx) {
@@ -50,7 +52,7 @@ class UserControllers {
                 const _password = await bcrypt(_body.password);
                 user = await User.findOneAndUpdate(
                     {name: _body.name},
-                    {'password': _password}
+                    {password: _password}
                 );
             } else {
                 user = await User.findByIdAndUpdate(

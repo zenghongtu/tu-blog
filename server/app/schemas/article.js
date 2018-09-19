@@ -44,27 +44,10 @@ const ArticleSchema = new Schema({
             type: Number,
             default: 0
         }, // 浏览数
-        createAt: {
-            type: Date,
-            default: Date.now()
-        },// 创建日期
-        updateAt: {
-            type: Date,
-            default: Date.now()
-        },// 更新日期
     }
-});
+}, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
-// 时间更新
-ArticleSchema.pre('save', function (next) {
-    if (this.isNew) {
-        this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
-    }
-    next()
-});
 
 ArticleSchema.statics = {
     fetch: function (limit, page, field = '') {
@@ -72,15 +55,17 @@ ArticleSchema.statics = {
             .find({})
             .skip(page)
             .limit(limit)
-            .sort('-meta.updateAt')
+            .sort('-createdAt')
+            .select(field)
             .populate('category', 'name')
             .populate('tags', 'name')
-            .select(field)
             .exec()
     },
     findById: function (id) {
         return this
             .findOne({_id: id})
+            .populate('category', 'name')
+            .populate('tags', 'name')
             .exec()
     }
 };
