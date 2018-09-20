@@ -159,11 +159,13 @@ class Category extends React.Component {
                     onClose={this.handleModalSwitch()}
                 >
                     <div className={classes.modalPaper}>
-                        { // todo
+                        {
                             categories[this.state.curCatIdx] ?
                                 categories[this.state.curCatIdx].articles.map(item => {
                                     return <div key={item._id}>
-                                        {item._id}
+                                        <Button component={Link} to={"/article/" + item._id}>
+                                            {item.title}
+                                        </Button>
                                     </div>
                                 }) : null
                         }

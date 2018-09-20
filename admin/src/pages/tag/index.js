@@ -23,6 +23,7 @@ import {
     addTagHandler
 } from "./store";
 import Modal from "@material-ui/core/Modal/Modal";
+import {Link} from "react-router-dom";
 
 const styles = theme => ({
     root: {
@@ -161,7 +162,9 @@ class Tag extends React.Component {
                             tags[this.state.curCatIdx] ?
                                 tags[this.state.curCatIdx].articles.map(item => {
                                     return <div key={item._id}>
-                                        {item._id}
+                                        <Button component={Link} to={"/article/" + item._id}>
+                                            {item.title}
+                                        </Button>
                                     </div>
                                 }) : null
                         }
