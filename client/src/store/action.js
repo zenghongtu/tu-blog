@@ -6,7 +6,7 @@
 
 import axios from "axios";
 import {getCategories, getPageArticles, getTags, getTopArticles} from '../http/api'
-import {SAVE_PAGE_ARTICLES, SAVE_SIDEBAR_ITEMS} from "./mutation-types";
+import {CHANGE_PAGE, SAVE_PAGE_ARTICLES, SAVE_SIDEBAR_ITEMS} from "./mutation-types";
 import {DEFAULT_LIMIT, INIT_PAGE} from "./constants";
 
 const fetchPageArticles = async ({commit, state}, page = INIT_PAGE, limit = DEFAULT_LIMIT) => {
@@ -27,7 +27,16 @@ const fetchSidebarItems = ({commit, state}) => {
         }))
 };
 
+const changePage = ({commit, state}, page) => {
+    // if (!state.pageArticles[page]) {
+    //     fetchPageArticles({commit, state}, page)
+    // } else {
+    commit(CHANGE_PAGE, page)
+    // }
+};
+
 export default {
     fetchPageArticles,
     fetchSidebarItems,
+    changePage
 }

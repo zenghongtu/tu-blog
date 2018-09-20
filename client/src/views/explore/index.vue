@@ -51,10 +51,15 @@
         },
         methods: {
             ...mapActions({
-                fetchArticles: 'fetchPageArticles'
+                fetchArticles: 'fetchPageArticles',
+                changeNewPage: 'changePage'
             }),
             getNewArticles(page) {
-                this.fetchArticles(page)
+                if (!this.pageArticles[page]) {
+                    this.fetchArticles(page)
+                } else {
+                    this.changeNewPage(page)
+                }
             },
             linkTo(location, _id) {
                 this.$router.push({name: location, params: {_id}})
