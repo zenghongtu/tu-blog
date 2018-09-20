@@ -35,6 +35,7 @@ SiteSchema.statics = {
     fetch: function () {
         return this
             .find({})
+            .sort('createdAt')
             .exec()
     },
     findById: function (id) {

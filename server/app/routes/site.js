@@ -15,11 +15,11 @@ const router = new Router();
 
 router.prefix(`${baseApi}/${api}`);
 
-router.get('/', record, SiteControllers.find);
+router.get('/', SiteControllers.find);
 
 router.post('/', jwt, SiteControllers.add);
 
-router.get('/:id', SiteControllers.findById);
+router.get('/:id', record, SiteControllers.findById);
 
 router.put('/:id', jwt, SiteControllers.update);
 

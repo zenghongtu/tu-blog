@@ -11,6 +11,17 @@ import date from '../utils/date'
 class SiteControllers {
     async find(ctx) {
         try {
+            ctx.body = await Site.fetch()
+        } catch (err) {
+            if (err.name === 'CastError' || err.name === 'NotFoundError') {
+                ctx.throw(404);
+            }
+            ctx.throw(500);
+        }
+    }
+
+    async findById(ctx) {
+        try {
             let _id = ctx._id;
             const visits = await client.get(_id);
             const pageViews = await client.get('pageViews');
@@ -26,22 +37,6 @@ class SiteControllers {
                 {new: true}
             );
             ctx.body = {site, visitor}
-        } catch (err) {
-            if (err.name === 'CastError' || err.name === 'NotFoundError') {
-                ctx.throw(404);
-            }
-            ctx.throw(500);
-        }
-    }
-
-    async findById(ctx) {
-        const id = ctx.params.id;
-        try {
-            const site = await Site.findById(id);
-            if (!site) {
-                ctx.throw(404);
-            }
-            ctx.body = site;
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {
                 ctx.throw(404);
