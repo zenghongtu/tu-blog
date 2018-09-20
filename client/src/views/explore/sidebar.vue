@@ -30,7 +30,7 @@
         <div class="widget">
             <div class="widget-title">热门文章</div>
             <div class="article-list">
-                <div class="article-list-item" v-for="item in titles" :key="item._id"
+                <div class="article-list-item" v-for="item in topArticles" :key="item._id"
                      @click="linkTo('article',item._id)">{{item.title}}
                 </div>
             </div>
@@ -39,36 +39,21 @@
 </template>
 
 <script>
+    import {mapActions, mapState} from 'vuex'
+
     export default {
         name: "sidebar",
-        data() {
-            return {
-                categories: null,
-                tags: null,
-                titles: null,
-            }
-        },
+        computed: mapState(['categories', 'tags', 'topArticles',]),
         methods: {
-            getCategories() {
-                return this.$ajax.get('/categories?field=name')
-            },
-            getTags() {
-                return this.$ajax.get('/tags?field=name')
-            },
-            getTitles() {
-                return this.$ajax.get('/articles?page=0&limit=10&field=title&sort=-meta.viewCount')
-            },
+            ...mapActions(['fetchSidebarItems']),
             linkTo(location, _id, name = '') {
                 this.$router.push({name: location, params: {_id}, query: {name}})
             }
         },
         created() {
-            this.axios.all([this.getCategories(), this.getTags(), this.getTitles()])
-                .then(this.axios.spread((categories, tags, titles) => {
-                    this.categories = categories.data;
-                    this.tags = tags.data;
-                    this.titles = titles.data.data
-                }))
+            if (this.topArticles.length < 1) {
+                this.fetchSidebarItems()
+            }
         }
     }
 </script>

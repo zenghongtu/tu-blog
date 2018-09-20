@@ -7,7 +7,7 @@
     <div class="wrap">
         <div class="left-wrap">
             <main class="left">
-                <article class="article-wrap" v-for="article in articles" :key="article._id">
+                <article class="article-wrap" v-for="article in pageArticles[curPage]" :key="article._id">
                     <a @click="linkTo('article',article._id)" class="article-title">
                         {{article.title}}
                     </a>
@@ -31,8 +31,10 @@
 </template>
 
 <script>
+    import {mapActions, mapState} from 'vuex'
     import Sidebar from "./sidebar";
     import Pagination from "@/components/common/pagination";
+    import {DEFAULT_LIMIT} from "../../store/constants";
 
 
     export default {
@@ -41,27 +43,16 @@
             Sidebar,
             Pagination
         },
-        data() {
-            return {
-                articles: null,
-                articleTotal: 0,
-                limit: 10,
-                curPage: 1,
-            }
-        },
         computed: {
             totalPage() {
-                return Math.ceil(this.articleTotal / this.limit)
-            }
+                return Math.ceil(this.articleTotal / DEFAULT_LIMIT)
+            },
+            ...mapState(['pageArticles', 'articleTotal', 'curPage',])
         },
         methods: {
-            fetchArticles(page = 1, limit = this.limit) {
-                this.$ajax.get(`/articles?page=${page - 1}&limit=${limit}&field=-body`).then(rsp => {
-                    this.articleTotal = rsp.data.total;
-                    this.curPage = page;
-                    this.articles = rsp.data.data;
-                })
-            },
+            ...mapActions({
+                fetchArticles: 'fetchPageArticles'
+            }),
             getNewArticles(page) {
                 this.fetchArticles(page)
             },
@@ -70,7 +61,9 @@
             },
         },
         created() {
-            this.fetchArticles()
+            if (this.pageArticles.length < 1) {
+                this.fetchArticles()
+            }
         }
     };
 </script>
