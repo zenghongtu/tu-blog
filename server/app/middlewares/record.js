@@ -10,7 +10,8 @@ import userAgent from "../utils/userAgent";
 
 export default async (ctx, next) => {
     try {
-        let _id = ctx.request.header._id;
+        const _header = ctx.request.header;
+        let _id = _header._id;
         if (!_id) {
             const ip = ipCheck(ctx);
             const agent = userAgent(ctx);
@@ -20,7 +21,7 @@ export default async (ctx, next) => {
             ctx.set('_id', _id);
             await client.incr('uniqueVisitors')
         } else {
-            let _ida = ctx.request.header._ida;
+            let _ida = _header._ida;
             if (_ida) {
                 await client.del('t' + _id)
             } else {
@@ -30,9 +31,8 @@ export default async (ctx, next) => {
                 }
             }
         }
-
         ctx._id = _id;
-        const visitor = await client.incr(_id);
+        await client.incr(_id);
         await client.incr('pageViews')
     } catch (e) {
         console.log(e);

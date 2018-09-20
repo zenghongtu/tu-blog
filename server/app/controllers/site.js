@@ -23,7 +23,7 @@ class SiteControllers {
             const visitor = await User.findByIdAndUpdate(
                 _id,
                 {visits},
-                {new: true, upsert: true}
+                {new: true}
             );
             ctx.body = {site, visitor}
         } catch (err) {
