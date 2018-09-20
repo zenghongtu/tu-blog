@@ -84,6 +84,9 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4,
+    },
+    selectWrap: {
+        display: 'flex'
     }
 });
 
@@ -203,8 +206,12 @@ class Article extends React.Component {
                         </InputLabel>
                         <Input id="title-input" onChange={handleChange('title')} value={state.title}/>
                     </FormControl>
-                    <SelectTags onChange={handleSelectChange('tags')} value={state.tags}/>
-                    <SelectCategories onChange={handleSelectChange('category')} value={state.category}/>
+                    {
+                        !this.state._id && <div className={classes.selectWrap}>
+                            <SelectTags onChange={handleSelectChange('tags')} value={state.tags}/>
+                            <SelectCategories onChange={handleSelectChange('category')} value={state.category}/>
+                        </div>
+                    }
 
 
                     <main className={classes.layout}>
@@ -269,7 +276,7 @@ class Article extends React.Component {
                 </Paper>
                 <Modal open={state.showPreview} onClose={handlePreview}>
                     <div className={classes.preview}>
-                        {remark().use(reactRenderer).processSync(state.desc + '----\n\r' + state.body).contents}
+                        {remark().use(reactRenderer).processSync(state.desc + '-----' + state.body).contents}
                     </div>
                 </Modal>
             </React.Fragment>
