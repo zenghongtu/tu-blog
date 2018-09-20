@@ -241,7 +241,9 @@ class Laboratory extends React.Component {
 
                                             <TableCell className={classes.tableCell} numeric>{project.desc}</TableCell>
                                             <TableCell className={classNames(classes.tableCell, classes.tableSecond)}
-                                                       numeric>{project.articles}</TableCell>
+                                                       numeric> <TableCell className={classes.tableCell}
+                                                                           numeric> {project.articles.map(article => (
+                                                <Button>article.title</Button>))}</TableCell></TableCell>
                                             <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
                                                        numeric>
                                                 <Button variant="contained" className={classes.button}
