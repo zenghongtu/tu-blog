@@ -17,7 +17,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from "@material-ui/core/Typography/Typography";
 import Button from '@material-ui/core/Button';
-import {getArticleList} from "../../http";
+import connect from "react-redux/es/connect/connect";
+import {deleteArticle, getArticleList} from "../../http";
+import {ERROR} from "../../common/topSnackbar/store/constants";
+import {setSnackbarAction} from "../../common/topSnackbar/store";
+
 
 const styles = theme => ({
     root: {
@@ -73,6 +77,16 @@ class ArticleList extends React.Component {
         this.fetchArticleList()
     }
 
+    deleteArticleHanlder = _id => async _ => {
+        const {showSnackbar} = this.props;
+        try {
+            const rsp = await deleteArticle(_id);
+            this.fetchArticleList()
+        } catch (err) {
+            showSnackbar(err.message)
+        }
+    };
+
     render() {
         const {classes} = this.props;
         const {article_list, article_total, limit, page} = this.state;
@@ -102,7 +116,7 @@ class ArticleList extends React.Component {
                                                     喜欢数:<span
                                                     className={classNames(classes.countSpan, classes.light)}>{article.meta.commentsCount}</span>
                                                     最后编辑:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.updateAt.slice(0, 10)}</span>
+                                                    className={classNames(classes.countSpan, classes.light)}>{article.updated.slice(0, 10)}</span>
                                                 </div>
                                             </TableCell>
                                             <TableCell numeric
@@ -118,6 +132,7 @@ class ArticleList extends React.Component {
                                                     查看
                                                 </Button>
                                                 <Button variant="contained" color="secondary"
+                                                        onClick={this.deleteArticleHanlder(article._id)}
                                                         className={classes.button}>
                                                     删除
                                                 </Button>
@@ -154,4 +169,15 @@ ArticleList.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ArticleList);
+const mapDispatch = (dispatch) => ({
+        showSnackbar(message, status = ERROR, isShow = true) {
+            dispatch(setSnackbarAction({
+                status,
+                isShow,
+                message
+            }))
+        }
+    }
+);
+
+export default connect(null, mapDispatch)(withStyles(styles)(ArticleList));
