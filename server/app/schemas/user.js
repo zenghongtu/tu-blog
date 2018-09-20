@@ -12,10 +12,16 @@ const ObjectId = Schema.Types.ObjectId;
 const UserSchema = new Schema({
     name: {
         type: String,
-        default: '',
+        unique: true,
+        default: () => (
+            '' + Date.now()
+        )
     },
     ip: String,
-    email: String,
+    email: {
+        type: String,
+        default: ''
+    },
     password: String,
     visits: {
         type: Number,
