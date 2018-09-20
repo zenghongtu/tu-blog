@@ -48,14 +48,13 @@ const ArticleSchema = new Schema({
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
 
 
-
 ArticleSchema.statics = {
-    fetch: function (limit, page, field = '') {
+    fetch: function (limit, page, field = '', sort = '-created') {
         return this
             .find({})
             .skip(page * limit)
             .limit(limit)
-            .sort('-created')
+            .sort(sort)
             .select(field)
             .populate('category', 'name')
             .populate('tags', 'name')

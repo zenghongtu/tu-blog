@@ -14,8 +14,9 @@ class ArticleControllers {
         const limit = ctx.query.limit || null;
         const page = ctx.query.page || null;
         const field = ctx.query.field || null;
+        const sort = ctx.query.sort || null;
         const total = await Article.count();
-        const _body = await Article.fetch(+limit, +page, field);
+        const _body = await Article.fetch(+limit, +page, field, sort);
         ctx.body = {total, data: _body}
     }
 
