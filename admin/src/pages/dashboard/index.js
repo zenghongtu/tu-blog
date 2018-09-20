@@ -20,15 +20,19 @@ const styles = theme => ({
 
 class Dashboard extends Component {
     state = {
-        siteInfo: []
+        siteInfo: [],
     };
 
     async fetchSiteInfo() {
-        const siteInfo = await getSiteInfo();
-        this.setState((state) => ({
-                siteInfo: siteInfo
-            }
-        ))
+        try {
+            const siteInfo = await getSiteInfo();
+            this.setState((state) => ({
+                    siteInfo: siteInfo
+                }
+            ))
+        } catch (e) {
+
+        }
     }
 
     componentDidMount() {
@@ -41,7 +45,7 @@ class Dashboard extends Component {
         return (
             <div>
                 <Typography variant="title" gutterBottom={true} className={classes.title}>
-                    网站状况
+                    网站分析
                 </Typography>
                 <Paper className={classes.root}>
                     <SiteInfoLineChart data={siteInfo}/>
