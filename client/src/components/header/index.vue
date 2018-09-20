@@ -5,7 +5,7 @@
 
 <template>
     <div class="header">
-        <h1 class="name">这个码农不太冷</h1>
+        <h1 class="name" @click="linkHandler">这个码农不太冷</h1>
         <h5 class="description">JasonZeng's blog</h5>
         <nav class="nav">
             <router-link :class="'nav-item '+($route.name===item.link?'active':'')" v-for="item in routes_"
@@ -28,6 +28,11 @@
                     {id: 4, link: 'about', name: '关于'}
                 ]
             }
+        },
+        methods: {
+            linkHandler() {
+                this.$router.push('/')
+            }
         }
     };
 </script>
@@ -46,7 +51,7 @@
             font-size: 2.375rem;
             font-weight: 900;
             margin: 0;
-            cursor: default;
+            cursor: pointer;
         }
         .description {
             @include font();

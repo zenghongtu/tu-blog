@@ -12,7 +12,7 @@
                         {{article.title}}
                     </a>
                     <div class="article-date">
-                        {{article.meta.updateAt}}
+                        {{article.updated.slice(0,10)}}
                     </div>
                     <p class="article-content">
                         {{article.desc}}
@@ -55,8 +55,8 @@
             }
         },
         methods: {
-            fetchArticles(page = 0, limit = this.limit) {
-                this.$ajax.get(`/articles?page=${page}&limit=${limit}&field=-body`).then(rsp => {
+            fetchArticles(page = 1, limit = this.limit) {
+                this.$ajax.get(`/articles?page=${page - 1}&limit=${limit}&field=-body`).then(rsp => {
                     this.articleTotal = rsp.data.total;
                     this.curPage = page;
                     this.articles = rsp.data.data;

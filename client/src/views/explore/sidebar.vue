@@ -56,7 +56,7 @@
                 return this.$ajax.get('/tags?field=name')
             },
             getTitles() {
-                return this.$ajax.get('/articles?page=0&limit=10&field=title&sort=meta.viewCount')
+                return this.$ajax.get('/articles?page=0&limit=10&field=title&sort=-meta.viewCount')
             },
             linkTo(location, _id, name = '') {
                 this.$router.push({name: location, params: {_id}, query: {name}})
