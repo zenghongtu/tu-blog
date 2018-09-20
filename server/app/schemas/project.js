@@ -38,9 +38,9 @@ ProjectSchema.statics = {
     fetch: function (limit, page, field = '') {
         return this
             .find({})
-            .skip(page)
+            .skip(page * limit)
             .limit(limit)
-            .sort('-createdAt')
+            .sort('-created')
             .select(field)
             .populate('articles', 'title')
             .exec();

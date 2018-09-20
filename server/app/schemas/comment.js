@@ -37,7 +37,7 @@ CommentSchema.statics = {
     fetch: function () {
         return this
             .find({})
-            .sort('-createdAt')
+            .sort('-created')
             .populate('from', 'name agent')
             .populate('reply.from reply.to', 'name agent')
             .exec()

@@ -27,7 +27,7 @@ TagSchema.statics = {
         return this
             .find({})
             .select(field)
-            .sort('-createdAt')
+            .sort('-created')
             .populate('articles', 'title')
             .exec()
     },

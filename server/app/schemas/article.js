@@ -53,9 +53,9 @@ ArticleSchema.statics = {
     fetch: function (limit, page, field = '') {
         return this
             .find({})
-            .skip(page)
+            .skip(page * limit)
             .limit(limit)
-            .sort('-createdAt')
+            .sort('-created')
             .select(field)
             .populate('category', 'name')
             .populate('tags', 'name')

@@ -26,7 +26,7 @@ CategorySchema.statics = {
             .find({})
             .populate({path: 'articles', select: 'body'})
             .select(field)
-            .sort('-createdAt')
+            .sort('-created')
             .populate('articles', 'title')
             .exec()
     },
