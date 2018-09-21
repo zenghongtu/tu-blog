@@ -23,7 +23,7 @@ class ArticleControllers {
     async findById(ctx) {
         const id = ctx.params.id;
         try {
-            const article = await Article.findByIdAndUpdate(id, {$inc: {'meta.viewCount': 1}}, {new: true});
+            let article = await Article.findByIdAndUpdate(id, {$inc: {'meta.viewCount': 1}}, {new: true}).populate('tags', 'name').populate('category', 'name');
             if (!article) {
                 ctx.throw(404);
             }

@@ -8,23 +8,26 @@
         <div class="article-content" v-if="article">
             <h2 class="article-title">{{article.title}}</h2>
             <div class="article-meta">
-                <div class="date">发布于:{{article.meta.createAt.slice(0,10)}}</div>
-                <div class="category">| # {{article.category}}</div>
+                <div class="date">发布于:{{article.createAt}}</div>
+                <div class="category" @click="linkTo(article.category._id,'category')">| # {{article.category.name}}
+                </div>
                 <div class="comment">{{article.meta.viewCount}}</div>
             </div>
             <div class="content">
-                <vue-markdown>{{content}}</vue-markdown>
+                <vue-markdown>{{article.body}}</vue-markdown>
             </div>
             <p>-- EOF --</p>
-            <div class="tags"># {{article.tags}}</div>
+            <div class="tags"># <span class="tag" @click="linkTo(tag._id,'tag')" v-for="tag of article.tags"
+                                      :key="tag._id">{{tag.name}}</span></div>
             <p>
-                <span>本文链接:<a class="article-url" @click="linkTo('article',article._id)">{{url}} </a></span>
+                <span>本文链接:<a class="article-url" @click="linkTo(article._id)">{{url}} </a></span>
             </p>
-            <div class="update">最后更新于: {{article.meta.updateAt.slice(0,10)}}</div>
+            <div class="update">最后更新于: {{article.updated}}</div>
         </div>
         <div class="article-nav">
-            <div class="pre"> < 上一篇</div>
-            <div class="next"> 下一篇 ></div>
+            <div class="pre" v-if="preArticle" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle.title}}</div>
+            <div v-else></div>
+            <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>
         </div>
     </div>
 </template>
@@ -32,6 +35,7 @@
 <script>
     import {getArticle} from "../../http/api";
     import VueMarkdown from 'vue-markdown'
+    import {mapState, mapActions} from 'vuex'
 
     export default {
         name: "article",
@@ -39,37 +43,86 @@
             return {
                 article: null,
                 comments: null,
-                content: null
+                preArticle: null,
+                nextArticle: null,
+                url: null
             }
         },
         components: {
             VueMarkdown
         },
         computed: {
-            url() {
-                return window.location.href
-            }
+            ...mapState(['articleTitleList'])
         },
         methods: {
             async fetchArticle() {
                 const _id = this.$route.params._id;
                 const rsp = await getArticle(_id);
-                const article = this.article = rsp.data.article;
+                this.article = rsp.data.article;
                 this.comments = rsp.data.comments;
-                this.content = article.body
+                this.url = window.location.href
             },
-            linkTo(location, _id) {
+            linkTo(_id, location = 'article') {
                 this.$router.push({name: location, params: {_id}})
             },
+            ...mapActions({
+                getArticleList: 'getArticleList'
+            }),
+            getNextArticle() {
+                setTimeout(() => {
+                    const _id = this.$route.params._id;
+                    const list = this.articleTitleList;
+                    for (let i = 0, item = list[0]; item = list[i++];) {
+                        if (item._id === _id) {
+                            if (i > 1) {
+                                this.preArticle = list[i - 2]
+                            } else {
+                                this.preArticle = null
+                            }
+                            if (i < list.length - 2) {
+                                this.nextArticle = list[i]
+                            } else {
+                                this.nextArticle = null
+                            }
+                            break;
+                        }
+
+                    }
+                }, 500)
+            }
         },
         created() {
-            this.fetchArticle()
+            this.fetchArticle();
+            if (this.articleTitleList.length < 1) {
+                this.getArticleList()
+            }
+        },
+        mounted() {
+            this.getNextArticle()
+
+        },
+        beforeRouteUpdate(to, from, next) {
+            if (to.path !== from.path) {
+                this.fetchArticle();
+                this.getNextArticle()
+            }
+            next()
         }
-    };
+
+    }
 </script>
 
 <style scoped lang="scss">
     @import "../../assets/style/index";
+
+    @mixin h {
+        color: $date;
+        cursor: pointer;
+        &:hover {
+            color: $link;
+        }
+        transition: color 1s ease-out;
+    }
 
     .article-wrap {
         padding-top: 1.25em;
@@ -96,6 +149,7 @@
                 }
                 .category {
                     display: inline-block;
+                    @include h;
                 }
                 .comment {
                     display: inline-block;
@@ -103,12 +157,9 @@
                     margin-right: 5em;
                     text-indent: .15em;
                 }
-                .article-url {
-                    a {
-                        color: $date;
-                    }
-                }
-
+            }
+            .article-url {
+                @include h;
             }
             .content {
                 font-size: 0.9375em;
@@ -117,6 +168,10 @@
                 padding-top: .9375em;
                 word-break: keep-all;
                 text-indent: 2em;
+            }
+            .tag {
+                margin-right: 1em;
+                @include h;
             }
         }
         .article-nav {
@@ -130,7 +185,7 @@
                 display: inline-block;
                 line-height: 1.5625em;
                 font-size: 0.9375em;
-                color: $title;
+                @include h;
             }
         }
     }

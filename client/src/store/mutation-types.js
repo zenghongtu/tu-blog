@@ -9,3 +9,4 @@ export const SAVE_CATEGORIES = 'sidebar/save_categories';
 export const SAVE_TAGS = 'sidebar/save_tags';
 export const SAVE_TOP_ARTICLES = 'sidebar/save_top_articles';
 export const CHANGE_PAGE = 'explore/change_page';
+export const SAVE_ARTICLE_TITLE_LIST = 'article/save_article_title_list';

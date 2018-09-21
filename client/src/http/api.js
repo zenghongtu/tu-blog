@@ -10,6 +10,7 @@ export const getTags = _ => ajax.get('/tags?field=name');
 export const getTopArticles = _ => ajax.get('/articles?page=0&limit=10&field=title&sort=-meta.viewCount');
 export const getArticleList = _ => ajax.get(`/articles?field=title&field=meta`);
 export const getArticle = _id => ajax.get(`/articles/${_id}`);
+export const getArticleTitleList = _ => ajax.get(`/articles?field=title`);
 export const getBooks = _ => ajax.get(`/books`);
 export const getProjects = _ => ajax.get(`/projects`);
 export const getSiteInfo = _ => ajax.get(`/site?field=-dayViewsList`);
