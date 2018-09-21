@@ -25,9 +25,9 @@
             <div class="update">最后更新于: {{article.updated}}</div>
         </div>
         <div class="article-nav">
-            <div class="pre" v-if="preArticle" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle.title}}</div>
+            <div class="pre" v-if="preArticle" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle._id}}</div>
             <div v-else></div>
-            <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>
+            <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle._id}} ></div>
         </div>
     </div>
 </template>
@@ -52,7 +52,7 @@
             VueMarkdown
         },
         computed: {
-            ...mapState(['articleTitleList'])
+            ...mapState(['articleList'])
         },
         methods: {
             async fetchArticle() {
@@ -70,30 +70,31 @@
             }),
             getNextArticle() {
                 setTimeout(() => {
+                    // todo
                     const _id = this.$route.params._id;
-                    const list = this.articleTitleList;
+                    const list = this.articleList;
                     for (let i = 0, item = list[0]; item = list[i++];) {
                         if (item._id === _id) {
-                            if (i > 1) {
-                                this.preArticle = list[i - 2]
-                            } else {
-                                this.preArticle = null
-                            }
-                            if (i < list.length - 2) {
+                            if (i < list.length - 1) {
                                 this.nextArticle = list[i]
                             } else {
                                 this.nextArticle = null
+                            }
+                            if (i > 0) {
+                                this.preArticle = list[i - 2]
+                            } else {
+                                this.preArticle = null
                             }
                             break;
                         }
 
                     }
-                }, 500)
+                }, 200)
             }
         },
         created() {
             this.fetchArticle();
-            if (this.articleTitleList.length < 1) {
+            if (this.articleList.length < 1) {
                 this.getArticleList()
             }
         },
