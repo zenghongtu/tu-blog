@@ -18,7 +18,7 @@
 </template>
 
 <script>
-
+    import {mapState, mapActions} from "vuex";
     import {getArticleList} from "../../http/api";
 
     export default {
@@ -31,16 +31,15 @@
         computed: {
             timeArticlesSort() {
                 return Object.keys(this.timeArticles).reverse()
-            }
+            },
+            ...mapState(['articleList']),
         },
         methods: {
-            async fetchArchiveArticles() {
-                const _id = this.$route.params._id;
-                const rsp = await getArticleList();
-                const item = rsp.data.data;
+            fetchArchiveArticles() {
+                const item = this.articleList;
                 const timeArticles = {};
                 item.forEach((item) => {
-                    const d = item.meta.createAt;
+                    const d = item.created;
                     const t = item.title;
                     const id = item._id;
                     const year = d.slice(0, 4);
@@ -58,10 +57,18 @@
             },
             linkTo(location, _id) {
                 this.$router.push({name: location, params: {_id}})
-            }
+            },
+            ...mapActions(['getArticleList']),
         },
         created() {
-            this.fetchArchiveArticles()
+            if (this.articleList.length < 1) {
+                this.getArticleList()
+            }
+        },
+        mounted() {
+            setTimeout(() => {
+                this.fetchArchiveArticles()
+            }, 500)
         }
     }
 </script>

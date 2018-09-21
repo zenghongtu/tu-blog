@@ -3,7 +3,7 @@
  * Desc: mutations
  */
 
-import {CHANGE_PAGE, SAVE_PAGE_ARTICLES, SAVE_SIDEBAR_ITEMS, SAVE_ARTICLE_TITLE_LIST} from "./mutation-types";
+import {CHANGE_PAGE, SAVE_PAGE_ARTICLES, SAVE_SIDEBAR_ITEMS, SAVE_ARTICLE_LIST} from "./mutation-types";
 
 export default {
     [SAVE_PAGE_ARTICLES](state, data) {
@@ -19,8 +19,8 @@ export default {
     [CHANGE_PAGE](state, page) {
         state.curPage = page
     },
-    [SAVE_ARTICLE_TITLE_LIST](state, data) {
-        state.articleTitleList = data.data;
+    [SAVE_ARTICLE_LIST](state, data) {
+        state.articleList = data.data;
         state.articleTotal = data.total
     }
 }
