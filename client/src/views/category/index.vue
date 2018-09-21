@@ -5,7 +5,7 @@
 
 <template>
     <div class="category-wrap">
-        <h3 class="label-title">正在查看 {{$route.query.name}} 下的文章</h3>
+        <h3 class="label-title">正在查看 {{name}} 下的文章</h3>
         <div class="category-content" v-for="year in timeArticlesSort" :key="year">
             <h2 class="category-year">{{year}}</h2>
             <ul class="category-item-wrap">
@@ -19,11 +19,14 @@
 </template>
 
 <script>
+    import {getcategoriesArticles} from "../../http/api";
+
     export default {
         name: "category",
         data() {
             return {
-                timeArticles: []
+                timeArticles: [],
+                name: ''
             }
         },
         computed: {
@@ -34,11 +37,12 @@
         methods: {
             async fetchCategoryArticles() {
                 const _id = this.$route.params._id;
-                const rsp = await this.$ajax.get(`/categories/${_id}`);
-                const item = rsp.data[0];
+                const rsp = await getcategoriesArticles(_id);
+                const item = rsp.data;
                 const timeArticles = {};
+                this.name = item.name;
                 item.articles.forEach((item) => {
-                    const d = item.meta.createAt;
+                    const d = item.created;
                     const t = item.title;
                     const id = item._id;
                     const year = d.slice(0, 4);

@@ -5,7 +5,7 @@
 
 <template>
     <div class="tag-wrap">
-        <h3 class="label-title">正在查看 {{$route.query.name}} 下的文章</h3>
+        <h3 class="label-title">正在查看 {{name}} 下的文章</h3>
         <div class="tag-content" v-for="year in timeArticlesSort" :key="year">
             <h2 class="tag-year">{{year}}</h2>
             <ul class="tag-item-wrap">
@@ -19,11 +19,14 @@
 </template>
 
 <script>
+    import {getTagArticles} from "../../http/api";
+
     export default {
         name: "tag",
         data() {
             return {
-                timeArticles: []
+                timeArticles: [],
+                name: ''
             }
         },
         computed: {
@@ -32,13 +35,14 @@
             }
         },
         methods: {
-            async fetchCategoryArticles() {
+            async fetchTagArticles() {
                 const _id = this.$route.params._id;
-                const rsp = await this.$ajax.get(`/tags/${_id}`);
-                const item = rsp.data[0];
+                const rsp = await getTagArticles(_id);
+                const item = rsp.data;
                 const timeArticles = {};
+                this.name = item.name;
                 item.articles.forEach((item) => {
-                    const d = item.meta.createAt;
+                    const d = item.created;
                     const t = item.title;
                     const id = item._id;
                     const year = d.slice(0, 4);
@@ -59,7 +63,7 @@
             }
         },
         created() {
-            this.fetchCategoryArticles()
+            this.fetchTagArticles()
         }
     }
 </script>
