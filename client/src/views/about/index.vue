@@ -54,7 +54,7 @@
                 pageViews: '',
                 viewNum: '',
                 uniqueVisitors: '',
-                start_time: '',
+                start_time: '2018-09-22T10:33:29.617Z',
                 days: '',
                 hours: '',
                 minutes: '',
@@ -92,23 +92,13 @@
                     }, 900
                 )
             },
-            sotrageHandler(uniqueVisitors) {
-                const date = new Date().toLocaleDateString();
-                const storage = window.localStorage;
-                if (storage.getItem(date)) {
-                    this.uniqueVisitors = storage.getItem(date)
-                } else {
-                    this.uniqueVisitors = uniqueVisitors;
-                    storage.setItem(date, uniqueVisitors)
-                }
-            },
             async fetchSiteInfo() {
                 const rsp = await getSiteInfo();
-                const data = rsp.data;
-                this.pageViews = data.pageViews;
-                const uniqueVisitors = data.uniqueVisitors;
-                this.start_time = data.meta.createAt;
-                this.sotrageHandler(uniqueVisitors);
+                const site = rsp.data.site;
+                const visitor = rsp.data.visitor;
+                this.pageViews = site.pv;
+                this.uniqueVisitors = site.uv;
+                this.viewNum = visitor.visits;
                 this.timer();
                 this.generateSlogan()
             },
