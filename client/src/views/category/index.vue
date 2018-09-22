@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import {getcategoriesArticles} from "../../http/api";
+    import {getCategoriesArticles} from "../../http/api";
 
     export default {
         name: "category",
@@ -37,7 +37,7 @@
         methods: {
             async fetchCategoryArticles() {
                 const _id = this.$route.params._id;
-                const rsp = await getcategoriesArticles(_id);
+                const rsp = await getCategoriesArticles(_id);
                 const item = rsp.data;
                 const timeArticles = {};
                 this.name = item.name;

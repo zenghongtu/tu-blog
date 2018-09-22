@@ -20,7 +20,7 @@ mongoose.connection.on('error', console.error);
 const app = new Koa();
 
 app
-    .use(cors())
+    .use(cors({exposeHeaders: '_id'}))
     .use(logger())
     .use(bodyParser())
     .use(helmet());

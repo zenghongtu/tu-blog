@@ -14,4 +14,4 @@ export const getTagArticles = _id => ajax.get(`/tags/${_id}`);
 export const getCategoriesArticles = _id => ajax.get(`/categories/${_id}`);
 export const getBooks = _ => ajax.get(`/books`);
 export const getProjects = _ => ajax.get(`/projects`);
-export const getSiteInfo = _ => ajax.get(`/site?field=-dayViewsList`);
+export const getSiteInfo = _ => ajax.get(`/site/:`);
