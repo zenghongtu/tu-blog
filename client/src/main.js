@@ -5,6 +5,8 @@ import router from './router';
 import store from './store';
 import ajax from './http/config';
 
+import './util/rem'
+
 Vue.config.productionTip = false;
 Vue.prototype.$ajax = ajax;
 
