@@ -47,7 +47,6 @@
                     }
                     allProjects[item.action].push(item)
                 });
-                console.log(allProjects);
                 this.allProjects = allProjects
             },
             linkTo(location, _id) {
