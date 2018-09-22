@@ -25,9 +25,9 @@
             <div class="update">最后更新于: {{article.updated}}</div>
         </div>
         <div class="article-nav">
-            <div class="pre" v-if="preArticle" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle._id}}</div>
+            <div class="pre" v-if="preArticle" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle.title}}</div>
             <div v-else></div>
-            <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle._id}} ></div>
+            <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>
         </div>
     </div>
 </template>
@@ -70,12 +70,12 @@
             }),
             getNextArticle() {
                 setTimeout(() => {
-                    // todo
                     const _id = this.$route.params._id;
                     const list = this.articleList;
+                    const _len = list.length;
                     for (let i = 0, item = list[0]; item = list[i++];) {
                         if (item._id === _id) {
-                            if (i < list.length - 1) {
+                            if (i < _len) {
                                 this.nextArticle = list[i]
                             } else {
                                 this.nextArticle = null
