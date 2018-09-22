@@ -25,6 +25,8 @@ $background: $white;
 
 $font: 'Avenir', Helvetica, Arial, sans-serif;
 
+$maxWidth: 839px;
+
 @mixin font($f:$font) {
   font-family: $f;
   -webkit-font-smoothing: antialiased;
@@ -91,3 +93,4 @@ $font: 'Avenir', Helvetica, Arial, sans-serif;
     }
   }
 }
+

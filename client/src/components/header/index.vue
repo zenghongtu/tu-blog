@@ -87,6 +87,13 @@
                     border-bottom-color: $active;
                 }
             }
+
+        }
+    }
+
+    @media all and (max-width: $maxWidth) {
+        .header, .name, .header .nav {
+            text-align: center;
         }
     }
 </style>

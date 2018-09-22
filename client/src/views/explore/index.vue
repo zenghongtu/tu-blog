@@ -83,6 +83,9 @@
         .left-wrap {
             flex: 3;
             margin-right: 3.125em;
+            @media all and (max-width: $maxWidth) {
+                margin-right: 0;
+            }
             .article-wrap {
                 margin-top: 1.5625em;
                 text-align: left;
@@ -102,6 +105,7 @@
                     margin: 0 auto;
                     cursor: pointer;
                     @include border-bottom();
+
                 }
                 .article-date {
                     color: $date;
@@ -137,6 +141,10 @@
         }
         .right {
             flex: 1;
+            @media all and (max-width: $maxWidth) {
+                display: none;
+            }
         }
     }
+
 </style>
