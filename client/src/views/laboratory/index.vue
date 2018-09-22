@@ -12,8 +12,8 @@
                     <h5 class="item-name"><i class="fa">#</i><a class="link" :href="project.url">{{project.name}}</a>
                     </h5>
                     <div class="item-desc">{{project.desc}}</div>
-                    <div class="item-star">star: {{project.star}}</div>
-                    <div class="item-fork">fork: {{project.fork}}</div>
+                    <div class="item-star">star: {{project.stars}}</div>
+                    <div class="item-fork">fork: {{project.forks}}</div>
                     <ol type="i" class="item-articles-wrap">
                         <li class="item-articles-content" v-for="(article,idx) in project.articles" :key="article._id">
                             {{idx}}: <span class="link"><a @click="linkTo('article',article._id)">{{article.title}}</a> </span>
