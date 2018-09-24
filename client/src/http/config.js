@@ -13,8 +13,13 @@ const ajax = axios.create({
 });
 
 ajax.interceptors.request.use((config) => {
-    const _id = window.localStorage.getItem('_id');
+    const storage = window.localStorage;
+    const _id = storage.getItem('_id');
     _id && (config.headers._id = _id);
+    if (storage.getItem('_ida') === ':') {
+        config.headers._ida = ':';
+        storage.removeItem('_ida')
+    }
     return config
 }, (err) => {
     alert('发起请求超时');
@@ -23,9 +28,13 @@ ajax.interceptors.request.use((config) => {
 
 ajax.interceptors.response.use((res) => {
     if (/^2/.test(res.status)) {
-        const _id = res.headers._id;
+        const {_id, _ida} = res.headers;
+        const storage = window.localStorage;
         if (_id) {
-            window.localStorage.setItem('_id', _id);
+            storage.setItem('_id', _id);
+        }
+        if (_ida) {
+            storage.setItem('_ida', _ida)
         }
         return res
     } else {

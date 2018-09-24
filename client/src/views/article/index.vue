@@ -158,8 +158,15 @@
                 this.getNextArticle()
             }
             next()
-        }
-
+        },
+        beforeRouteEnter(to, from, next) {
+            const storage = window.localStorage;
+            const _ida = storage.getItem('_ida');
+            if (_ida && to.params._id === _ida) {
+                storage.setItem('_ida', ':')
+            }
+            next()
+        },
     }
 </script>
 

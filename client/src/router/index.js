@@ -68,10 +68,5 @@ const router = new Router({
     ],
 });
 
-router.afterEach((to, from) => {
-    const storage = window.localStorage;
-    storage.setItem('views', +storage.getItem('views') + 1)
-
-});
 
 export default router
