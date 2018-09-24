@@ -107,9 +107,23 @@ const styles = theme => ({
     },
 });
 
+const RedirectTo = ({...rest}) => (
+    <Route
+        {...rest}
+        render={props =>
+            (<Redirect
+                to={{
+                    pathname: "/login",
+                    state: {from: props.location}
+                }}
+            />)
+        }
+    />
+);
+
 class App extends Component {
     state = {
-        open: false
+        open: false,
     };
 
     constructor(props) {
@@ -119,6 +133,7 @@ class App extends Component {
             props.changeLogin({isAuthenticated: true, token})
         }
     }
+
 
     handleDrawerSwitch = () => {
         this.setState({open: !this.state.open});
@@ -197,11 +212,14 @@ class App extends Component {
                                 </div>
                             )
                             :
-                            <Switch>
-                                <Route exact path="/login" component={Login}/>
-                                <Redirect path="/" to="/login"/>
-                            </Switch>
+                            (
+                                <Switch>
+                                    <Route exact path="/login" component={Login}/>
+                                    <RedirectTo path="/"/>
+                                </Switch>
+                            )
                     }
+
                 </div>
             </Router>
         );
