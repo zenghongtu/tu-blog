@@ -24,7 +24,7 @@
                     {id: 0, link: 'explore', name: '看看'},
                     {id: 1, link: 'archive', name: '归档'},
                     {id: 2, link: 'read', name: '读书'},
-                    {id: 3, link: 'laboratory', name: '实验室'},
+                    {id: 3, link: 'laboratory', name: '项目'},
                     {id: 4, link: 'about', name: '关于'}
                 ]
             }

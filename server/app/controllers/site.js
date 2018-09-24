@@ -36,7 +36,8 @@ class SiteControllers {
                 {visits},
                 {new: true}
             );
-            ctx.body = {site, visitor}
+            const start_time = await client.get('start_time');
+            ctx.body = {site, visitor, start_time}
         } catch (err) {
             if (err.name === 'CastError' || err.name === 'NotFoundError') {
                 ctx.throw(404);

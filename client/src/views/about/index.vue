@@ -54,7 +54,7 @@
                 pageViews: '',
                 viewNum: '',
                 uniqueVisitors: '',
-                start_time: '2018-09-22T10:33:29.617Z',
+                start_time: '',
                 days: '',
                 hours: '',
                 minutes: '',
@@ -99,6 +99,7 @@
                 this.pageViews = site.pv;
                 this.uniqueVisitors = site.uv;
                 this.viewNum = visitor.visits;
+                this.start_time = rsp.data.start_time;
                 this.timer();
                 this.generateSlogan()
             },
