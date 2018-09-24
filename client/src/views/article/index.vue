@@ -30,14 +30,14 @@
             <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>
         </div>
         <div>
-            <Comment @reply="replyHandler" :comments="comments"></Comment>
+            <Comment @reply="replyHandler" @replyComment="replyCommentHandler" :comments="comments"></Comment>
         </div>
     </div>
 </template>
 
 <script>
     import {mapState, mapActions} from 'vuex'
-    import {getArticle, postComment} from "../../http/api";
+    import {getArticle, postComment, putComment} from "../../http/api";
     import VueMarkdown from 'vue-markdown'
     import Comment from "../../components/common/comment";
 
@@ -97,9 +97,15 @@
                     }
                 }, 200)
             },
+            storageHandler(name, email) {
+                const storage = window.localStorage;
+                storage.setItem('user_info', JSON.stringify({name, email}));
+                return storage.getItem('_id')
+            }
+            ,
             replyHandler(info) {
                 const [name, email, content] = info;
-                const user_id = window.localStorage.getItem('_id');
+                const user_id = this.storageHandler(name, email);
                 const data = {
                     user: {
                         name,
@@ -108,13 +114,30 @@
                     comment: {
                         article: this.article._id,
                         content: content,
-                        from: user_id
+                        from: user_id,
                     }
                 };
                 this.addComment(data)
             },
+            replyCommentHandler(info) {
+                const [_id, to_id, content] = info;
+                const user_id = window.localStorage.getItem('_id');
+                const data = {
+                    user: {},
+                    comment: {
+                        from: user_id,
+                        to: to_id,
+                        content,
+                        created: new Date(),
+                    },
+                };
+                this.updateComment(_id, data)
+            },
             async addComment(data) {
                 const rsp = await postComment(data)
+            },
+            async updateComment(_id, data) {
+                const rsp = await putComment(_id, data)
             }
         },
         created() {
