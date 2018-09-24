@@ -43,12 +43,22 @@
                         this.i = 0
                     }
                 }, 5000)
+            },
+            scroll() {
+                let i = 0;
+                const timer = setInterval(() => {
+                    if (i < 165) {
+                        window.scrollTo(0, i++)
+                    } else {
+                        clearInterval(timer)
+                    }
+                }, 10)
             }
         },
         mounted() {
             this.changeImg();
             this.$nextTick(() => {
-                window.scrollTo(0, 165)
+                this.scroll()
             })
         }
     }

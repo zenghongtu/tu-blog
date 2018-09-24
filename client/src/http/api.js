@@ -15,3 +15,4 @@ export const getCategoriesArticles = _id => ajax.get(`/categories/${_id}`);
 export const getBooks = _ => ajax.get(`/books`);
 export const getProjects = _ => ajax.get(`/projects`);
 export const getSiteInfo = _ => ajax.get(`/site/:`);
+export const postComment = data => ajax.post(`/comments`, data);

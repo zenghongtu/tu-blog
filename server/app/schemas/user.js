@@ -34,8 +34,8 @@ const UserSchema = new Schema({
     agent: {
         browser: String,
         version: String,
-        os: String,
         platform: String,
+        os: String,
     },
     comments: [{
         type: ObjectId,

@@ -29,13 +29,18 @@
             <div v-else></div>
             <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>
         </div>
+        <div>
+            <Comment @reply="replyHandler" :comments="comments"></Comment>
+        </div>
     </div>
 </template>
 
 <script>
-    import {getArticle} from "../../http/api";
-    import VueMarkdown from 'vue-markdown'
     import {mapState, mapActions} from 'vuex'
+    import {getArticle, postComment} from "../../http/api";
+    import VueMarkdown from 'vue-markdown'
+    import Comment from "../../components/common/comment";
+
 
     export default {
         name: "article",
@@ -49,7 +54,8 @@
             }
         },
         components: {
-            VueMarkdown
+            VueMarkdown,
+            Comment,
         },
         computed: {
             ...mapState(['articleList'])
@@ -90,6 +96,25 @@
 
                     }
                 }, 200)
+            },
+            replyHandler(info) {
+                const [name, email, content] = info;
+                const user_id = window.localStorage.getItem('_id');
+                const data = {
+                    user: {
+                        name,
+                        email,
+                    },
+                    comment: {
+                        article: this.article._id,
+                        content: content,
+                        from: user_id
+                    }
+                };
+                this.addComment(data)
+            },
+            async addComment(data) {
+                const rsp = await postComment(data)
             }
         },
         created() {

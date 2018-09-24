@@ -37,6 +37,9 @@ class CommentControllers {
      */
     async add(ctx) {
         try {
+            if (!ctx.request.header._id) {
+                ctx.throw(400);
+            }
             const _body = ctx.request.body;
             const _comment = _body.comment;
             const _user = _body.user;
@@ -58,6 +61,9 @@ class CommentControllers {
      */
     async update(ctx) {
         try {
+            if (!ctx.request.header._id) {
+                ctx.throw(400);
+            }
             const _body = ctx.request.body;
             const _comment = _body.comment;
             const comment = await Comment.findByIdAndUpdate(ctx.params.id, {$addToSet: {reply: _comment}}, {new: true});
