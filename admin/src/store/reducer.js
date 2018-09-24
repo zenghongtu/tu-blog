@@ -19,6 +19,5 @@ const reducer = combineReducers({
     snackbar: SnackbarReducer,
 });
 
-console.log(reducer);
 
 export default reducer

@@ -42,5 +42,6 @@ const logoutAction = () => {
 
 export {
     loginActionHandler,
-    logoutAction
+    logoutAction,
+    loginAction,
 }

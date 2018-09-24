@@ -19,7 +19,6 @@ import AddIcon from '@material-ui/icons/Add';
 import './App.css';
 
 import {Navigation} from "./common/index";
-
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
@@ -30,7 +29,7 @@ import Tag from "./pages/tag";
 import Read from "./pages/read";
 import Laboratory from "./pages/laboratory";
 import {connect} from "react-redux";
-import {logoutAction} from "./pages/login/store/actionCreators";
+import {logoutAction, loginAction} from "./pages/login/store/actionCreators";
 import TopSnackbar from './common/topSnackbar'
 
 const drawerWidth = 190;
@@ -113,12 +112,16 @@ class App extends Component {
         open: false
     };
 
+    constructor(props) {
+        super(props);
+        const token = window.sessionStorage.getItem('token');
+        if (token) {
+            props.changeLogin({isAuthenticated: true, token})
+        }
+    }
+
     handleDrawerSwitch = () => {
         this.setState({open: !this.state.open});
-    };
-
-    handleCreateArticle = () => {
-        console.log('createArticle');
     };
 
     handlerLogout = () => {
@@ -131,7 +134,7 @@ class App extends Component {
         return (
             <Router>
                 <div className={classes.layout}>
-                    <TopSnackbar></TopSnackbar>
+                    <TopSnackbar/>
                     {
                         isAuthenticated ?
                             (
@@ -149,7 +152,7 @@ class App extends Component {
                                             >
                                                 <MenuIcon/>
                                             </IconButton>
-                                            <Button color="inherit" onClick={this.handleCreateArticle}>
+                                            <Button color="inherit" component={Link} to="/article">
                                                 <AddIcon/>
                                                 Article
                                             </Button>
@@ -220,6 +223,9 @@ const mapDispatch = (dispath) => {
     return {
         logout() {
             dispath(logoutAction())
+        },
+        changeLogin(data) {
+            dispath(loginAction(data))
         }
     }
 };
