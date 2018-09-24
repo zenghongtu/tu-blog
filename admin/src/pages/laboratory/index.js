@@ -266,9 +266,11 @@ class Laboratory extends React.Component {
                                             </TableRow>
                                         );
                                     }) :
-                                    <Typography variant="body2" gutterBottom={true} className={classes.margin}>
-                                        什么都没有,快去写点什么吧~
-                                    </Typography>
+                                    (<TableRow>
+                                        <TableCell className={classes.margin}>
+                                            什么都没有,快去写点什么吧~
+                                        </TableCell>
+                                    </TableRow>)
                                 }
                                 {emptyRows > 0 && (
                                     <TableRow style={{height: 50 * emptyRows}}>
