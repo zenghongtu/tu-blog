@@ -5,14 +5,15 @@
 
 <template>
     <div class="wrap">
-        <h3 class="title">留言板:</h3>
+        <h3 class="title"><label for="content">留言板:</label></h3>
         <div class="comment-box" id="comment">
             <div class="info-box">
                 <input class="info" v-model="name" placeholder="name" type="text">
                 <input class="info" v-model="email" placeholder="email" type="text">
             </div>
             <div class="content-box">
-                <textarea class="content" ref="content" v-model="content" :placeholder="placeholder"></textarea>
+                <textarea id="content" class="content" ref="content" v-model="content"
+                          :placeholder="placeholder"></textarea>
             </div>
             <button class="enter" @click="replyHandler">回复</button>
         </div>
@@ -33,8 +34,31 @@
                         </div>
                     </div>
                     <div class="content">{{comment.content}}</div>
+                    <div class="sub-comment-card" v-for="replyComment in comment.reply" :key="replyComment._id">
+                        <img src="http://p5yy6xq69.bkt.clouddn.com/avatar.png" alt="" class="gavatar">
+                        <div class="info">
+                            <div class="head">
+                                <div class="name">{{replyComment.from.name}}</div>
+                                <div class="agent"><span class="meta-item"
+                                                         v-for="(val,name) of replyComment.from.agent">
+                        {{val}}</span></div>
+                            </div>
+                            <div class="meta">
+                                <div class="time">{{replyComment.created|diffTime}}</div>
+                                <div class="reply"
+                                     @click="replyCommentHandler(replyComment._id,replyComment.from._id,replyComment.from.name)">
+                                    回复
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="reply-name">
+                                    @{{replyComment.to.name}}
+                                </div>
+                                {{replyComment.content}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -43,25 +67,30 @@
 <script>
     export default {
         name: "comment",
-        props: ['reply', 'comments'],
+        props: ['reply', 'comments', 'replyComment'],
         data() {
             return {
                 name: '',
                 email: '',
                 content: '',
-                placeholder: 'Write something.'
+                placeholder: 'Write something.',
+                _id: null,
+                to_id: null,
             }
         },
         methods: {
             replyHandler() {
-                const name = this.name;
-                const email = this.email;
-                window.localStorage.setItem('user_info', JSON.stringify({name, email}));
-                this.$emit('reply', [name, email, this.content])
+                if (this.to_id) {
+                    this.$emit('replyComment', [this._id, this.to_id, this.content])
+                } else {
+                    this.$emit('reply', [this.name, this.email, this.content])
+                }
             },
-            replyCommentHandler(_id, user_id, user_name) {
+            replyCommentHandler(_id, to_id, user_name) {
                 this.placeholder = '@' + user_name;
-                this.$refs['content'].focus()
+                this.$refs['content'].focus();
+                this._id = _id;
+                this.to_id = to_id
             }
         },
         created() {
@@ -212,8 +241,16 @@
                         padding: 1em 0;
                         box-sizing: border-box;
                         text-align: left;
+                        .reply-name {
+                            padding-bottom: 1em;
+                            font-weight: 800;
+                        }
+                    }
+                    .sub-comment-card {
+                        overflow: hidden;
                     }
                 }
+
             }
         }
     }
