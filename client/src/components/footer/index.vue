@@ -5,7 +5,7 @@
 
 <template>
     <div class="footer">
-        <div class="notice" v-show="_ida" @click="clickHandler">
+        <div class="notice" v-show="ida" @click="clickHandler">
             <!--todo-->
             <i>消息</i>
         </div>
@@ -18,10 +18,10 @@
 
 <script>
     export default {
-        name: "footer",
+        name: "foot",
         data() {
             return {
-                _ida: null,
+                ida: null,
             }
         },
         methods: {
@@ -31,7 +31,7 @@
         },
         created() {
             const _ida = window.localStorage.getItem('_ida');
-            _ida && (this._ida = _ida)
+            _ida && (this.ida = _ida)
         }
     }
 </script>
