@@ -89,6 +89,9 @@ const styles = theme => ({
     },
     dark: {
         color: theme.palette.secondary.dark,
+    },
+    margin: {
+        margin: '10px',
     }
 });
 
@@ -209,38 +212,42 @@ class ReadBook extends React.Component {
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table}>
                             <TableBody>
-                                {book_list.map(row => {
-                                    return (
-                                        <TableRow key={row._id} className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell} component="th" scope="row">
-                                                <Typography variant="subheading" gutterBottom={true}>
-                                                    {row.title}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell className={classes.tableCell}
-                                                       numeric>{row.authors.join(' / ')}</TableCell>
-                                            <TableCell className={classes.tableCell}
-                                                       numeric> {row.articles.map(article => (
-                                                <Button>article.title</Button>))}</TableCell>
-                                            <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
-                                                       numeric>
-                                                <Button variant="contained" className={classes.button}
-                                                        onClick={this.handleEditBook(row)}
-                                                >
-                                                    编辑
-                                                </Button>
-                                                <Button variant="contained" color="secondary"
-                                                        className={classes.button}
-                                                        onClick={() => {
-                                                            this.deleteBook(row._id)
-                                                        }}
-                                                >
-                                                    删除
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                {book_list.length > 0 ? book_list.map(row => {
+                                        return (
+                                            <TableRow key={row._id} className={classes.tableRow}>
+                                                <TableCell className={classes.tableCell} component="th" scope="row">
+                                                    <Typography variant="subheading" gutterBottom={true}>
+                                                        {row.title}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell className={classes.tableCell}
+                                                           numeric>{row.authors.join(' / ')}</TableCell>
+                                                <TableCell className={classes.tableCell}
+                                                           numeric> {row.articles.map(article => (
+                                                    <Button>article.title</Button>))}</TableCell>
+                                                <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
+                                                           numeric>
+                                                    <Button variant="contained" className={classes.button}
+                                                            onClick={this.handleEditBook(row)}
+                                                    >
+                                                        编辑
+                                                    </Button>
+                                                    <Button variant="contained" color="secondary"
+                                                            className={classes.button}
+                                                            onClick={() => {
+                                                                this.deleteBook(row._id)
+                                                            }}
+                                                    >
+                                                        删除
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }) :
+                                    <Typography variant="body2" gutterBottom={true} className={classes.margin}>
+                                        什么都没有,快去写点什么吧~
+                                    </Typography>
+                                }
                                 {emptyRows > 0 && (
                                     <TableRow style={{height: 50 * emptyRows}}>
                                         <TableCell/>

@@ -75,7 +75,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4,
-    },
+    }
 });
 
 class Tag extends React.Component {
@@ -113,23 +113,27 @@ class Tag extends React.Component {
                     分类管理
                 </Typography>
                 <Paper className={classes.root}>
-                    {tags.map((data, idx) => {
-                        return (
-                            <Chip
-                                key={data._id}
-                                label={data.name}
-                                onDelete={() => {
-                                    deleteTag(data._id);
-                                }}
-                                className={classes.chip}
-                                avatar={
-                                    <Avatar onClick={this.handleModalSwitch(idx)}>
-                                        {data.name.slice(0, 2)}
-                                    </Avatar>
-                                }
-                            />
-                        );
-                    })}
+                    {tags.length > 0 ? tags.map((data, idx) => {
+                            return (
+                                <Chip
+                                    key={data._id}
+                                    label={data.name}
+                                    onDelete={() => {
+                                        deleteTag(data._id);
+                                    }}
+                                    className={classes.chip}
+                                    avatar={
+                                        <Avatar onClick={this.handleModalSwitch(idx)}>
+                                            {data.name.slice(0, 2)}
+                                        </Avatar>
+                                    }
+                                />
+                            );
+                        }) :
+                        <Typography variant="body2" gutterBottom={true}>
+                            什么都没有,快来添加一个吧~
+                        </Typography>
+                    }
                 </Paper>
                 <Button variant="fab" mini color="primary" aria-label="Add" onClick={this.openInputBox()}
                         className={classes.button}>

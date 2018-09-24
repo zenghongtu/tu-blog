@@ -91,6 +91,9 @@ const styles = theme => ({
     },
     dark: {
         color: theme.palette.secondary.dark,
+    },
+    margin: {
+        margin: '10px',
     }
 });
 
@@ -230,39 +233,43 @@ class Laboratory extends React.Component {
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table}>
                             <TableBody>
-                                {project_list.map(project => {
-                                    return (
-                                        <TableRow key={project._id} className={classes.tableRow}>
-                                            <TableCell className={classes.tableCell} component="th" scope="project">
-                                                <Typography variant="subheading" gutterBottom={true}>
-                                                    <a href={project.url}>{project.name}</a>
-                                                </Typography>
-                                            </TableCell>
+                                {project_list.length > 0 ? project_list.map(project => {
+                                        return (
+                                            <TableRow key={project._id} className={classes.tableRow}>
+                                                <TableCell className={classes.tableCell} component="th" scope="project">
+                                                    <Typography variant="subheading" gutterBottom={true}>
+                                                        <a href={project.url}>{project.name}</a>
+                                                    </Typography>
+                                                </TableCell>
 
-                                            <TableCell className={classes.tableCell} numeric>{project.desc}</TableCell>
-                                            <TableCell className={classNames(classes.tableCell, classes.tableSecond)}
-                                                       numeric> <TableCell className={classes.tableCell}
-                                                                           numeric> {project.articles.map(article => (
-                                                <Button>article.title</Button>))}</TableCell></TableCell>
-                                            <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
-                                                       numeric>
-                                                <Button variant="contained" className={classes.button}
-                                                        onClick={this.handleEditProject(project)}
-                                                >
-                                                    编辑
-                                                </Button>
-                                                <Button variant="contained" color="secondary"
-                                                        className={classes.button}
-                                                        onClick={() => {
-                                                            this.deleteProject(project._id)
-                                                        }}
-                                                >
-                                                    删除
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                                <TableCell className={classes.tableCell} numeric>{project.desc}</TableCell>
+                                                <TableCell className={classNames(classes.tableCell, classes.tableSecond)}
+                                                           numeric> <TableCell className={classes.tableCell}
+                                                                               numeric> {project.articles.map(article => (
+                                                    <Button>article.title</Button>))}</TableCell></TableCell>
+                                                <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
+                                                           numeric>
+                                                    <Button variant="contained" className={classes.button}
+                                                            onClick={this.handleEditProject(project)}
+                                                    >
+                                                        编辑
+                                                    </Button>
+                                                    <Button variant="contained" color="secondary"
+                                                            className={classes.button}
+                                                            onClick={() => {
+                                                                this.deleteProject(project._id)
+                                                            }}
+                                                    >
+                                                        删除
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }) :
+                                    <Typography variant="body2" gutterBottom={true} className={classes.margin}>
+                                        什么都没有,快去写点什么吧~
+                                    </Typography>
+                                }
                                 {emptyRows > 0 && (
                                     <TableRow style={{height: 50 * emptyRows}}>
                                         <TableCell/>

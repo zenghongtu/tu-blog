@@ -44,6 +44,9 @@ const styles = theme => ({
     button: {
         marginLeft: '10px'
     },
+    margin: {
+        margin: '10px',
+    },
     light: {
         color: theme.palette.primary.dark,
     },
@@ -101,45 +104,49 @@ class ArticleList extends React.Component {
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table}>
                             <TableBody>
-                                {article_list.map(article => {
-                                    return (
-                                        <TableRow key={article._id} className={classes.tableRow}>
-                                            <TableCell component="th" scope="row">
-                                                <Typography variant="subheading" gutterBottom={true}>
-                                                    {article.title}
-                                                </Typography>
-                                                <div>
-                                                    阅读数:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.viewCount}</span>
-                                                    评论数:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.favoriteCount}</span>
-                                                    喜欢数:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{article.meta.commentsCount}</span>
-                                                    最后编辑:<span
-                                                    className={classNames(classes.countSpan, classes.light)}>{article.updated.slice(0, 10)}</span>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell numeric
-                                                       className={article.isPublish ? classes.light : classes.dark}>{article.isPublish ? '已发布' : '草稿'}</TableCell>
-                                            <TableCell numeric>
-                                                <Button variant="contained" className={classes.button} component={Link}
-                                                        to={`/article/${article._id}`}>
-                                                    编辑
-                                                </Button>
-                                                <Button variant="contained" color="primary" className={classes.button}
-                                                    // todo
-                                                        component={Link} to="/">
-                                                    查看
-                                                </Button>
-                                                <Button variant="contained" color="secondary"
-                                                        onClick={this.deleteArticleHanlder(article._id)}
-                                                        className={classes.button}>
-                                                    删除
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                {article_list.length > 0 ? article_list.map(article => {
+                                        return (
+                                            <TableRow key={article._id} className={classes.tableRow}>
+                                                <TableCell component="th" scope="row">
+                                                    <Typography variant="subheading" gutterBottom={true}>
+                                                        {article.title}
+                                                    </Typography>
+                                                    <div>
+                                                        阅读数:<span
+                                                        className={classNames(classes.countSpan, classes.light)}>{article.meta.viewCount}</span>
+                                                        评论数:<span
+                                                        className={classNames(classes.countSpan, classes.light)}>{article.meta.favoriteCount}</span>
+                                                        喜欢数:<span
+                                                        className={classNames(classes.countSpan, classes.light)}>{article.meta.commentsCount}</span>
+                                                        最后编辑:<span
+                                                        className={classNames(classes.countSpan, classes.light)}>{article.updated.slice(0, 10)}</span>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell numeric
+                                                           className={article.isPublish ? classes.light : classes.dark}>{article.isPublish ? '已发布' : '草稿'}</TableCell>
+                                                <TableCell numeric>
+                                                    <Button variant="contained" className={classes.button} component={Link}
+                                                            to={`/article/${article._id}`}>
+                                                        编辑
+                                                    </Button>
+                                                    <Button variant="contained" color="primary" className={classes.button}
+                                                        // todo
+                                                            component={Link} to="/">
+                                                        查看
+                                                    </Button>
+                                                    <Button variant="contained" color="secondary"
+                                                            onClick={this.deleteArticleHanlder(article._id)}
+                                                            className={classes.button}>
+                                                        删除
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }) :
+                                    <Typography variant="body2" gutterBottom={true} className={classes.margin}>
+                                        什么都没有,快去写点什么吧~
+                                    </Typography>
+                                }
                                 {emptyRows > 0 && (
                                     <TableRow style={{height: 60 * emptyRows}}>
                                         <TableCell/>
