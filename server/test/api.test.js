@@ -124,32 +124,32 @@ describe('GET /tags', () => {
     })
 });
 
-// describe('POST /articles', () => {
-//     it('should add article', done => {
-//         let i = 5;
-//         while (i--) {
-//             request
-//                 .post('/articles')
-//                 .set('Accept', 'application/json')
-//                 .set('Authorization', `Bearer ${temp.token}`)
-//                 .set('Accept', 'application/json')
-//                 .send({
-//                     "title": "a test " + i,
-//                     "desc": "this is a test",
-//                     "body": "this is a body",
-//                     "category": temp.categories[i],
-//                     "tags": [
-//                         temp.tags[i]
-//                     ],
-//                     "isPublish": true
-//                 })
-//                 .expect(200, (err, res) => {
-//                     expect(res.body).to.be.an('object').not.to.empty;
-//                 });
-//         }
-//         done()
-//     });
-// });
+describe('POST /articles', () => {
+    it('should add article', done => {
+        let i = 5;
+        while (i--) {
+            request
+                .post('/articles')
+                .set('Accept', 'application/json')
+                .set('Authorization', `Bearer ${temp.token}`)
+                .set('Accept', 'application/json')
+                .send({
+                    "title": "a test " + i + 60,
+                    "desc": "this is a test" + i,
+                    "body": "this is a body",
+                    "category": temp.categories[i],
+                    "tags": [
+                        temp.tags[i]
+                    ],
+                    "isPublish": true
+                })
+                .expect(200, (err, res) => {
+                    expect(res.body).to.be.an('object').not.to.empty;
+                });
+        }
+        done()
+    });
+});
 
 describe('GET /articles', () => {
     it('should get articles', done => {

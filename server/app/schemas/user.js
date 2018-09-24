@@ -53,9 +53,9 @@ UserSchema.pre('save', function (next) {
             next(err);
         });
     } else {
+        user.name = user.name + ('' + Date.now()).slice(7);
         next()
     }
-
 });
 
 UserSchema.methods = {

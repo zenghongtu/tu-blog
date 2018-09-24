@@ -8,7 +8,7 @@ POST http://localhost:9000/users
 Content-Type: application/json
 
 {
-  "name": "tu1",
+  "name": "tu",
   "email": "zenghongtu@gmail.com",
   "password": "123"
 }
@@ -141,4 +141,3 @@ _id:5ba267dfd2e23b9df64fe7da
 _ida: 5ba267bfd2e23b9df64fe7d9
 
 ###
-

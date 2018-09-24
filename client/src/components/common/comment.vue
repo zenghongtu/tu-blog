@@ -22,7 +22,7 @@
                 <img src="http://p5yy6xq69.bkt.clouddn.com/avatar.png" alt="" class="gavatar">
                 <div class="info">
                     <div class="head">
-                        <div class="name">{{comment.from.name}}</div>
+                        <div class="name">{{comment.from.name.slice(0,-6)}}</div>
                         <div class="agent"><span class="meta-item" v-for="(val,name) of comment.from.agent">
                         {{val}}</span></div>
                     </div>
@@ -38,7 +38,7 @@
                         <img src="http://p5yy6xq69.bkt.clouddn.com/avatar.png" alt="" class="gavatar">
                         <div class="info">
                             <div class="head">
-                                <div class="name">{{replyComment.from.name}}</div>
+                                <div class="name">{{replyComment.from.name.slice(0,-6)}}</div>
                                 <div class="agent"><span class="meta-item"
                                                          v-for="(val,name) of replyComment.from.agent">
                         {{val}}</span></div>
@@ -52,7 +52,7 @@
                             </div>
                             <div class="content">
                                 <div class="reply-name">
-                                    @{{replyComment.to.name}}
+                                    @{{replyComment.to.name.slice(0,-6)}}
                                 </div>
                                 {{replyComment.content}}
                             </div>
@@ -77,6 +77,14 @@
                 placeholder: 'Write something.',
                 _id: null,
                 to_id: null,
+                isChange: false,
+            }
+        },
+        watch: {
+            name(val, oldVal) {
+                if (val !== oldVal) {
+                    this.isChange = true
+                }
             }
         },
         methods: {
@@ -84,7 +92,7 @@
                 if (this.to_id) {
                     this.$emit('replyComment', [this._id, this.to_id, this.content])
                 } else {
-                    this.$emit('reply', [this.name, this.email, this.content])
+                    this.$emit('reply', [this.isChange ? this.name + ('' + Date.now()).slice(7) : this.name, this.email, this.content])
                 }
                 this.content = ''
             },
