@@ -37,7 +37,7 @@
 
 <script>
     import {mapState, mapActions} from 'vuex'
-    import {getArticle, postComment, putComment} from "../../http/api";
+    import {getArticle, getComment, postComment, putComment} from "../../http/api";
     import VueMarkdown from 'vue-markdown'
     import Comment from "../../components/common/comment";
 
@@ -103,7 +103,7 @@
                 return storage.getItem('_id')
             }
             ,
-            replyHandler(info) {
+            async replyHandler(info) {
                 const [name, email, content] = info;
                 const user_id = this.storageHandler(name, email);
                 const data = {
@@ -117,9 +117,13 @@
                         from: user_id,
                     }
                 };
-                this.addComment(data)
+                const rsp = await postComment(data);
+                if (rsp) {
+                    const r = await getComment(rsp.data.article);
+                    this.comments = r.data
+                }
             },
-            replyCommentHandler(info) {
+            async replyCommentHandler(info) {
                 const [_id, to_id, content] = info;
                 const user_id = window.localStorage.getItem('_id');
                 const data = {
@@ -131,14 +135,12 @@
                         created: new Date(),
                     },
                 };
-                this.updateComment(_id, data)
+                const rsp = await putComment(_id, data);
+                if (rsp) {
+                    const r = await getComment(rsp.data.article);
+                    this.comments = r.data
+                }
             },
-            async addComment(data) {
-                const rsp = await postComment(data)
-            },
-            async updateComment(_id, data) {
-                const rsp = await putComment(_id, data)
-            }
         },
         created() {
             this.fetchArticle();

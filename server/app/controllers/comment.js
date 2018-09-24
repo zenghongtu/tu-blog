@@ -17,7 +17,11 @@ class CommentControllers {
     async findById(ctx) {
         const id = ctx.params.id;
         try {
-            const comment = await Comment.findById(id);
+            const comment = await Comment.find({article: id})
+                .sort('-created')
+                .populate('from', 'name agent')
+                .populate('reply.from reply.to', 'name agent')
+                .exec();
             if (!comment) {
                 ctx.throw(404);
             }

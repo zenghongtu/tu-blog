@@ -17,7 +17,7 @@
             </div>
             <button class="enter" @click="replyHandler">回复</button>
         </div>
-        <div class="comment-list">
+        <div class="comment-list" v-if="comments">
             <div class="comment-card" v-for="comment in comments" :key="comment._id">
                 <img src="http://p5yy6xq69.bkt.clouddn.com/avatar.png" alt="" class="gavatar">
                 <div class="info">
@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+        <div v-else>来做第一个留言的人吧~</div>
     </div>
 </template>
 
@@ -85,6 +86,7 @@
                 } else {
                     this.$emit('reply', [this.name, this.email, this.content])
                 }
+                this.content = ''
             },
             replyCommentHandler(_id, to_id, user_name) {
                 this.placeholder = '@' + user_name;

@@ -17,3 +17,4 @@ export const getProjects = _ => ajax.get(`/projects`);
 export const getSiteInfo = _ => ajax.get(`/site/:`);
 export const postComment = data => ajax.post(`/comments`, data);
 export const putComment = (_id, data) => ajax.put(`/comments/${_id}`, data);
+export const getComment = a_id => ajax.get(`/comments/${a_id}`);

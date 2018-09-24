@@ -29,6 +29,7 @@ class ArticleControllers {
             }
             let comments = await Comment
                 .find({article: id})
+                .sort('-created')
                 .populate('from', 'name agent')
                 .populate('reply.from reply.to', 'name agent')
                 .exec();
