@@ -223,7 +223,7 @@ class ReadBook extends React.Component {
                                                            numeric>{row.authors.join(' / ')}</TableCell>
                                                 <TableCell className={classes.tableCell}
                                                            numeric> {row.articles.map(article => (
-                                                    <Button>article.title</Button>))}</TableCell>
+                                                    <span>{article.title}</span>))}</TableCell>
                                                 <TableCell className={classNames(classes.tableCell, classes.tableCellLast)}
                                                            numeric>
                                                     <Button variant="contained" className={classes.button}
