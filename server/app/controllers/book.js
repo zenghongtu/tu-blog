@@ -8,9 +8,9 @@ import Book from '../models/book';
 class BookControllers {
 
     async find(ctx) {
-        const limit = ctx.query.limit || null;
-        const page = ctx.query.page || null;
-        const field = ctx.query.field || null;
+        const limit = ctx.query.limit;
+        const page = ctx.query.page;
+        const field = ctx.query.field;
         const total = await Book.count();
         const _body = await Book.fetch(+limit, +page, field);
         ctx.body = {total, data: _body}

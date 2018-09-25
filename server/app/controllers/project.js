@@ -8,9 +8,9 @@ import Project from '../models/project';
 class ProjectControllers {
 
     async find(ctx) {
-        const limit = ctx.query.limit || null;
-        const page = ctx.query.page || null;
-        const field = ctx.query.field || null;
+        const limit = ctx.query.limit;
+        const page = ctx.query.page;
+        const field = ctx.query.field;
         const total = await Project.count();
         const _body = await Project.fetch(+limit, +page, field);
         ctx.body = {total, data: _body}

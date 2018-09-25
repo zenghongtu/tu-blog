@@ -8,7 +8,7 @@ import Category from '../models/category';
 class CategoryControllers {
 
     async find(ctx) {
-        const field = ctx.query.field || '';
+        const field = ctx.query.field;
         ctx.body = await Category.fetch(field);
     }
 

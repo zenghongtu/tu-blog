@@ -9,9 +9,9 @@ import bcrypt from "../utils/bcrypt";
 class UserControllers {
 
     async find(ctx) {
-        const limit = ctx.query.limit || null;
-        const page = ctx.query.page || null;
-        const field = ctx.query.field || null;
+        const limit = ctx.query.limit;
+        const page = ctx.query.page;
+        const field = ctx.query.field;
         ctx.body = await User.fetch(+limit, +page, field);
     }
 

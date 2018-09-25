@@ -11,10 +11,10 @@ import Tag from "../models/tag";
 class ArticleControllers {
 
     async find(ctx) {
-        const limit = ctx.query.limit || null;
-        const page = ctx.query.page || null;
-        const field = ctx.query.field || null;
-        const sort = ctx.query.sort || null;
+        const limit = ctx.query.limit;
+        const page = ctx.query.page;
+        const field = ctx.query.field;
+        const sort = ctx.query.sort;
         const total = await Article.count();
         const _body = await Article.fetch(+limit, +page, field, sort);
         ctx.body = {total, data: _body}

@@ -72,11 +72,10 @@ UserSchema.statics = {
     fetch: function (limit, page, field = '') {
         return this
             .find({})
+            .sort('-created')
             .skip(page * limit)
             .limit(limit)
-            .sort('-created')
             .select(field)
-            .sort('-created')
             .populate('comments', 'content')
             .exec()
     },

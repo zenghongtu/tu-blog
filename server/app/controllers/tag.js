@@ -9,7 +9,7 @@ import Article from "../models/article";
 class TagControllers {
 
     async find(ctx) {
-        const field = ctx.query.field || '';
+        const field = ctx.query.field;
         ctx.body = await Tag.fetch(field);
     }
 

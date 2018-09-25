@@ -10,7 +10,7 @@ import client from "../utils/redis";
 class CommentControllers {
 
     async find(ctx) {
-        const field = ctx.query.field || '';
+        const field = ctx.query.field;
         ctx.body = await Comment.fetch(field);
     }
 
