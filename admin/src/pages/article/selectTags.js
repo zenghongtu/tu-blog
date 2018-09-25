@@ -24,7 +24,7 @@ import AddIcon from '@material-ui/icons/Add';
 const styles = theme => ({
     input: {
         display: 'flex',
-        minWidth: '11.25em',
+        minWidth: '18.5em',
         boxSizing: 'border-box',
         padding: 0,
     },
