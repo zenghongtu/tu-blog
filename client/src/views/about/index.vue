@@ -96,9 +96,13 @@
                 const rsp = await getSiteInfo();
                 const site = rsp.data.site;
                 const visitor = rsp.data.visitor;
+                if (visitor) {
+                    this.viewNum = visitor.visits;
+                } else {
+                    window.localStorage.removeItem('_id')
+                }
                 this.pageViews = site.pv;
                 this.uniqueVisitors = site.uv;
-                this.viewNum = visitor.visits;
                 this.start_time = rsp.data.start_time;
                 this.timer();
                 this.generateSlogan()
