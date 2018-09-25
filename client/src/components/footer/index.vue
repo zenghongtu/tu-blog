@@ -9,8 +9,9 @@
             <i class="iconfont icon-tixing1 notice-icon"></i>
         </div>
         <div class="footer-wrap">
-            Copyright © 2018 <a class="link" href="https://zenghongtu.com">这个码农不太冷</a> | <a class="link" target="_blank"
-                                                                                            href="https://github.com/zenghongtu">GitHub</a>
+            Copyright © 2018 <a class="link" href="https://blog.zenghongtu.com">这个码农不太冷</a>&nbsp; <i
+                class="iconfont icon-aixin"></i> &nbsp;<a class="link" target="_blank"
+                                                          href="https://github.com/zenghongtu">GitHub</a>
         </div>
     </div>
 </template>
