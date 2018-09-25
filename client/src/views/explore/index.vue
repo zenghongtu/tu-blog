@@ -14,8 +14,9 @@
                     <div class="article-date">
                         {{article.updated.slice(0,10)}}
                     </div>
-                    <p class="article-content">
-                        <vue-markdown>{{article.desc}}</vue-markdown>
+                    <p class="article-content" v-html="$options.filters.compileMarkdown(article.desc)">
+                        <!--<vue-markdown>{{article.desc}}</vue-markdown>-->
+                        <!--{{article.desc | compileMarkdown}}-->
                     </p>
                     <p class="read-more-wrap">
                         <a @click="linkTo('article',article._id)" class="read-more">
@@ -32,16 +33,15 @@
 
 <script>
     import {mapActions, mapState} from 'vuex'
-    import VueMarkdown from 'vue-markdown'
     import Sidebar from "./sidebar";
     import Pagination from "@/components/common/pagination";
     import {DEFAULT_LIMIT} from "../../store/constants";
+    import marked from '../../util/markdown';
 
 
     export default {
         name: "explore",
         components: {
-            VueMarkdown,
             Sidebar,
             Pagination
         },
@@ -50,6 +50,12 @@
                 return Math.ceil(this.articleTotal / DEFAULT_LIMIT)
             },
             ...mapState(['pageArticles', 'articleTotal', 'curPage',])
+        },
+        filters: {
+            compileMarkdown: function (value) {
+                if (!value) return '';
+                return marked(value, {sanitize: true})
+            }
         },
         methods: {
             ...mapActions({

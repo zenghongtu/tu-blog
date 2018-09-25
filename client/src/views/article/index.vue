@@ -14,7 +14,9 @@
                 <div class="comment">{{article.meta.viewCount}}</div>
             </div>
             <div class="content">
-                <vue-markdown>{{article.body}}</vue-markdown>
+                <p v-html="compileDesc"></p>
+                <hr class="hr"/>
+                <article v-html="compileArticle"></article>
             </div>
             <p>-- EOF --</p>
             <div class="tags"># <span class="tag" @click="linkTo(tag._id,'tag')" v-for="tag of article.tags"
@@ -39,12 +41,11 @@
 <script>
     import {mapState, mapActions} from 'vuex'
     import {getArticle, getComment, postComment, putComment} from "../../http/api";
-    import VueMarkdown from 'vue-markdown'
     import Comment from "../../components/common/comment";
-
+    import marked from '../../util/markdown';
 
     export default {
-        name: "article",
+        name: "articleDetail",
         data() {
             return {
                 article: null,
@@ -55,11 +56,16 @@
             }
         },
         components: {
-            VueMarkdown,
             Comment,
         },
         computed: {
-            ...mapState(['articleList'])
+            ...mapState(['articleList']),
+            compileArticle() {
+                return marked(this.article.body, {sanitize: true})
+            },
+            compileDesc() {
+                return marked(this.article.desc, {sanitize: true})
+            }
         },
         methods: {
             async fetchArticle() {
@@ -227,6 +233,11 @@
                 padding-top: .9375em;
                 word-break: keep-all;
                 text-indent: 2em;
+                .hr {
+                    background-color: $block;
+                    height: 1px;
+                    border: none;
+                }
             }
             .tag {
                 margin-right: 1em;
@@ -248,4 +259,5 @@
             }
         }
     }
+
 </style>
