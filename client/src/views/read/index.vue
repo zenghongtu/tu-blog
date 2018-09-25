@@ -12,7 +12,7 @@
                 <th>我de读感</th>
             </tr>
             <tr v-for="book in bookList" :key="book._id">
-                <td class="col-1"><span class="link">{{book.title}}</span></td>
+                <td class="col-1"><span class="link"><i class="iconfont icon-book"></i> {{book.title}}</span></td>
                 <td class="col-2">{{book.authors.join(', ')}}</td>
                 <td class="col-3">
                     <ol type="I">

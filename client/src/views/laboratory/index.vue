@@ -6,10 +6,11 @@
 <template>
     <div class="lab-wrap">
         <div class="lab-content" v-for="(projects,key) in allProjects" :key="key">
-            <div class="item-title">{{key.toUpperCase()}}:</div>
+            <div class="item-title"><i class="iconfont icon-zhuti"></i> {{key.toUpperCase()}}:</div>
             <ul class="item-wrap">
                 <li class="item-content" v-for="project in projects" :key="project._id">
-                    <h5 class="item-name"><i class="fa">#</i><a class="link" :href="project.url">{{project.name}}</a>
+                    <h5 class="item-name"><i class="iconfont icon-fenxiang fa"></i> <a class="link" :href="project.url">
+                        {{project.name}}</a>
                     </h5>
                     <div class="item-desc">{{project.desc}}</div>
                     <div class="item-star">star: {{project.stars}}</div>

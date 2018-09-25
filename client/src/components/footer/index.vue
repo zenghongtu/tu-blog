@@ -58,7 +58,7 @@
         .notice {
             position: fixed;
             bottom: 3em;
-            right: 3em;
+            right: 1em;
             cursor: pointer;
             color: $base;
             .notice-icon {

@@ -8,8 +8,8 @@
         <div class="about-content">
             <div class="about-item">
                 <div class="about-title">Welcome,</div>
-                <h4>本站第<span class="light">{{uniqueVisitors}}</span>位访客</h4>
-                <h5>访问过本站<span class="light">{{views}}</span>次页面</h5>
+                <h4>小站第<span class="light">{{uniqueVisitors}}</span>位访客</h4>
+                <h5>访问过小站<span class="light">{{views}}</span>次页面</h5>
             </div>
             <div class="about-item">
                 <div class="about-title">About site</div>
@@ -48,7 +48,7 @@
         name: "about",
         data() {
             return {
-                slogan: '两眼不闻窗外事,一心只写这代码.',
+                slogan: '两眼不闻两届事,一心只写一代码.',
                 type: '',
                 isTyping: true,
                 pageViews: '',

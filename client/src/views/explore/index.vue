@@ -12,12 +12,10 @@
                         {{article.title}}
                     </a>
                     <div class="article-date">
-                        {{article.updated.slice(0,10)}}
+                        <i class="iconfont icon-riqi"></i> {{article.created.slice(0,10)}}
                     </div>
-                    <p class="article-content" v-html="$options.filters.compileMarkdown(article.desc)">
-                        <!--<vue-markdown>{{article.desc}}</vue-markdown>-->
-                        <!--{{article.desc | compileMarkdown}}-->
-                    </p>
+                    <article class="article-content" v-html="$options.filters.compileMarkdown(article.desc)">
+                    </article>
                     <p class="read-more-wrap">
                         <a @click="linkTo('article',article._id)" class="read-more">
                             阅读全文

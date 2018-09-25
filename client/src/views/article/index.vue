@@ -8,10 +8,11 @@
         <div class="article-content" v-if="article">
             <h2 class="article-title">{{article.title}}</h2>
             <div class="article-meta">
-                <div class="date">发布于:{{article.createAt}}</div>
-                <div class="category" @click="linkTo(article.category._id,'category')">| # {{article.category.name}}
+                <div class="date">发布于: {{article.created}}</div>
+                <div class="category" @click="linkTo(article.category._id,'category')"> &nbsp;|&nbsp;&nbsp; <i
+                        class="iconfont icon-icon"></i> {{article.category.name}}
                 </div>
-                <div class="comment">{{article.meta.viewCount}}</div>
+                <div class="comment">{{article.meta.viewCount}} <i class="iconfont icon-liulan1"></i></div>
             </div>
             <div class="content">
                 <p v-html="compileDesc"></p>
@@ -19,8 +20,8 @@
                 <article v-html="compileArticle"></article>
             </div>
             <p>-- EOF --</p>
-            <div class="tags"># <span class="tag" @click="linkTo(tag._id,'tag')" v-for="tag of article.tags"
-                                      :key="tag._id">{{tag.name}}</span></div>
+            <div class="tags"><span class="tag" @click="linkTo(tag._id,'tag')" v-for="tag of article.tags"
+                                    :key="tag._id"><i class="iconfont icon-labeltag"></i>  {{tag.name}}</span></div>
             <p>
                 <span>本文链接:<a class="article-url" @click="linkTo(article._id)">{{url}} </a></span>
             </p>

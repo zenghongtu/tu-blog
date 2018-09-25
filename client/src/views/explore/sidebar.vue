@@ -13,7 +13,7 @@
             </form>
         </div>
         <div class="widget">
-            <div class="widget-title">分类</div>
+            <div class="widget-title"><i class="iconfont icon-icon"></i> 分类</div>
             <div class="category-list">
                 <div class="category-list-item" v-for="category in categories" :key="category._id"
                      @click="linkTo('category',category._id,category.name)">{{category.name}}
@@ -21,14 +21,14 @@
             </div>
         </div>
         <div class="widget">
-            <div class="widget-title">标签</div>
+            <div class="widget-title"><i class="iconfont icon-labeltag"></i> 标签</div>
             <div class="tag-list">
                 <span class="tag" v-for="tag in tags" :key="tag._id"
                       @click="linkTo('tag',tag._id,tag.name)">{{tag.name}}</span>
             </div>
         </div>
         <div class="widget">
-            <div class="widget-title">热门文章</div>
+            <div class="widget-title"><i class="iconfont icon-remen"></i> 热门文章</div>
             <div class="article-list">
                 <div class="article-list-item" v-for="item in topArticles" :key="item._id"
                      @click="linkTo('article',item._id)">{{item.title}}
