@@ -15,7 +15,7 @@
                         {{article.updated.slice(0,10)}}
                     </div>
                     <p class="article-content">
-                        {{article.desc}}
+                        <vue-markdown>{{article.desc}}</vue-markdown>
                     </p>
                     <p class="read-more-wrap">
                         <a @click="linkTo('article',article._id)" class="read-more">
@@ -32,6 +32,7 @@
 
 <script>
     import {mapActions, mapState} from 'vuex'
+    import VueMarkdown from 'vue-markdown'
     import Sidebar from "./sidebar";
     import Pagination from "@/components/common/pagination";
     import {DEFAULT_LIMIT} from "../../store/constants";
@@ -40,6 +41,7 @@
     export default {
         name: "explore",
         components: {
+            VueMarkdown,
             Sidebar,
             Pagination
         },

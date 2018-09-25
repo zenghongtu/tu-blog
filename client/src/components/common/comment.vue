@@ -13,7 +13,7 @@
             </div>
             <div class="content-box">
                 <textarea id="content" class="content" ref="content" v-model="content"
-                          :placeholder="placeholder"></textarea>
+                          :placeholder="placeholder.slice(0,-6)"></textarea>
             </div>
             <button class="enter" @click="replyHandler">回复</button>
         </div>
@@ -46,7 +46,7 @@
                             <div class="meta">
                                 <div class="time">{{replyComment.created|diffTime}}</div>
                                 <div class="reply"
-                                     @click="replyCommentHandler(replyComment._id,replyComment.from._id,replyComment.from.name)">
+                                     @click="replyCommentHandler(comment._id,replyComment.from._id,replyComment.from.name)">
                                     回复
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                 name: '',
                 email: '',
                 content: '',
-                placeholder: 'Write something.',
+                placeholder: 'Write something.       ',
                 _id: null,
                 to_id: null,
                 isChange: false,

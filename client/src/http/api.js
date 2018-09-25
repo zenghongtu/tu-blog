@@ -9,7 +9,7 @@ export const getCategories = _ => ajax.get('/categories?field=name');
 export const getTags = _ => ajax.get('/tags?field=name');
 export const getTopArticles = _ => ajax.get('/articles?page=0&limit=10&field=title&sort=-meta.viewCount');
 export const getArticle = _id => ajax.get(`/articles/${_id}`);
-export const getArticleTitleList = _ => ajax.get(`/articles?field=-body`);
+export const getArticleTitleList = _ => ajax.get(`/articles?field=-body&field=-desc`);
 export const getTagArticles = _id => ajax.get(`/tags/${_id}`);
 export const getCategoriesArticles = _id => ajax.get(`/categories/${_id}`);
 export const getBooks = _ => ajax.get(`/books`);

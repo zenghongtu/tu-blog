@@ -15,6 +15,8 @@
 </template>
 
 <script>
+    import {getSiteInfo} from "../../http/api";
+
     export default {
         name: "Home",
         data() {
@@ -54,11 +56,15 @@
                         clearInterval(timer)
                     }
                 }, 10)
+            },
+            async getInfo() {
+                const rsp = await getSiteInfo();
             }
         },
         mounted() {
             this.changeImg();
             this.$nextTick(() => {
+                this.getInfo();
                 this.scroll()
             })
         }

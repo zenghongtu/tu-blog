@@ -24,11 +24,12 @@
             </p>
             <div class="update">最后更新于: {{article.updated}}</div>
         </div>
-        <div class="article-nav">
-            <div class="pre" v-if="preArticle" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle.title}}</div>
-            <div v-else></div>
-            <div class="next" v-if="nextArticle" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>
-        </div>
+        <!--todo-->
+        <!--<div class="article-nav">-->
+        <!--<div class="pre" v-if="preArticle._id" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle.title}}</div>-->
+        <!--<div v-else></div>-->
+        <!--<div class="next" v-if="nextArticle._id" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>-->
+        <!--</div>-->
         <div>
             <Comment @reply="replyHandler" @replyComment="replyCommentHandler" :comments="comments"></Comment>
         </div>
