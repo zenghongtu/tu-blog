@@ -19,7 +19,6 @@
 
 <script>
     import {mapState, mapActions} from "vuex";
-    import {getArticleList} from "../../http/api";
 
     export default {
         name: "archive",
