@@ -70,7 +70,7 @@ const styles = theme => ({
 });
 
 function NoOptionsMessage(props) {
-    const {addTag, classes, inputValue, onChange} = props.selectProps;
+    const {addTag, classes, inputValue} = props.selectProps;
     return (
         <MenuItem
             component="div"

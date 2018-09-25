@@ -152,7 +152,7 @@ class Laboratory extends React.Component {
 
     async addNewProject() {
         try {
-            const rsp = await addProject({
+            await addProject({
                 name: this.state.project_name,
                 url: this.state.project_url,
                 star: this.state.project_star,
@@ -176,7 +176,7 @@ class Laboratory extends React.Component {
     }
 
     async deleteProject(_id) {
-        const rsp = await deleteProject(_id);
+        await deleteProject(_id);
         this.setState(state => {
             const project_list = state.project_list;
             return {
@@ -187,8 +187,7 @@ class Laboratory extends React.Component {
 
     async updateProject() {
         try {
-
-            const rps = await updateProject(this.state._id, {
+            await updateProject(this.state._id, {
                 name: this.state.project_name,
                 url: this.state.project_url,
                 star: this.state.project_star,

@@ -26,7 +26,6 @@ import marked from '../../util/markdown'
 
 import {
     saveArticle,
-    deleteArticle,
     updateArticle,
     getArticle
 } from '../../http'

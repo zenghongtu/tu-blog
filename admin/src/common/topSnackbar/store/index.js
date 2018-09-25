@@ -11,9 +11,9 @@ import {
     SETMESSAGE,
     SETSNACKBAR,
     SUCCESS,
-    WARNING,
-    ERROR,
-    INFO,
+    // WARNING,
+    // ERROR,
+    // INFO,
 } from "./constants";
 
 export const setStatusAction = (status) => {

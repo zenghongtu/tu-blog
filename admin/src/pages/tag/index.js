@@ -101,7 +101,7 @@ class Tag extends React.Component {
     render() {
         const {
             tags,
-            setTags,
+            // setTags,  todo
             deleteTag,
             addTag,
             classes

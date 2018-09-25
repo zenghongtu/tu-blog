@@ -102,7 +102,7 @@ class Category extends React.Component {
     render() {
         const {
             categories,
-            setCategories,
+            // setCategories,  // todo
             deleteCategory,
             addCategory,
             classes

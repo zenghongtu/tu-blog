@@ -83,7 +83,7 @@ class ArticleList extends React.Component {
     deleteArticleHanlder = _id => async _ => {
         const {showSnackbar} = this.props;
         try {
-            const rsp = await deleteArticle(_id);
+            await deleteArticle(_id);
             this.fetchArticleList()
         } catch (err) {
             showSnackbar(err.message)

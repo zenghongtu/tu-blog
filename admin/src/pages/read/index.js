@@ -6,7 +6,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
-import {Link} from 'react-router-dom'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -144,7 +143,7 @@ class ReadBook extends React.Component {
 
     async addNewBook() {
         try {
-            const rsp = await addBook({
+            await addBook({
                 title: this.state.book_title,
                 authors: this.state.book_authors.split('|'),
                 articles: this.state.book_articles.split('|'),
@@ -162,7 +161,7 @@ class ReadBook extends React.Component {
     }
 
     async deleteBook(_id) {
-        const rsp = await deleteBook(_id);
+        await deleteBook(_id);
         this.setState(state => {
             const book_list = state.book_list;
             return {
@@ -173,7 +172,7 @@ class ReadBook extends React.Component {
 
     async updateBook() {
         try {
-            const rsp = await updateBook(this.state._id, {
+            await updateBook(this.state._id, {
                 title: this.state.book_title,
                 authors: this.state.book_authors,
                 articles: this.state.book_articles,
