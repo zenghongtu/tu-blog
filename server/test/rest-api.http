@@ -69,7 +69,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTI0NDhiM
 
 ###
 GET http://localhost:9000/articles
-_id: 5ba267dfd2e23b9df64fe7da
 
 ###
 DELETE http://localhost:9000/articles/5ba246a5054100a62597d6b5

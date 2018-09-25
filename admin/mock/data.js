@@ -21,8 +21,8 @@ function generate(num) {
         var _pageNum = faker.random.number({min: 200, max: 1000});
         siteInfo.push({
             date: _date,
-            visitorNum: _visitorNum,
-            pageNum: _pageNum
+            uniqueVisitors: _visitorNum,
+            pageViews: _pageNum
         });
 
         const _tag = faker.hacker.noun();

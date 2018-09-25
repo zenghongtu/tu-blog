@@ -4,7 +4,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import ajax from './http/config';
-
+import './assets/style/iconfont.css';
 import './util/rem'
 
 Vue.config.productionTip = false;

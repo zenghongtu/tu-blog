@@ -9,7 +9,7 @@
         <h5 class="description">JasonZeng's blog</h5>
         <nav class="nav">
             <router-link :class="'nav-item '+($route.name===item.link?'active':'')" v-for="item in routes_"
-                         :key="item.id" :to="'/'+item.link"><i :class="'iconfont icon-'+item.link"></i> {{item.name}}
+                         :key="item.id" :to="'/'+item.link"><i :class="'iconfont '+item.icon"></i> {{item.name}}
             </router-link>
         </nav>
     </div>
@@ -21,11 +21,11 @@
         data() {
             return {
                 routes_: [
-                    {id: 0, link: 'explore', name: '看看'},
-                    {id: 1, link: 'archive', name: '归档'},
-                    {id: 2, link: 'read', name: '读书'},
-                    {id: 3, link: 'laboratory', name: '项目'},
-                    {id: 4, link: 'about', name: '关于'}
+                    {id: 0, link: 'explore', name: '看看', icon: 'icon-icon-4'},
+                    {id: 1, link: 'archive', name: '归档', icon: 'icon-icon-6'},
+                    {id: 2, link: 'read', name: '读书', icon: 'icon-icon-8'},
+                    {id: 3, link: 'laboratory', name: '项目', icon: 'icon-icon-3'},
+                    {id: 4, link: 'about', name: '关于', icon: 'icon-icon-2'}
                 ]
             }
         },

@@ -110,8 +110,8 @@ const generateMockData = (count = 30) => {
     const _viewNum = faker.random.number({min: 200, max: 1000});  //  某一 ip 访问总次数
     const _runtime = faker.random.number({min: 200, max: 1000}); // 本站运行时间 (秒)
     const siteInfo = {
-        visitorNum: _visitorNum,
-        pageNum: _pageNum,
+        uniqueVisitors: _visitorNum,
+        pageViews: _pageNum,
         viewNum: _viewNum,
         runtime: _runtime,
     };
