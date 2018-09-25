@@ -22,8 +22,7 @@ import PublishIcon from '@material-ui/icons/Publish';
 import LocalSeeIcon from '@material-ui/icons/LocalSee';
 
 import Modal from '@material-ui/core/Modal';
-import remark from 'remark'
-import reactRenderer from 'remark-react'
+import marked from '../../util/markdown'
 
 import {
     saveArticle,
@@ -275,8 +274,8 @@ class Article extends React.Component {
                     </div>
                 </Paper>
                 <Modal open={state.showPreview} onClose={handlePreview}>
-                    <div className={classes.preview}>
-                        {remark().use(reactRenderer).processSync(state.desc + '-----' + state.body).contents}
+                    <div className={classes.preview}
+                         dangerouslySetInnerHTML={{__html: marked(state.desc + '<hr/>\n\r' + state.body)}}>
                     </div>
                 </Modal>
             </React.Fragment>
