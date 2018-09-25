@@ -10,30 +10,31 @@ import userAgent from "../utils/userAgent";
 
 export default async (ctx, next) => {
     try {
-        const _header = ctx.request.header;
-        let _id = _header._id;
-        if (!_id) {
-            const ip = ipCheck(ctx);
-            const agent = userAgent(ctx);
-            const user = await new User({ip, agent}).save();
-            _id = user._id;
-            await new User({ip, agent}).save();
-            ctx.set('_id', _id);
-            await client.incr('uniqueVisitors')
-        } else {
-            let _ida = _header._ida;
-            if (_ida) {
-                await client.del('t' + _id)
+        if (ctx.request.method === 'GET') {
+            const _header = ctx.request.header;
+            let _id = _header._id;
+            if (!_id) {
+                const ip = ipCheck(ctx);
+                const agent = userAgent(ctx);
+                const user = await new User({ip, agent}).save();
+                _id = user._id;
+                ctx.set('_id', _id);
+                await client.incr('uniqueVisitors')
             } else {
-                const c = await client.get('t' + _id);
-                if (c) {
-                    ctx.set('_ida', c);
+                let _ida = _header._ida;
+                if (_ida) {
+                    await client.del('t' + _id)
+                } else {
+                    const c = await client.get('t' + _id);
+                    if (c) {
+                        ctx.set('_ida', c);
+                    }
                 }
             }
+            ctx._id = _id;
+            await client.incr(_id);
+            await client.incr('pageViews')
         }
-        ctx._id = _id;
-        await client.incr(_id);
-        await client.incr('pageViews')
     } catch (e) {
         console.log(e);
     }

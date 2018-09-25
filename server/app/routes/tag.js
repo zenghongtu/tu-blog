@@ -16,7 +16,7 @@ const router = new Router();
 
 router.prefix(`${baseApi}/${api}`);
 
-router.get('/', record, TagControllers.find);
+router.get('/', TagControllers.find);
 
 router.post('/', jwt, TagControllers.add);
 
