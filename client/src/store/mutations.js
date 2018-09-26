@@ -3,7 +3,13 @@
  * Desc: mutations
  */
 
-import {CHANGE_PAGE, SAVE_PAGE_ARTICLES, SAVE_SIDEBAR_ITEMS, SAVE_ARTICLE_LIST} from "./mutation-types";
+import {
+    CHANGE_PAGE,
+    SAVE_PAGE_ARTICLES,
+    SAVE_SIDEBAR_ITEMS,
+    SAVE_ARTICLE_LIST,
+    CHANGE_ARTICLE_NUM
+} from "./mutation-types";
 
 export default {
     [SAVE_PAGE_ARTICLES](state, data) {
@@ -20,6 +26,9 @@ export default {
     },
     [CHANGE_PAGE](state, page) {
         state.curPage = page
+    },
+    [CHANGE_ARTICLE_NUM](state, num) {
+        state.curArticleNum = num
     },
     [SAVE_ARTICLE_LIST](state, data) {
         state.articleList = data.data;

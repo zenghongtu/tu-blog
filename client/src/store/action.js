@@ -6,7 +6,13 @@
 
 import axios from "axios";
 import {getArticleTitleList, getCategories, getPageArticles, getTags, getTopArticles} from '../http/api'
-import {CHANGE_PAGE, SAVE_ARTICLE_LIST, SAVE_PAGE_ARTICLES, SAVE_SIDEBAR_ITEMS} from "./mutation-types";
+import {
+    CHANGE_PAGE,
+    SAVE_ARTICLE_LIST,
+    SAVE_PAGE_ARTICLES,
+    SAVE_SIDEBAR_ITEMS,
+    CHANGE_ARTICLE_NUM
+} from "./mutation-types";
 import {DEFAULT_LIMIT, INIT_PAGE} from "./constants";
 
 const fetchPageArticles = async ({commit, state}, page = INIT_PAGE, limit = DEFAULT_LIMIT) => {
@@ -35,6 +41,10 @@ const changePage = ({commit, state}, page) => {
     // }
 };
 
+const changeCurArticleNum = ({commit, state}, num) => {
+    commit(CHANGE_ARTICLE_NUM, num)
+};
+
 const getArticleList = async ({commit, state}) => {
     let rsp = await getArticleTitleList();
     commit(SAVE_ARTICLE_LIST, rsp.data)
@@ -44,5 +54,6 @@ export default {
     fetchPageArticles,
     fetchSidebarItems,
     changePage,
-    getArticleList
+    getArticleList,
+    changeCurArticleNum
 }

@@ -27,12 +27,16 @@
             </p>
             <div class="update">最后更新于: {{article.updated}}</div>
         </div>
-        <!--todo-->
-        <!--<div class="article-nav">-->
-        <!--<div class="pre" v-if="preArticle._id" @click="linkTo(preArticle._id)"> < 上一篇: {{preArticle.title}}</div>-->
-        <!--<div v-else></div>-->
-        <!--<div class="next" v-if="nextArticle._id" @click="linkTo(nextArticle._id)"> 下一篇: {{nextArticle.title}} ></div>-->
-        <!--</div>-->
+        <div class="article-nav">
+            <div class="pre" v-if="getNextArticle[0]" @click="linkTo(getNextArticle[0]._id)"> < 上一篇:
+                {{getNextArticle[0].title}}
+            </div>
+            <div v-else></div>
+            <div class="next" v-if="getNextArticle[1]" @click="linkTo(getNextArticle[1]._id,true)"> 下一篇:
+                {{getNextArticle[1].title}}
+                >
+            </div>
+        </div>
         <div>
             <Comment @reply="replyHandler" @replyComment="replyCommentHandler" :comments="comments"></Comment>
         </div>
@@ -51,8 +55,6 @@
             return {
                 article: null,
                 comments: null,
-                preArticle: null,
-                nextArticle: null,
                 url: null
             }
         },
@@ -60,7 +62,21 @@
             Comment,
         },
         computed: {
-            ...mapState(['articleList']),
+            ...mapState({
+                // articleList: 'articleList',
+                getNextArticle(state) {
+                    // const curArticleNum = state.curArticleNum
+                    const articleList = state.articleList;
+                    const _len = articleList.length;
+                    if (_len < 1) {
+                        this.getArticleList();
+                        return []
+                    }
+                    return this.computeArticleNum(state.articleList);
+                },
+                // todo 优化
+                // curArticleNum: 'curArticleNum',
+            }),
             compileArticle() {
                 return marked(this.article.body, {sanitize: true})
             },
@@ -69,6 +85,24 @@
             }
         },
         methods: {
+            ...mapActions(['getArticleList', 'changeCurArticleNum']),
+            computeArticleNum(list) {
+                const _id = this.$route.params._id;
+                const _len = list.length;
+                for (let i = 0, item = list[0]; item = list[i++];) {
+                    if (item._id === _id) {
+                        let nextArticle = null;
+                        let preArticle = null;
+                        if (i < _len) {
+                            nextArticle = list[i]
+                        }
+                        if (i > 0) {
+                            preArticle = list[i - 2]
+                        }
+                        return [preArticle, nextArticle]
+                    }
+                }
+            },
             async fetchArticle() {
                 const _id = this.$route.params._id;
                 const rsp = await getArticle(_id);
@@ -76,34 +110,11 @@
                 this.comments = rsp.data.comments;
                 this.url = window.location.href
             },
-            linkTo(_id, location = 'article') {
-                this.$router.push({name: location, params: {_id}})
-            },
-            ...mapActions({
-                getArticleList: 'getArticleList'
-            }),
-            getNextArticle() {
-                setTimeout(() => {
-                    const _id = this.$route.params._id;
-                    const list = this.articleList;
-                    const _len = list.length;
-                    for (let i = 0, item = list[0]; item = list[i++];) {
-                        if (item._id === _id) {
-                            if (i < _len) {
-                                this.nextArticle = list[i]
-                            } else {
-                                this.nextArticle = null
-                            }
-                            if (i > 0) {
-                                this.preArticle = list[i - 2]
-                            } else {
-                                this.preArticle = null
-                            }
-                            break;
-                        }
+            linkTo(_id, next = false, location = 'article',) {
+                next ? this.changeCurArticleNum(this.curArticleNum + 1)
+                    : this.changeCurArticleNum(this.curArticleNum - 1);
 
-                    }
-                }, 200)
+                this.$router.push({name: location, params: {_id}})
             },
             storageHandler(name, email) {
                 localStorage.setItem('user_info', JSON.stringify({name, email}));
@@ -150,18 +161,11 @@
             },
         },
         created() {
-            this.fetchArticle();
-            if (this.articleList.length < 1) {
-                this.getArticleList()
-            }
-        },
-        mounted() {
-            this.getNextArticle()
+            this.fetchArticle()
         },
         beforeRouteUpdate(to, from, next) {
             if (to.path !== from.path) {
                 this.fetchArticle();
-                this.getNextArticle()
             }
             next()
         },
@@ -173,6 +177,8 @@
             next()
         },
     }
+
+
 </script>
 
 <style scoped lang="scss">
