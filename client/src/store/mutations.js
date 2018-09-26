@@ -9,7 +9,9 @@ export default {
     [SAVE_PAGE_ARTICLES](state, data) {
         state.articleTotal = data.total;
         state.curPage = data.page;
-        state.pageArticles[data.page] = data.data;
+        const newState = [...state.pageArticles];
+        newState[data.page] = data.data;
+        state.pageArticles = newState
     },
     [SAVE_SIDEBAR_ITEMS](state, data) {
         state.categories = data.categories;

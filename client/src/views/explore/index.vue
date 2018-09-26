@@ -7,7 +7,7 @@
     <div class="wrap">
         <div class="left-wrap">
             <main class="left">
-                <article class="article-wrap" v-for="article in pageArticles[curPage]" :key="article._id">
+                <article class="article-wrap" v-for="article in pageArticles" :key="article._id">
                     <a @click="linkTo('article',article._id)" class="article-title">
                         {{article.title}}
                     </a>
@@ -47,7 +47,18 @@
             totalPage() {
                 return Math.ceil(this.articleTotal / DEFAULT_LIMIT)
             },
-            ...mapState(['pageArticles', 'articleTotal', 'curPage',])
+            ...mapState({
+                pageArticles(state) {
+                    const page = state.curPage;
+                    if (!state.pageArticles[page]) {
+                        this.fetchPageArticles(page);
+                        return []
+                    }
+                    return state.pageArticles[page]
+                },
+                articleTotal: 'articleTotal',
+                curPage: 'curPage',
+            }),
         },
         filters: {
             compileMarkdown: function (value) {
@@ -56,25 +67,13 @@
             }
         },
         methods: {
-            ...mapActions({
-                fetchArticles: 'fetchPageArticles',
-                changeNewPage: 'changePage'
-            }),
+            ...mapActions(['fetchPageArticles', 'changePage']),
             getNewArticles(page) {
-                if (!this.pageArticles[page]) {
-                    this.fetchArticles(page)
-                } else {
-                    this.changeNewPage(page)
-                }
+                this.changePage(page)
             },
             linkTo(location, _id) {
                 this.$router.push({name: location, params: {_id}})
             },
-        },
-        created() {
-            if (this.pageArticles.length < 1) {
-                this.fetchArticles()
-            }
         }
     };
 </script>
