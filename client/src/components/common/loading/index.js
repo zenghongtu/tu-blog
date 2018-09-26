@@ -16,6 +16,7 @@ class Loading {
         this.options = options;
         this.instance = new LoadingConstructor(this.options).$mount()
     }
+
     show() {
         if (isAppend) {
             this.instance.show()

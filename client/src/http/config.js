@@ -20,17 +20,17 @@ const startLoading = debounce(() => {
 
 const endLoading = debounce(() => {
     $loading.hide()
-}, 200);
+}, 300);
 
 
 ajax.interceptors.request.use((config) => {
+    if (config.url.includes('/articles')) startLoading();
     const _id = localStorage.getItem('_id');
     _id && (config.headers._id = _id);
     if (localStorage.getItem('_ida') === ':') {
         config.headers._ida = ':';
         localStorage.removeItem('_ida')
     }
-    startLoading();
 
     return config
 }, (err) => {
@@ -40,6 +40,7 @@ ajax.interceptors.request.use((config) => {
 
 ajax.interceptors.response.use((res) => {
     if (/^2/.test(res.status)) {
+        if (res.request.responseURL.includes('/articles')) endLoading();
         const {_id, _ida} = res.headers;
         if (_id) {
             localStorage.setItem('_id', _id);
@@ -47,12 +48,12 @@ ajax.interceptors.response.use((res) => {
         if (_ida) {
             localStorage.setItem('_ida', _ida)
         }
-        endLoading();
         return res
     } else {
         throw new Error(res.data.message)
     }
 }, (err) => {
+    if (err.request.responseURL.includes('/articles')) endLoading();
     if (err.response.status === 504 || err.response.status === 404) {
         alert('服务器问题')
     } else if (err.response.status === 403) {
@@ -60,7 +61,6 @@ ajax.interceptors.response.use((res) => {
     } else {
         alert('未知错误')
     }
-    endLoading();
     throw new Error(err)
 });
 
