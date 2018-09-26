@@ -16,11 +16,11 @@ const ajax = axios.create({
 
 const startLoading = debounce(() => {
     $loading.show()
-}, 300);
+}, 50);
 
 const endLoading = debounce(() => {
     $loading.hide()
-}, 300);
+}, 200);
 
 
 ajax.interceptors.request.use((config) => {
