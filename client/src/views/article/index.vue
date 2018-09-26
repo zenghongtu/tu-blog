@@ -157,7 +157,6 @@
         },
         mounted() {
             this.getNextArticle()
-
         },
         beforeRouteUpdate(to, from, next) {
             if (to.path !== from.path) {

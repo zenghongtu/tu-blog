@@ -17,7 +17,7 @@
             </div>
             <button class="enter" @click="replyHandler">回复</button>
         </div>
-        <div class="comment-list" v-if="comments.length>1">
+        <div class="comment-list" v-if="comments && comments.length>1">
             <div class="comment-card" v-for="comment in comments" :key="comment._id">
                 <img src="http://p5yy6xq69.bkt.clouddn.com/avatar.png" alt="" class="gavatar">
                 <div class="info">

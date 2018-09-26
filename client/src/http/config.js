@@ -4,6 +4,7 @@
  */
 
 import axios from 'axios';
+import $loading from '../components/common/loading'
 
 const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9000/' : 'http://api.zenghongtu.com/v1';
 
@@ -19,6 +20,7 @@ ajax.interceptors.request.use((config) => {
         config.headers._ida = ':';
         localStorage.removeItem('_ida')
     }
+    $loading.show();
     return config
 }, (err) => {
     alert('发起请求超时');
@@ -34,6 +36,7 @@ ajax.interceptors.response.use((res) => {
         if (_ida) {
             localStorage.setItem('_ida', _ida)
         }
+        $loading.hide();
         return res
     } else {
         throw new Error(res.data.message)
@@ -46,6 +49,7 @@ ajax.interceptors.response.use((res) => {
     } else {
         alert('未知错误')
     }
+    $loading.hide();
     throw new Error(err)
 });
 

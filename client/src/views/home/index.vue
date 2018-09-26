@@ -16,6 +16,7 @@
 
 <script>
     import {getSiteInfo} from "../../http/api";
+    import $loading from '../../components/common/loading'
 
     export default {
         name: "Home",
