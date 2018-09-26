@@ -5,6 +5,7 @@
 
 import axios from 'axios';
 import $loading from '../components/common/loading'
+import debounce from '../util/debounce'
 
 const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9000/' : 'http://api.zenghongtu.com/v1';
 
@@ -13,6 +14,15 @@ const ajax = axios.create({
     baseURL
 });
 
+const startLoading = debounce(() => {
+    $loading.show()
+}, 300);
+
+const endLoading = debounce(() => {
+    $loading.hide()
+}, 300);
+
+
 ajax.interceptors.request.use((config) => {
     const _id = localStorage.getItem('_id');
     _id && (config.headers._id = _id);
@@ -20,7 +30,8 @@ ajax.interceptors.request.use((config) => {
         config.headers._ida = ':';
         localStorage.removeItem('_ida')
     }
-    $loading.show();
+    startLoading();
+
     return config
 }, (err) => {
     alert('发起请求超时');
@@ -36,7 +47,7 @@ ajax.interceptors.response.use((res) => {
         if (_ida) {
             localStorage.setItem('_ida', _ida)
         }
-        $loading.hide();
+        endLoading();
         return res
     } else {
         throw new Error(res.data.message)
@@ -49,7 +60,7 @@ ajax.interceptors.response.use((res) => {
     } else {
         alert('未知错误')
     }
-    $loading.hide();
+    endLoading();
     throw new Error(err)
 });
 
