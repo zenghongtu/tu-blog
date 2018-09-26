@@ -13,12 +13,11 @@ const ajax = axios.create({
 });
 
 ajax.interceptors.request.use((config) => {
-    const storage = window.localStorage;
-    const _id = storage.getItem('_id');
+    const _id = localStorage.getItem('_id');
     _id && (config.headers._id = _id);
-    if (storage.getItem('_ida') === ':') {
+    if (localStorage.getItem('_ida') === ':') {
         config.headers._ida = ':';
-        storage.removeItem('_ida')
+        localStorage.removeItem('_ida')
     }
     return config
 }, (err) => {
@@ -29,12 +28,11 @@ ajax.interceptors.request.use((config) => {
 ajax.interceptors.response.use((res) => {
     if (/^2/.test(res.status)) {
         const {_id, _ida} = res.headers;
-        const storage = window.localStorage;
         if (_id) {
-            storage.setItem('_id', _id);
+            localStorage.setItem('_id', _id);
         }
         if (_ida) {
-            storage.setItem('_ida', _ida)
+            localStorage.setItem('_ida', _ida)
         }
         return res
     } else {

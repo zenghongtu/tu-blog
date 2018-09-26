@@ -99,7 +99,7 @@
                 if (visitor) {
                     this.viewNum = visitor.visits;
                 } else {
-                    window.localStorage.removeItem('_id')
+                    localStorage.removeItem('_id')
                 }
                 this.pageViews = site.pv;
                 this.uniqueVisitors = site.uv;
@@ -109,7 +109,7 @@
             },
         },
         created() {
-            this.views = window.localStorage.getItem('views')
+            this.views = localStorage.getItem('views')
         },
         mounted() {
             this.fetchSiteInfo();

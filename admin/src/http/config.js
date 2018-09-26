@@ -21,7 +21,7 @@ ajax.defaults.headers.put['Content-Type'] = 'application/json; charset=UTF-8';
 
 ajax.interceptors.request.use(
     (config) => {
-        const token = window.sessionStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         token && (config.headers.Authorization = `Bearer ${token}`);
         return config
     },

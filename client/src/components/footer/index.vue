@@ -33,7 +33,7 @@
             }
         },
         created() {
-            const _ida = window.localStorage.getItem('_ida');
+            const _ida = localStorage.getItem('_ida');
             _ida && (this.ida = _ida) && (this.msg = '有一条留言被回复了哦,点击前往查看')
         }
     }

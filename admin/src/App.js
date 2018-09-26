@@ -128,7 +128,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        const token = window.sessionStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (token) {
             props.changeLogin({isAuthenticated: true, token})
         }

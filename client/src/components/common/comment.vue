@@ -104,7 +104,7 @@
             }
         },
         created() {
-            const user_info = window.localStorage.getItem('user_info');
+            const user_info = localStorage.getItem('user_info');
             if (user_info) {
                 const {name, email} = JSON.parse(user_info);
                 this.name = name;

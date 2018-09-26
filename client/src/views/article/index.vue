@@ -106,9 +106,8 @@
                 }, 200)
             },
             storageHandler(name, email) {
-                const storage = window.localStorage;
-                storage.setItem('user_info', JSON.stringify({name, email}));
-                return storage.getItem('_id')
+                localStorage.setItem('user_info', JSON.stringify({name, email}));
+                return localStorage.getItem('_id')
             }
             ,
             async replyHandler(info) {
@@ -133,7 +132,7 @@
             },
             async replyCommentHandler(info) {
                 const [_id, to_id, content] = info;
-                const user_id = window.localStorage.getItem('_id');
+                const user_id = localStorage.getItem('_id');
                 const data = {
                     user: {},
                     comment: {
@@ -168,10 +167,9 @@
             next()
         },
         beforeRouteEnter(to, from, next) {
-            const storage = window.localStorage;
-            const _ida = storage.getItem('_ida');
+            const _ida = localStorage.getItem('_ida');
             if (_ida && to.params._id === _ida) {
-                storage.setItem('_ida', ':')
+                localStorage.setItem('_ida', ':')
             }
             next()
         },

@@ -15,10 +15,10 @@ const reducer = (state = initState, action) => {
     switch (action.type) {
         case LOGIN:
             const content = action.content;
-            window.sessionStorage.setItem('token', content.token);
+            sessionStorage.setItem('token', content.token);
             return state.set('isAuthenticated', content.isAuthenticated);
         case LOGOUT:
-            window.sessionStorage.clear();
+            sessionStorage.clear();
             return state.set('isAuthenticated', false);
         default:
             return state
