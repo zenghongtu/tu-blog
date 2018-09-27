@@ -235,10 +235,12 @@
                 @include h;
             }
             .content {
+                width: 100%;
+                overflow: hidden;
+                padding-top: .9375em;
                 font-size: 0.9375em;
                 line-height: 1.5em;
                 color: $word;
-                padding-top: .9375em;
                 word-break: keep-all;
                 text-indent: 2em;
                 .hr {
