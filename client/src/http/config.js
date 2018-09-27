@@ -7,7 +7,7 @@ import axios from 'axios';
 import $loading from '../components/common/loading'
 import debounce from '../util/debounce'
 
-const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9000/' : 'http://api.zenghongtu.com/v1';
+const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9000/' : 'https://api.zenghongtu.com/v1/';
 
 const ajax = axios.create({
     timeout: 5000,
