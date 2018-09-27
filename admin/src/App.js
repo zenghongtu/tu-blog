@@ -173,8 +173,7 @@ class App extends Component {
                                             </Button>
                                             <Typography variant="title" color="inherit" align="center"
                                                         className={classes.flex}>
-                                                <Button color="inherit" component={Link} to="/">TuBlog
-                                                    Administration</Button>
+                                                <Button color="inherit" component={Link} to="/">TuBlog后台管理</Button>
                                             </Typography>
                                             <Button color="inherit" onClick={this.handlerLogout}>Logout</Button>
                                         </Toolbar>

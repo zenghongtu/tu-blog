@@ -124,7 +124,7 @@ class Laboratory extends React.Component {
             project_star: project.star,
             project_fork: project.fork,
             project_desc: project.desc,
-            project_articles: project.articles.join('|'),
+            project_articles: project.articles.map(article => article._id).join('|'),
         })
     };
     handleModalSwitch = () => {
