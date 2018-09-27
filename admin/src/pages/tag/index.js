@@ -110,7 +110,7 @@ class Tag extends React.Component {
         return (
             <React.Fragment>
                 <Typography variant="title" gutterBottom={true}>
-                    分类管理
+                    标签管理
                 </Typography>
                 <Paper className={classes.root}>
                     {tags.length > 0 ? tags.map((data, idx) => {
