@@ -51,7 +51,7 @@
                 let i = 165;
                 window.scrollTo(0, 165);
                 const timer = setInterval(() => {
-                    if (i) {
+                    if (i > 0) {
                         window.scrollTo(0, i--)
                     } else {
                         clearInterval(timer)
