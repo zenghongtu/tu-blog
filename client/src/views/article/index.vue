@@ -159,6 +159,9 @@
                     this.comments = r.data
                 }
             },
+            scrollToTop() {
+                window.scrollTo(0, 0);
+            },
         },
         created() {
             this.fetchArticle()
@@ -166,6 +169,7 @@
         beforeRouteUpdate(to, from, next) {
             if (to.path !== from.path) {
                 this.fetchArticle();
+                this.scrollToTop()
             }
             next()
         },
