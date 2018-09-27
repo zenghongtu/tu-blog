@@ -9,7 +9,7 @@
             <h2 class="article-title">{{article.title}}</h2>
             <div class="article-meta">
                 <div class="date">发布于: {{article.created}}</div>
-                <div class="category" @click="linkTo(article.category._id,'category')"> &nbsp;|&nbsp;&nbsp; <i
+                <div class="category" @click="linkTo(article.category._id,false,'category')"> &nbsp;|&nbsp;&nbsp; <i
                         class="iconfont icon-icon"></i> {{article.category.name}}
                 </div>
                 <div class="comment">{{article.meta.viewCount}} <i class="iconfont icon-liulan1"></i></div>
@@ -20,7 +20,7 @@
                 <article v-html="compileArticle"></article>
             </div>
             <p>-- EOF --</p>
-            <div class="tags"><span class="tag" @click="linkTo(tag._id,'tag')" v-for="tag of article.tags"
+            <div class="tags"><span class="tag" @click="linkTo(tag._id,false,'tag')" v-for="tag of article.tags"
                                     :key="tag._id"><i class="iconfont icon-labeltag"></i>  {{tag.name}}</span></div>
             <p>
                 <span>本文链接:<a class="article-url" @click="linkTo(article._id)">{{url}} </a></span>
