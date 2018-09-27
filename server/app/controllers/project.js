@@ -42,7 +42,7 @@ class ProjectControllers {
 
     async update(ctx) {
         try {
-            const book = await Project.findByIdAndUpdate(
+            const project = await Project.findByIdAndUpdate(
                 ctx.params.id,
                 ctx.request.body,
                 {new: true}
