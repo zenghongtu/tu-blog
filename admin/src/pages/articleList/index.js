@@ -130,8 +130,8 @@ class ArticleList extends React.Component {
                                                         编辑
                                                     </Button>
                                                     <Button variant="contained" color="primary" className={classes.button}
-                                                        // todo
-                                                            component={Link} to="/">
+                                                            component={Link}
+                                                            to={`https://blog.zenghongtu.com/article/${article._id}`}>
                                                         查看
                                                     </Button>
                                                     <Button variant="contained" color="secondary"
