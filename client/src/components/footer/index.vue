@@ -18,6 +18,7 @@
             Copyright © 2018 <a class="link" href="https://blog.zenghongtu.com">这个码农不太冷</a>&nbsp;
             <i class="iconfont icon-aixin heart"></i> &nbsp;<a class="link" target="_blank"
                                                                href="https://github.com/zenghongtu">GitHub</a>
+            &nbsp;|&nbsp; <a class="beian" href="http://www.miitbeian.gov.cn/">浙ICP备18018531号-5</a>
         </div>
     </div>
 </template>
@@ -86,6 +87,11 @@
                 color: $word;
                 font-size: .875rem;
                 text-decoration: none;
+            }
+            .beian {
+                font-size: .875rem;
+                text-decoration: none;
+                color: $word;
             }
         }
         .notice {
