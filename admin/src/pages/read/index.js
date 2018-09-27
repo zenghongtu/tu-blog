@@ -115,7 +115,7 @@ class ReadBook extends React.Component {
             _id: row._id,
             book_title: row.title,
             book_authors: row.authors.join(' | '),
-            book_articles: row.articles.join('|'),
+            book_articles: row.articles.map(article => article._id).join('|'),
         })
     };
 
@@ -174,8 +174,8 @@ class ReadBook extends React.Component {
         try {
             await updateBook(this.state._id, {
                 title: this.state.book_title,
-                authors: this.state.book_authors,
-                articles: this.state.book_articles,
+                authors: this.state.book_authors.split('|'),
+                articles: this.state.book_articles.split('|'),
             });
             this.getBookList();
             this.setState({
