@@ -15,9 +15,9 @@
             </div>
         </transition>
         <div class="footer-wrap">
-            Copyright © 2018 <a class="link" href="https://blog.zenghongtu.com">这个码农不太冷</a>&nbsp; <i
-                class="iconfont icon-aixin"></i> &nbsp;<a class="link" target="_blank"
-                                                          href="https://github.com/zenghongtu">GitHub</a>
+            Copyright © 2018 <a class="link" href="https://blog.zenghongtu.com">这个码农不太冷</a>&nbsp;
+            <i class="iconfont icon-aixin heart"></i> &nbsp;<a class="link" target="_blank"
+                                                               href="https://github.com/zenghongtu">GitHub</a>
         </div>
     </div>
 </template>
@@ -79,6 +79,9 @@
             line-height: 2.5em;
             color: $base;
             text-align: center;
+            .heart {
+                color: rgb(255, 92, 92);
+            }
             .link {
                 color: $word;
                 font-size: .875rem;

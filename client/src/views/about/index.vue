@@ -8,8 +8,8 @@
         <div class="about-content">
             <div class="about-item">
                 <div class="about-title">Welcome,</div>
-                <h4>小站第<span class="light">{{uniqueVisitors}}</span>位访客</h4>
-                <h5>访问过小站<span class="light">{{views}}</span>次页面</h5>
+                <h4>本站第<span class="light">{{uniqueVisitors}}</span>位访客</h4>
+                <h5>访问过本站<span class="light">{{views}}</span>次页面</h5>
             </div>
             <div class="about-item">
                 <div class="about-title">About site</div>
@@ -25,7 +25,7 @@
                 <hr>
                 <h4 class="typing">My slogan: {{type}}</h4><i v-if="isTyping" class="flash"></i>
                 <hr>
-                <h5 class="job">目前就职于一家人工智能企业</h5>
+                <h5 class="job">目前就职于一家人工智能公司</h5>
             </div>
             <div class="about-item">
                 <div class="about-title">Contact me</div>
@@ -48,7 +48,7 @@
         name: "about",
         data() {
             return {
-                slogan: '两眼不闻两届事,一心只写一代码.',
+                slogan: '两眼不闻那琐事,一心只写这代码.',
                 type: '',
                 isTyping: true,
                 pageViews: '',
