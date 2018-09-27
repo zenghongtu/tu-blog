@@ -9,7 +9,7 @@
             <div class="about-item">
                 <div class="about-title">Welcome,</div>
                 <h4>本站第<span class="light">{{uniqueVisitors}}</span>位访客</h4>
-                <h5>访问过本站<span class="light">{{views}}</span>次页面</h5>
+                <h5>访问过本站<span class="light">{{viewNum}}</span>次页面</h5>
             </div>
             <div class="about-item">
                 <div class="about-title">About site</div>
