@@ -5,15 +5,7 @@
 
 import Vue from 'vue';
 import Router from 'vue-router';
-import Read from '../views/read/index.vue';
-import Explore from '../views/explore/index.vue';
-import Archive from '../views/archive/index.vue';
-import About from '../views/about/index.vue';
-import Laboratory from '../views/laboratory/index.vue';
-import Home from '../views/home/index.vue';
-import Article from '../views/article/index.vue';
-import Category from '../views/category/index.vue';
-import Tag from '../views/tag/index.vue';
+import views from './views'
 
 Vue.use(Router);
 
@@ -23,47 +15,47 @@ const router = new Router({
         {
             path: '/read',
             name: 'read',
-            component: Read,
+            component: views.Read,
         },
         {
-            path: '/tag/:_id',
+            path: '/tag/:views._id',
             name: 'tag',
-            component: Tag,
+            component: views.Tag,
         },
         {
             path: '/category/:_id',
             name: 'category',
-            component: Category,
+            component: views.Category,
         },
         {
             path: '/explore',
             name: 'explore',
-            component: Explore,
+            component: views.Explore,
         },
         {
             path: '/archive',
             name: 'archive',
-            component: Archive,
+            component: views.Archive,
         },
         {
             path: '/about',
             name: 'about',
-            component: About,
+            component: views.About,
         },
         {
             path: '/laboratory/',
             name: 'laboratory',
-            component: Laboratory,
+            component: views.Laboratory,
         },
         {
             path: '/article/:_id',
             name: 'article',
-            component: Article
+            component: views.Article
         },
         {
             path: '/',
             name: 'home',
-            component: Home,
+            component: views.Home,
         },
     ],
 });
