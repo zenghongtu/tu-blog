@@ -57,6 +57,11 @@ const router = new Router({
             name: 'home',
             component: views.Home,
         },
+        {
+            path: '*',
+            name: 'NotFound',
+            component: views.NotFound
+        }
     ],
 });
 

@@ -13,6 +13,7 @@ const views = {
     Article: () => import(/* webpackChunkName: "home " */'@/views/article/index.vue'),
     Category: () => import(/* webpackChunkName: "article " */'@/views/category/index.vue'),
     Tag: () => import(/* webpackChunkName: "category " */'@/views/tag/index.vue'),
+    NotFound: () => import(/* webpackChunkName: "category " */'@/views/not-found/index.vue'),
 };
 
 export default views
