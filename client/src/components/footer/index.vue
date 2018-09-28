@@ -19,6 +19,7 @@
             <i class="iconfont icon-aixin heart"></i> &nbsp;<a class="link" target="_blank"
                                                                href="https://github.com/zenghongtu">GitHub</a>
             &nbsp;|&nbsp; <a class="beian" href="http://www.miitbeian.gov.cn/">浙ICP备18018531号-5</a>
+            <h6 class="power-by">Power by <a href="https://github.com/zenghongtu/tu-blog">TuBlog</a></h6>
         </div>
     </div>
 </template>
@@ -92,6 +93,13 @@
                 font-size: .875rem;
                 text-decoration: none;
                 color: $word;
+            }
+            .power-by {
+                margin: 0;
+                a {
+                    color: $base;
+                    line-height: 1em;
+                }
             }
         }
         .notice {
