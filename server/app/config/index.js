@@ -3,12 +3,12 @@
  * Desc: server 配置文件
  */
 
-export const port = process.env.PORT || 9000;
+export const port = process.env.PORT || 5000;
 export const admin = process.env.NAME || 'tu';
 export const password = process.env.PW || '123';
 export const connexionString = ("mongodb://localhost:27017/tublog");
 export const baseApi = process.env.NODE_ENV === 'development' ? '' : '/api/v1';
-export const secret = 'toLc2@gbrzyOCdV^';
+export const secret = 'rQyw86JuDFPjlMIpGskUI&$G';
 export const expires = 60 * 60 * 12;
 export const redis = {
     host: process.env.REDIS_TCP_ADDR || '127.0.0.1',

@@ -2,7 +2,7 @@
   "name": "tublog-server",
   "script": "./index.js",
   "cwd": "./dist",
-  "watch": true,
+  "watch": false,
   "ignore_watch": [
     "node_modules",
     "log"
