@@ -1,0 +1,11 @@
+{
+  "name": "tublog-server",
+  "script": "./index.js",
+  "cwd": "./dist",
+  "watch": true,
+  "ignore_watch": [
+    "node_modules",
+    "log"
+  ],
+  "error_file": "/var/log/pm2/error.log"
+}

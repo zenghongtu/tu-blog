@@ -147,7 +147,7 @@ class App extends Component {
     render() {
         const {classes, theme, isAuthenticated} = this.props;
         return (
-            <Router>
+            <Router basename="/admin">
                 <div className={classes.layout}>
                     <TopSnackbar/>
                     {
