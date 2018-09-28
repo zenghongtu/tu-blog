@@ -27,14 +27,14 @@
                 if (this.articleList) {
                     return Object.keys(this.articleList).reverse()
                 } else {
-                    this.getArticleList();
                     return []
                 }
             },
             ...mapState({
                 articleList(state) {
                     const articleList = state.articleList;
-                    if (articleList.length < 1) {
+                    if (!articleList) {
+                        this.getArticleList();
                         return null
                     } else {
                         return this.computeArchiveArticles(articleList)

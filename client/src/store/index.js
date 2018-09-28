@@ -20,7 +20,7 @@ const state = {
     categories: [],
     tags: [],
     topArticles: [],
-    articleList: []
+    articleList: null,
 };
 
 export default new Vuex.Store({

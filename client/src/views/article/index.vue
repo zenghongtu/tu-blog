@@ -67,8 +67,7 @@
                 getNextArticle(state) {
                     // const curArticleNum = state.curArticleNum
                     const articleList = state.articleList;
-                    const _len = articleList.length;
-                    if (_len < 1) {
+                    if (!articleList) {
                         this.getArticleList();
                         return []
                     }
