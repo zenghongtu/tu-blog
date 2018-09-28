@@ -13,8 +13,12 @@
                         {{project.name}}</a>
                     </h5>
                     <div class="item-desc">{{project.desc}}</div>
-                    <div class="item-star">star: {{project.stars}}</div>
-                    <div class="item-fork">fork: {{project.forks}}</div>
+                    <div class="item-star"><img
+                            :src="`https://img.shields.io/badge/fork-${project.stars}-green.svg?longCache=true&style=popout&label=Star`"
+                            alt=""></div>
+                    <div class="item-fork"><img
+                            :src="`https://img.shields.io/badge/fork-${project.forks}-blue.svg?longCache=true&style=popout&label=Fork`"
+                            alt=""></div>
                     <ol type="i" class="item-articles-wrap">
                         <li class="item-articles-content" v-for="(article,idx) in project.articles" :key="article._id">
                             {{idx}}: <span class="link"><a @click="linkTo('article',article._id)">{{article.title}}</a> </span>
@@ -134,7 +138,7 @@
                     }
                     .item-star, .item-fork {
                         display: inline-block;
-                        margin: .5em 2em 0 .5em;
+                        margin: .5em 1em 0 .5em;
                         font-size: .9em;
                         color: $black;
                     }
