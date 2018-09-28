@@ -35,8 +35,6 @@
   "bugs": {
     "url": "https://github.com/zenghongtu/TuBlog/issues"
   },
-  "homepage": "https://github.com/zenghongtu/TuBlog#readme",
-  "dependencies": {
-    "vue-markdown": "^2.2.4"
-  }
+  "homepage": "https://github.com/zenghongtu/TuBlog#readme"
 }
+
