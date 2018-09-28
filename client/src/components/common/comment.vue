@@ -107,7 +107,7 @@
             const user_info = localStorage.getItem('user_info');
             if (user_info) {
                 const {name, email} = JSON.parse(user_info);
-                this.name = name;
+                this.name = name.slice(0, -6);
                 this.email = email
             }
         },
