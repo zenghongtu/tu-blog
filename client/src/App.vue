@@ -6,7 +6,7 @@
 <template>
     <div id="app">
         <Header></Header>
-        <router-view/>
+        <router-view class="main"/>
         <Footer></Footer>
     </div>
 </template>
@@ -36,6 +36,9 @@
         margin: 0 auto;
         @media all and (max-width: $maxWidth) {
             padding: 0 15px;
+        }
+        .main {
+            min-height: 20em;
         }
     }
 

@@ -51,8 +51,22 @@
         methods: {
             changePage(page) {
                 if (!page) return false;
-                this.$emit('getNewArticles', page)
-            }
+                this.$emit('getNewArticles', page);
+                this.backTopHandler()
+            },
+            backTopHandler() {
+                const self = this;
+                cancelAnimationFrame(timer);
+                let timer = requestAnimationFrame(function fn() {
+                    let oTop = document.body.scrollTop || document.documentElement.scrollTop;
+                    if (oTop > 0) {
+                        document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+                        timer = requestAnimationFrame(fn);
+                    } else {
+                        cancelAnimationFrame(timer);
+                    }
+                });
+            },
         }
     }
 </script>

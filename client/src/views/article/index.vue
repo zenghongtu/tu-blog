@@ -27,6 +27,7 @@
             </p>
             <div class="update">最后更新于: {{article.updated}}</div>
         </div>
+        <div class="article-content" v-else></div>
         <div class="article-nav">
             <div class="pre" v-if="getNextArticle[0]" @click="linkTo(getNextArticle[0]._id)"> < 上一篇:
                 {{getNextArticle[0].title}}
@@ -165,6 +166,9 @@
         created() {
             this.fetchArticle()
         },
+        updated() {
+            this.scrollToTop()
+        },
         beforeRouteUpdate(to, from, next) {
             if (to.path !== from.path) {
                 this.fetchArticle();
@@ -200,6 +204,7 @@
         padding-top: 1.25em;
         box-sizing: border-box;
         .article-content {
+            min-height: 35em;
             padding: 1.5625em 0 0.9375em;
             text-align: left;
             .article-title {
